@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallMove : MonoBehaviour
 {
-    [SerializeField] private float speed = 2f;
+    [SerializeField] private float speed;
 
     private new Rigidbody2D rigidbody;
     private Vector2 velocity;
@@ -28,9 +28,8 @@ public class BallMove : MonoBehaviour
         velocity = rigidbody.velocity;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        print("asd");
         rigidbody.velocity = Vector2.Reflect(velocity, collision.contacts[0].normal);
     }
 }
