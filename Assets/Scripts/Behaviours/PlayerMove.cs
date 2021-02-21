@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMove: MonoBehaviour
 {
@@ -16,9 +17,15 @@ public class PlayerMove: MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Move(float direction)
+    public void Move(Vector2 direction)
     {
         velocity = rigidbody.velocity;
-        velocity.x = direction * moveSpeed;
+        velocity.x = direction.x * moveSpeed;
+        rigidbody.velocity = velocity;
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        Move(context.ReadValue<Vector2>());
     }
 }
