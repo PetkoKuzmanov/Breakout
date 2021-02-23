@@ -15,7 +15,12 @@ public class BallMove : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         renderer = GetComponent<Renderer>();
+        //Invoke(nameof(LaunchBall), 0.5f);
+        rigidbody.velocity = Vector2.down * speed;
+    }
 
+    void LaunchBall()
+    {
         rigidbody.velocity = Vector2.down * speed;
     }
 

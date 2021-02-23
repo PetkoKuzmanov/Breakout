@@ -73,13 +73,19 @@ public class GameManager : MonoBehaviour
                 break;
             case State.PLAY:
                 if (ball == null) {
-                    if(Lives > 0)
+                    if (Lives > 0)
                     {
-                        ball = Instantiate(ballPrefab);
+                        //Invoke("InstantiateBall", 0.5f);
+                        //ball = Instantiate(ballPrefab);
+                        InstantiateBall();
                     } else
                     {
                         ChangeState(State.GAMEOVER);
                     }
+                }
+                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwithcingState)
+                {
+                    ChangeState(State.LEVELCOMPLETED);
                 }
                 break;
             case State.LEVELCOMPLETED:
@@ -168,5 +174,10 @@ public class GameManager : MonoBehaviour
     public void StartGameClicked()
     {
         ChangeState(State.INIT);
+    }
+
+    private void InstantiateBall()
+    {
+        ball = Instantiate(ballPrefab);
     }
 }
