@@ -32,6 +32,7 @@ public class BrickBehaviour : MonoBehaviour
         //Score points
         if (hits <= 0)
         {
+            GameManager.Instance.Score += points;
             Destroy(gameObject);
         };
 

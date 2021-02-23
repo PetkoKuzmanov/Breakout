@@ -41,14 +41,18 @@ public class GameManager : MonoBehaviour
     public int Level
     {
         get { return level; }
-        set { level = value; }
+        set { level = value;
+            textLevel.text = "Level: " + level;
+        }
     }
 
     private int lives;
     public int Lives
     {
         get { return lives; }
-        set { lives = value; }
+        set { lives = value;
+            textLives.text = "Lives: " + lives;
+        }
     }
 
     // Start is called before the first frame update
