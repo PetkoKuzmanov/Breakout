@@ -17,10 +17,16 @@ public class GameManager : MonoBehaviour
     public GameObject panelLevelCompleted;
     public GameObject panelGameOver;
 
+    public GameObject[] levels;
+
     public static GameManager Instance { get; private set; }
 
     public enum State { MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER}
     State state;
+
+    GameObject ball;
+    GameObject currentLevel;
+    bool isSwithcingState;
 
     private int score;
     public int Score
@@ -62,6 +68,15 @@ public class GameManager : MonoBehaviour
             case State.INIT:
                 break;
             case State.PLAY:
+                if (ball == null) {
+                    if(Lives > 0)
+                    {
+                        ball = Instantiate(ballPrefab);
+                    } else
+                    {
+                        ChangeState(State.GAMEOVER);
+                    }
+                }
                 break;
             case State.LEVELCOMPLETED:
                 break;
@@ -72,10 +87,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeState(State newState)
+    public void ChangeState(State newState, float delay = 0)
     {
+        StartCoroutine(ChangeDelay(newState, delay));
+    }
+
+    IEnumerator ChangeDelay(State newState, float delay)
+    {
+        isSwithcingState = true;
+        yield return new WaitForSeconds(delay);
         EndState();
+        state = newState;
         BeginState(newState);
+        isSwithcingState = false;
     }
 
     void BeginState(State newState)
@@ -87,6 +111,11 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT:
                 panelPlay.SetActive(true);
+                Score = 0;
+                Level = 0;
+                Lives = 2;
+                Instantiate(platformPrefab);
+                ChangeState(State.LOADLEVEL);
                 break;
             case State.PLAY:
                 break;
@@ -94,6 +123,14 @@ public class GameManager : MonoBehaviour
                 panelLevelCompleted.SetActive(true);
                 break;
             case State.LOADLEVEL:
+                if(Level > levels.Length)
+                {
+                    ChangeState(State.GAMEOVER);
+                } else
+                {
+                    currentLevel = Instantiate(levels[Level]);
+                    ChangeState(State.PLAY);
+                }
                 break;
             case State.GAMEOVER:
                 panelGameOver.SetActive(true);
@@ -126,7 +163,6 @@ public class GameManager : MonoBehaviour
 
     public void StartGameClicked()
     {
-        Debug.Log("ASd");
         ChangeState(State.INIT);
     }
 }
