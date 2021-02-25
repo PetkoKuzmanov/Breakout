@@ -9,6 +9,7 @@ public class BallMove : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private Vector2 velocity;
     private new Renderer renderer;
+    public GameObject platform;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,7 @@ public class BallMove : MonoBehaviour
         renderer = GetComponent<Renderer>();
         //Invoke(nameof(LaunchBall), 0.5f);
         rigidbody.velocity = Vector2.down * speed;
+        //GameObject platform = GameObject.Find("Platform");
     }
 
     void LaunchBall()
@@ -44,6 +46,15 @@ public class BallMove : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Vector2 currentSpeed = PlayerMove.velocity;
+        float x = currentSpeed.x;
+
         rigidbody.velocity = Vector2.Reflect(velocity, collision.contacts[0].normal);
+
+        if (collision.collider.gameObject.CompareTag(platform.tag))
+        {
+            rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
+        }
+        
     }
 }

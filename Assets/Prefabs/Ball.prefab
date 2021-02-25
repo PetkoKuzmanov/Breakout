@@ -118,7 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25f248d20ab586048934202b718eb4ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4.11
+  speed: 6.84
+  platform: {fileID: 7968046232965159963, guid: d2b245647c2888d458cd2beead716788, type: 3}
 --- !u!58 &7663219049146273194
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -134,4 +135,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.09
+  m_Radius: 0.12

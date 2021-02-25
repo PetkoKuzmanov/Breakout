@@ -6,7 +6,7 @@ public class BrickBehaviour : MonoBehaviour
 {
 
     public int hits = 2;
-    public int points = 100;
+    public int points = 1;
 
 
     SpriteRenderer spriteRenderer;

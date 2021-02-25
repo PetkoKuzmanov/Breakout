@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         get { return level; }
         set { level = value;
-            textLevel.text = "Level: " + level;
+            textLevel.text = "Level: " + (level + 1);
         }
     }
 

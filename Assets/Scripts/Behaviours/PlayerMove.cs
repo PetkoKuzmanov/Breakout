@@ -8,7 +8,7 @@ public class PlayerMove: MonoBehaviour
     [SerializeField] private float moveSpeed;
 
     private new Rigidbody2D rigidbody;
-    private Vector2 velocity;
+    public static Vector2 velocity;
 
     // Start is called before the first frame update
     private void Awake()
@@ -27,5 +27,10 @@ public class PlayerMove: MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         Move(context.ReadValue<Vector2>());
+    }
+
+    public Vector2 getVelocity()
+    {
+        return velocity;
     }
 }
