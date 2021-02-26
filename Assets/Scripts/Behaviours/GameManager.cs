@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textScore;
     public TextMeshProUGUI textLives;
     public TextMeshProUGUI textLevel;
+    public TextMeshProUGUI textHighscore;
 
     public GameObject panelMenu;
     public GameObject panelPlay;
@@ -93,6 +94,10 @@ public class GameManager : MonoBehaviour
             case State.LOADLEVEL:
                 break;
             case State.GAMEOVER:
+                //if (Input.anyKeyDown)
+                //{
+                ChangeState(State.MENU, 3f);
+                //}
                 break;
         }
     }
@@ -117,6 +122,7 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case State.MENU:
+                textHighscore.text = "Highscore: " + PlayerPrefs.GetInt("highscore");
                 panelMenu.SetActive(true);
                 break;
             case State.INIT:
@@ -124,13 +130,21 @@ public class GameManager : MonoBehaviour
                 Score = 0;
                 Level = 0;
                 Lives = 2;
+                if (currentLevel != null)
+                {
+                    Destroy(currentLevel);
+                }
                 Instantiate(platformPrefab);
                 ChangeState(State.LOADLEVEL);
                 break;
             case State.PLAY:
                 break;
             case State.LEVELCOMPLETED:
+                Destroy(ball);
+                Destroy(currentLevel);
+                Level++;
                 panelLevelCompleted.SetActive(true);
+                ChangeState(State.LOADLEVEL, 2f);
                 break;
             case State.LOADLEVEL:
                 if(Level > levels.Length)
@@ -143,6 +157,10 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case State.GAMEOVER:
+                if(Score > PlayerPrefs.GetInt("highscore"))
+                {
+                    PlayerPrefs.SetInt("highscore", Score);
+                }
                 panelGameOver.SetActive(true);
                 break;
         }
