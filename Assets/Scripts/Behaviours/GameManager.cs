@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     GameObject ball;
     GameObject currentLevel;
+    GameObject platform;
     bool isSwithcingState;
 
     private int score;
@@ -96,6 +97,7 @@ public class GameManager : MonoBehaviour
             case State.GAMEOVER:
                 //if (Input.anyKeyDown)
                 //{
+                Destroy(platform);
                 ChangeState(State.MENU, 3f);
                 //}
                 break;
@@ -134,7 +136,7 @@ public class GameManager : MonoBehaviour
                 {
                     Destroy(currentLevel);
                 }
-                Instantiate(platformPrefab);
+                platform = Instantiate(platformPrefab);
                 ChangeState(State.LOADLEVEL);
                 break;
             case State.PLAY:
