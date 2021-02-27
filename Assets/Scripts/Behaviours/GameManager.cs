@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,11 +9,14 @@ public class GameManager : MonoBehaviour
 {
     public GameObject ballPrefab;
     public GameObject platformPrefab;
+
     public TextMeshProUGUI textScore;
     public TextMeshProUGUI textLives;
     public TextMeshProUGUI textLevel;
     public TextMeshProUGUI textHighscore;
     public TextMeshProUGUI textTotalScore;
+    public TextMeshProUGUI textTimer;
+    public TextMeshProUGUI textLevelCompletedTime;
 
     public GameObject panelMenu;
     public GameObject panelPlay;
@@ -30,6 +34,11 @@ public class GameManager : MonoBehaviour
     GameObject currentLevel;
     GameObject platform;
     bool isSwithcingState;
+
+    private TimeSpan timePlaying;
+    private bool timerGoing;
+
+    private float elapsedTime;
 
     private int score;
     public int Score
@@ -143,6 +152,8 @@ public class GameManager : MonoBehaviour
             case State.PLAY:
                 break;
             case State.LEVELCOMPLETED:
+                StopTimer();
+                textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
                 Destroy(ball);
                 Destroy(currentLevel);
                 Level++;
@@ -150,6 +161,8 @@ public class GameManager : MonoBehaviour
                 ChangeState(State.LOADLEVEL, 2f);
                 break;
             case State.LOADLEVEL:
+                StopTimer();
+                BeginTimer();
                 if (Level > levels.Length)
                 {
                     ChangeState(State.GAMEOVER);
@@ -160,6 +173,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case State.GAMEOVER:
+                StopTimer();
                 if (Score > PlayerPrefs.GetInt("highscore"))
                 {
                     PlayerPrefs.SetInt("highscore", Score);
@@ -201,5 +215,32 @@ public class GameManager : MonoBehaviour
     private void InstantiateBall()
     {
         ball = Instantiate(ballPrefab);
+    }
+
+    private void BeginTimer()
+    {
+        textTimer.text = "Time: 00:00.00";
+        timerGoing = true;
+        elapsedTime = 0f;
+
+        StartCoroutine(UpdateTimer());
+    }
+
+    public void StopTimer()
+    {
+        timerGoing = false;
+    }
+
+    private IEnumerator UpdateTimer()
+    {
+        while(timerGoing)
+        {
+            elapsedTime += Time.deltaTime;
+            timePlaying = TimeSpan.FromSeconds(elapsedTime);
+            string timeString = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
+            textTimer.text = timeString;
+
+            yield return null;
+        }
     }
 }
