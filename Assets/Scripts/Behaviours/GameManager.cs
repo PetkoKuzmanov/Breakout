@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textLives;
     public TextMeshProUGUI textLevel;
     public TextMeshProUGUI textHighscore;
+    public TextMeshProUGUI textTotalScore;
 
     public GameObject panelMenu;
     public GameObject panelPlay;
@@ -149,7 +150,7 @@ public class GameManager : MonoBehaviour
                 ChangeState(State.LOADLEVEL, 2f);
                 break;
             case State.LOADLEVEL:
-                if(Level > levels.Length)
+                if (Level > levels.Length)
                 {
                     ChangeState(State.GAMEOVER);
                 } else
@@ -159,10 +160,11 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case State.GAMEOVER:
-                if(Score > PlayerPrefs.GetInt("highscore"))
+                if (Score > PlayerPrefs.GetInt("highscore"))
                 {
                     PlayerPrefs.SetInt("highscore", Score);
                 }
+                textTotalScore.text = "Score: " + Score;
                 panelGameOver.SetActive(true);
                 break;
         }
