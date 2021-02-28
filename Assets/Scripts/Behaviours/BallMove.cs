@@ -13,6 +13,7 @@ public class BallMove : MonoBehaviour
     public GameObject platform;
     public GameObject brickZero;
     public GameObject brickOne;
+    public GameObject brickTwo;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +65,10 @@ public class BallMove : MonoBehaviour
         {
             SoundManager.PlaySound("Brick 1");
         }
-        
+        else if (collision.collider.gameObject.CompareTag(brickTwo.tag))
+        {
+            SoundManager.PlaySound("Brick 2");
+        }
+
     }
 }
