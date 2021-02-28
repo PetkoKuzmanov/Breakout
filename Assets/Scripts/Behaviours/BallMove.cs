@@ -43,6 +43,7 @@ public class BallMove : MonoBehaviour
         {
             GameManager.Instance.Lives--;
             Destroy(gameObject);
+            SoundManager.PlaySound("Ball Death");
         }
     }
 

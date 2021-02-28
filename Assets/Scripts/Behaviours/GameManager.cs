@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
             case State.LEVELCOMPLETED:
                 StopTimer();
                 textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
+                SoundManager.PlaySound("Level Completed");
                 Destroy(ball);
                 Destroy(currentLevel);
                 Level++;
