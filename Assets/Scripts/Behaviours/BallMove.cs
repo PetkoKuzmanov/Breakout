@@ -11,6 +11,7 @@ public class BallMove : MonoBehaviour
     private new Renderer renderer;
 
     public GameObject platform;
+    public GameObject brickZero;
     public GameObject brickOne;
 
     // Start is called before the first frame update
@@ -54,7 +55,12 @@ public class BallMove : MonoBehaviour
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
-        } else if (collision.collider.gameObject.CompareTag(brickOne.tag))
+        }
+        else if (collision.collider.gameObject.CompareTag(brickZero.tag))
+        {
+            SoundManager.PlaySound("Brick 0");
+        }
+        else if (collision.collider.gameObject.CompareTag(brickOne.tag))
         {
             SoundManager.PlaySound("Brick 1");
         }

@@ -7,14 +7,15 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance { get; private set; }
     static AudioSource audioSource;
 
-    public static AudioClip brickOneSound;
+    public static AudioClip brickZeroSound, brickOneSound;
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
 
-        brickOneSound = Resources.Load<AudioClip>("Brick 1");
+        brickZeroSound = Resources.Load<AudioClip>("Brick 0 Sound");
+        brickOneSound = Resources.Load<AudioClip>("Brick 1 Sound");
 
     }
 
@@ -41,8 +42,11 @@ public class SoundManager : MonoBehaviour
     {
         switch (soundName)
         {
+            case "Brick 0":
+                audioSource.PlayOneShot(brickZeroSound);
+                break;
             case "Brick 1":
-                audioSource.PlayOneShot(brickOneSound);
+                audioSource.PlayOneShot(brickOneSound, 0.75f);
                 break;
         }
     }

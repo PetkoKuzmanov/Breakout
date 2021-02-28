@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6.84
   platform: {fileID: 7968046232965159963, guid: d2b245647c2888d458cd2beead716788, type: 3}
+  brickZero: {fileID: 7170389770064246013, guid: 620efb43be1defa438a0b08400408793, type: 3}
   brickOne: {fileID: 7170389770064246013, guid: 351a1039e09b21f4aa288a03c7d7bf48, type: 3}
 --- !u!58 &7663219049146273194
 CircleCollider2D:

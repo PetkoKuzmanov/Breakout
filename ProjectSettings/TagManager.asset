@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bottom Wall
   - Brick 1
+  - Brick 0
   layers:
   - Default
   - TransparentFX
