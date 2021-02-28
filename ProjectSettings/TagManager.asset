@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bottom Wall
+  - Brick 1
   layers:
   - Default
   - TransparentFX

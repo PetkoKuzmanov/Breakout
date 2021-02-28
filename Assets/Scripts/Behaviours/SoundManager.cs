@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SoundManager : MonoBehaviour
+{
+    public static SoundManager instance { get; private set; }
+    static AudioSource audioSource;
+
+    public static AudioClip brickOneSound;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+        brickOneSound = Resources.Load<AudioClip>("Brick 1");
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    private void Awake()
+    {
+        if (instance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    public static void PlaySound(string soundName)
+    {
+        switch (soundName)
+        {
+            case "Brick 1":
+                audioSource.PlayOneShot(brickOneSound);
+                break;
+        }
+    }
+}

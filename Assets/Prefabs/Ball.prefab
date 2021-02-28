@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6.84
   platform: {fileID: 7968046232965159963, guid: d2b245647c2888d458cd2beead716788, type: 3}
+  brickOne: {fileID: 7170389770064246013, guid: 351a1039e09b21f4aa288a03c7d7bf48, type: 3}
 --- !u!58 &7663219049146273194
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -129,7 +130,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 722515895689420730}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: c51903f092270454f8faa720f6bc09e0, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

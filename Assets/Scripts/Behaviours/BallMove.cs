@@ -9,7 +9,9 @@ public class BallMove : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private Vector2 velocity;
     private new Renderer renderer;
+
     public GameObject platform;
+    public GameObject brickOne;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +19,6 @@ public class BallMove : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         renderer = GetComponent<Renderer>();
         Invoke(nameof(LaunchBall), 1f);
-        //rigidbody.velocity = Vector2.down * speed;
     }
 
     void LaunchBall()
@@ -53,6 +54,9 @@ public class BallMove : MonoBehaviour
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
+        } else if (collision.collider.gameObject.CompareTag(brickOne.tag))
+        {
+            SoundManager.PlaySound("Brick 1");
         }
         
     }
