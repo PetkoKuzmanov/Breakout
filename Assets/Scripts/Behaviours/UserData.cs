@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class UserData
 {
-    public string name;
-    public int[] levels;
-    public string[] times;
-    public int[] scores;
-    public int totalScore;
+    private string name;
+    private int score;
+    private int level;
+    private int lives;
+    private string[] levelTimes;
 
     public UserData(User user)
     {
-
+        name = user.Name;
+        score = user.Score;
+        level = user.Level;
+        lives = user.Lives;
+        levelTimes = user.LevelTimes;
     }
 }

@@ -137,12 +137,7 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT:
                 panelPlay.SetActive(true);
-                currentUser = new User("Bob", 2)
-                {
-                    Score = 0,
-                    Level = 0,
-                    Lives = 2
-                };
+                currentUser = new User("Bob1", 2, 0, 0);
                 updateTextScore();
                 updateTextLevel();
                 updateTextLives();
@@ -195,6 +190,8 @@ public class GameManager : MonoBehaviour
                 //    PlayerPrefs.SetInt("highscore", Score);
                 //}
                 //textTotalScore.text = "Score: " + Score;
+                //SaveManager.SaveUser(currentUser);
+
                 if (currentUser.Score > PlayerPrefs.GetInt("highscore"))
                 {
                     PlayerPrefs.SetInt("highscore", currentUser.Score);

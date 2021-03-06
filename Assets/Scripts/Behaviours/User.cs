@@ -5,49 +5,45 @@ using TMPro;
 
 public class User
 {
+    public string name;
+    public int score;
+    public int level;
+    public int lives;
+    public string[] levelTimes;
 
-    private string name;
-    private int[] levels;
-    private string[] times;
-    private int[] scores;
-    private int totalScore;
-
-
-    public User(string name, int lives)
+    public User(string name, int lives, int score, int level)
     {
         this.name = name;
         this.lives = lives;
+        this.score = score;
+        this.level = level;
     }
 
-
-    private int score;
     public int Score
     {
         get { return score; }
-        set
-        {
-            score = value;
-        }
+        set { score = value; }
     }
 
-    private int level;
     public int Level
     {
         get { return level; }
-        set
-        {
-            level = value;
-        }
+        set { level = value; }
     }
 
-    private int lives;
     public int Lives
     {
         get { return lives; }
-        set
-        {
-            lives = value;
-        }
+        set { lives = value; }
     }
 
+    public string Name
+    {
+        get { return name; }
+    }
+
+    public string[] LevelTimes
+    {
+        get { return levelTimes; }
+    }
 }
