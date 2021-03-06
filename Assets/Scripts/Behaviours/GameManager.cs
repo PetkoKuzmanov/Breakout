@@ -26,8 +26,9 @@ public class GameManager : MonoBehaviour
     public GameObject panelGameOver;
 
     public GameObject[] levels;
+    public GameObject tutorialLevel;
 
-    public enum State { MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER }
+    public enum State { MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
 
     GameObject ball;
@@ -80,10 +81,6 @@ public class GameManager : MonoBehaviour
             case State.PLAY:
                 if (ball == null)
                 {
-                    //if (Lives > 0)
-                    //{
-                    //    InstantiateBall();
-                    //}
                     if (currentUser.Lives > 0)
                     {
                         InstantiateBall();
@@ -108,6 +105,25 @@ public class GameManager : MonoBehaviour
                 Destroy(platform);
                 ChangeState(State.MENU, 3f);
                 //}
+                break;
+            case State.INIT_TUTORIAL:
+                break;
+            case State.TUTORIAL:
+                if (ball == null)
+                {
+                    if (currentUser.Lives > 0)
+                    {
+                        InstantiateBall();
+                    }
+                    else
+                    {
+                        ChangeState(State.GAMEOVER);
+                    }
+                }
+                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwithcingState)
+                {
+                    ChangeState(State.LEVELCOMPLETED);
+                }
                 break;
         }
     }
@@ -137,7 +153,7 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT:
                 panelPlay.SetActive(true);
-                currentUser = new User("Bob1", 2, 0, 0);
+                currentUser = new User("Bob2", 2, 0, 0);
                 updateTextScore();
                 updateTextLevel();
                 updateTextLives();
@@ -156,7 +172,6 @@ public class GameManager : MonoBehaviour
                 SoundManager.PlaySound("Level Completed");
                 Destroy(ball);
                 Destroy(currentLevel);
-                //Level++;
                 currentUser.Level++;
                 panelLevelCompleted.SetActive(true);
                 ChangeState(State.LOADLEVEL, 2f);
@@ -164,15 +179,6 @@ public class GameManager : MonoBehaviour
             case State.LOADLEVEL:
                 StopTimer();
                 BeginTimer();
-                //if (Level > levels.Length)
-                //{
-                //    ChangeState(State.GAMEOVER);
-                //}
-                //else
-                //{
-                //    currentLevel = Instantiate(levels[Level]);
-                //    ChangeState(State.PLAY);
-                //}
                 if (currentUser.Level > levels.Length)
                 {
                     ChangeState(State.GAMEOVER);
@@ -185,11 +191,6 @@ public class GameManager : MonoBehaviour
                 break;
             case State.GAMEOVER:
                 StopTimer();
-                //if (Score > PlayerPrefs.GetInt("highscore"))
-                //{
-                //    PlayerPrefs.SetInt("highscore", Score);
-                //}
-                //textTotalScore.text = "Score: " + Score;
                 //SaveManager.SaveUser(currentUser);
 
                 if (currentUser.Score > PlayerPrefs.GetInt("highscore"))
@@ -198,6 +199,26 @@ public class GameManager : MonoBehaviour
                 }
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
+                break;
+            case State.INIT_TUTORIAL:
+                panelPlay.SetActive(true);
+                currentUser = new User("Tutorial", 2, 0, 0);
+                updateTextScore();
+                updateTextLevel();
+                updateTextLives();
+                if (currentLevel != null)
+                {
+                    Destroy(currentLevel);
+                }
+                platform = Instantiate(platformPrefab);
+
+                StopTimer();
+                BeginTimer();
+                currentLevel = Instantiate(tutorialLevel);
+
+                ChangeState(State.TUTORIAL);
+                break;
+            case State.TUTORIAL:
                 break;
         }
     }
@@ -222,12 +243,21 @@ public class GameManager : MonoBehaviour
                 panelPlay.SetActive(false);
                 panelGameOver.SetActive(false);
                 break;
+            case State.INIT_TUTORIAL:
+                break;
+            case State.TUTORIAL:
+                break;
         }
     }
 
     public void StartGameClicked()
     {
         ChangeState(State.INIT);
+    }
+
+    public void TutorialClicked()
+    {
+        ChangeState(State.INIT_TUTORIAL);
     }
 
     private void InstantiateBall()
