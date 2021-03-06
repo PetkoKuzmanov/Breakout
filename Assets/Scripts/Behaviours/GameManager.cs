@@ -289,6 +289,12 @@ public class GameManager : MonoBehaviour
         timerGoing = false;
     }
 
+    public void StartTimer()
+    {
+        timerGoing = true;
+        StartCoroutine(UpdateTimer());
+    }
+
     private IEnumerator UpdateTimer()
     {
         while (timerGoing)
@@ -305,11 +311,13 @@ public class GameManager : MonoBehaviour
     private void PauseGame()
     {
         ball.BroadcastMessage("PauseBall");
+        StopTimer();
     }
 
     private void UnpauseGame()
     {
         ball.BroadcastMessage("UnpauseBall");
+        StartTimer();
     }
 
     public void ContinueClicked()

@@ -83,5 +83,6 @@ public class BallMove : MonoBehaviour
     public void UnpauseBall()
     {
         speed = 7;
+        Invoke(nameof(LaunchBall), 1f);
     }
 }
