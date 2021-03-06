@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public GameObject panelLevelCompleted;
     public GameObject panelGameOver;
 
+    public GameObject panelMovePlatform;
+
     public GameObject[] levels;
     public GameObject tutorialLevel;
 
