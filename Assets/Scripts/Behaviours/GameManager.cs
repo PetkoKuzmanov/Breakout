@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,10 +26,11 @@ public class GameManager : MonoBehaviour
     public GameObject panelLevelCompleted;
     public GameObject panelGameOver;
 
-    public GameObject panelMovePlatform;
+    public GameObject[] tutorialPanels;
 
     public GameObject[] levels;
     public GameObject tutorialLevel;
+    public Button buttonContinue;
 
     public enum State { MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
@@ -116,6 +118,12 @@ public class GameManager : MonoBehaviour
                     if (currentUser.Lives > 0)
                     {
                         InstantiateBall();
+                        if (currentUser.Lives == 1)
+                        {
+                            tutorialPanels[5].SetActive(true);
+                            buttonContinue.gameObject.SetActive(true);
+                            PauseGame();
+                        }
                     }
                     else
                     {
@@ -292,5 +300,26 @@ public class GameManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void PauseGame()
+    {
+        ball.BroadcastMessage("PauseBall");
+    }
+
+    private void UnpauseGame()
+    {
+        ball.BroadcastMessage("UnpauseBall");
+    }
+
+    public void ContinueClicked()
+    {
+        UnpauseGame();
+        foreach (GameObject panel in tutorialPanels)
+        {
+            panel.SetActive(false);
+        }
+
+        buttonContinue.gameObject.SetActive(false);
     }
 }

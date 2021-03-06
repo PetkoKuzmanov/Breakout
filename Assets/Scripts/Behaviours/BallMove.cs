@@ -74,4 +74,14 @@ public class BallMove : MonoBehaviour
         }
 
     }
+
+    public void PauseBall()
+    {
+        speed = 0;
+    }
+
+    public void UnpauseBall()
+    {
+        speed = 7;
+    }
 }
