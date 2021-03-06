@@ -31,7 +31,7 @@ public class BallMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
@@ -41,7 +41,9 @@ public class BallMove : MonoBehaviour
 
         if (!renderer.isVisible)
         {
-            GameManager.Instance.Lives--;
+            //GameManager.Instance.Lives--;
+            GameManager.Instance.getCurrentUser().Lives--;
+            GameManager.Instance.updateTextLives();
             Destroy(gameObject);
             SoundManager.PlaySound("Ball Death");
         }

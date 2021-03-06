@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     public GameObject ballPrefab;
     public GameObject platformPrefab;
 
@@ -25,9 +27,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] levels;
 
-    public static GameManager Instance { get; private set; }
-
-    public enum State { MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER}
+    public enum State { MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER }
     State state;
 
     GameObject ball;
@@ -40,31 +40,25 @@ public class GameManager : MonoBehaviour
 
     private float elapsedTime;
 
-    private int score;
-    public int Score
+    private User currentUser;
+    public User getCurrentUser()
     {
-        get { return score; }
-        set { score = value;
-            textScore.text = "Score: " + score;
-        }
+        return currentUser;
     }
 
-    private int level;
-    public int Level
+    public void updateTextScore()
     {
-        get { return level; }
-        set { level = value;
-            textLevel.text = "Level: " + (level + 1);
-        }
+        textScore.text = "Score: " + currentUser.Score;
     }
 
-    private int lives;
-    public int Lives
+    public void updateTextLives()
     {
-        get { return lives; }
-        set { lives = value;
-            textLives.text = "Lives: " + lives;
-        }
+        textLives.text = "Lives: " + currentUser.Lives;
+    }
+
+    public void updateTextLevel()
+    {
+        textLevel.text = "Level: " + (currentUser.Level + 1);
     }
 
     // Start is called before the first frame update
@@ -84,13 +78,17 @@ public class GameManager : MonoBehaviour
             case State.INIT:
                 break;
             case State.PLAY:
-                if (ball == null) {
-                    if (Lives > 0)
+                if (ball == null)
+                {
+                    //if (Lives > 0)
+                    //{
+                    //    InstantiateBall();
+                    //}
+                    if (currentUser.Lives > 0)
                     {
-                        //Invoke("InstantiateBall", 0.5f);
-                        //ball = Instantiate(ballPrefab);
                         InstantiateBall();
-                    } else
+                    }
+                    else
                     {
                         ChangeState(State.GAMEOVER);
                     }
@@ -139,9 +137,15 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT:
                 panelPlay.SetActive(true);
-                Score = 0;
-                Level = 0;
-                Lives = 2;
+                currentUser = new User("Bob", 2)
+                {
+                    Score = 0,
+                    Level = 0,
+                    Lives = 2
+                };
+                updateTextScore();
+                updateTextLevel();
+                updateTextLives();
                 if (currentLevel != null)
                 {
                     Destroy(currentLevel);
@@ -157,29 +161,45 @@ public class GameManager : MonoBehaviour
                 SoundManager.PlaySound("Level Completed");
                 Destroy(ball);
                 Destroy(currentLevel);
-                Level++;
+                //Level++;
+                currentUser.Level++;
                 panelLevelCompleted.SetActive(true);
                 ChangeState(State.LOADLEVEL, 2f);
                 break;
             case State.LOADLEVEL:
                 StopTimer();
                 BeginTimer();
-                if (Level > levels.Length)
+                //if (Level > levels.Length)
+                //{
+                //    ChangeState(State.GAMEOVER);
+                //}
+                //else
+                //{
+                //    currentLevel = Instantiate(levels[Level]);
+                //    ChangeState(State.PLAY);
+                //}
+                if (currentUser.Level > levels.Length)
                 {
                     ChangeState(State.GAMEOVER);
-                } else
+                }
+                else
                 {
-                    currentLevel = Instantiate(levels[Level]);
+                    currentLevel = Instantiate(levels[currentUser.Level]);
                     ChangeState(State.PLAY);
                 }
                 break;
             case State.GAMEOVER:
                 StopTimer();
-                if (Score > PlayerPrefs.GetInt("highscore"))
+                //if (Score > PlayerPrefs.GetInt("highscore"))
+                //{
+                //    PlayerPrefs.SetInt("highscore", Score);
+                //}
+                //textTotalScore.text = "Score: " + Score;
+                if (currentUser.Score > PlayerPrefs.GetInt("highscore"))
                 {
-                    PlayerPrefs.SetInt("highscore", Score);
+                    PlayerPrefs.SetInt("highscore", currentUser.Score);
                 }
-                textTotalScore.text = "Score: " + Score;
+                textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
                 break;
         }
@@ -234,7 +254,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator UpdateTimer()
     {
-        while(timerGoing)
+        while (timerGoing)
         {
             elapsedTime += Time.deltaTime;
             timePlaying = TimeSpan.FromSeconds(elapsedTime);

@@ -23,7 +23,7 @@ public class BrickBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -32,7 +32,9 @@ public class BrickBehaviour : MonoBehaviour
         //Score points
         if (hits <= 0)
         {
-            GameManager.Instance.Score += points;
+            //GameManager.Instance.Score += points;
+            GameManager.Instance.getCurrentUser().Score += points;
+            GameManager.Instance.updateTextScore();
             Destroy(gameObject);
         };
 
