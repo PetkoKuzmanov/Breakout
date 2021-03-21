@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
                 break;
             case State.GAMEOVER:
                 StopTimer();
-                //SaveManager.SaveUser(currentUser);
+                SaveManager.SaveUser(currentUser);
 
                 if (currentUser.Score > PlayerPrefs.GetInt("highscore"))
                 {

@@ -13,7 +13,6 @@ public static class SaveManager
         BinaryFormatter formatter = new BinaryFormatter();
 
         string fileName = user.Name + ".dat";
-        //string path = Application.persistentDataPath + "/" + user.Name + ".dat";
         string path = Path.Combine(Application.persistentDataPath, fileName);
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -23,7 +22,6 @@ public static class SaveManager
 
     public static void LoadUser(string path)
     {
-        //string path = Application.persistentDataPath + "/" + name + ".dat";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();

@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class UserData
 {
-    private string name;
-    private int score;
-    private int level;
-    private int lives;
-    private string[] levelTimes;
+    public string name;
+    public int score;
+    public int level;
+    public int lives;
+    public string[] levelTimes;
 
     public UserData(User user)
     {
