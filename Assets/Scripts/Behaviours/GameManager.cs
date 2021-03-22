@@ -330,4 +330,14 @@ public class GameManager : MonoBehaviour
 
         buttonContinue.gameObject.SetActive(false);
     }
+
+    public void HandleDropdownUsers(int userPosition)
+    {
+
+    }
+
+    public void LoadDropdownUsers()
+    {
+
+    }
 }
