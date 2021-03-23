@@ -10,7 +10,7 @@ public class User
     public int score;
     public int level;
     public int lives;
-    public string[] levelTimes;
+    public string time;
 
     public User(string name, int lives, int score, int level)
     {
@@ -18,6 +18,15 @@ public class User
         this.lives = lives;
         this.score = score;
         this.level = level;
+    }
+
+    public User(string name, int lives, int score, int level, string time)
+    {
+        this.name = name;
+        this.lives = lives;
+        this.score = score;
+        this.level = level;
+        this.time = time;
     }
 
     public int Score
@@ -43,8 +52,9 @@ public class User
         get { return name; }
     }
 
-    public string[] LevelTimes
+    public string Time
     {
-        get { return levelTimes; }
+        get { return time; }
+        set { time = value; }
     }
 }

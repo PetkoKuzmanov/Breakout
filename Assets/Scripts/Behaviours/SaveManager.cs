@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class SaveManager
 {
-    private static ArrayList users;
+    private static ArrayList users = new ArrayList();
 
     public static void SaveUser(User user)
     {
@@ -26,10 +26,10 @@ public static class SaveManager
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
+            stream.Position = 0;
 
             User user = formatter.Deserialize(stream) as User;
             stream.Close();
-
             users.Add(user);
         }
         else
@@ -38,7 +38,7 @@ public static class SaveManager
         }
     }
 
-    public static void LoadUsers()
+    public static ArrayList LoadUsers()
     {
         string path = Application.persistentDataPath;
         string[] files = Directory.GetFiles(path);
@@ -47,5 +47,12 @@ public static class SaveManager
         {
             LoadUser(files[i]);
         }
+
+        return users;
+    }
+
+    public static ArrayList GetUsers()
+    {
+        return users;
     }
 }

@@ -9,7 +9,7 @@ public class UserData
     public int score;
     public int level;
     public int lives;
-    public string[] levelTimes;
+    public string time;
 
     public UserData(User user)
     {
@@ -17,6 +17,6 @@ public class UserData
         score = user.Score;
         level = user.Level;
         lives = user.Lives;
-        levelTimes = user.LevelTimes;
+        time = user.Time;
     }
 }

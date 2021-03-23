@@ -25,14 +25,16 @@ public class GameManager : MonoBehaviour
     public GameObject panelPlay;
     public GameObject panelLevelCompleted;
     public GameObject panelGameOver;
+    public GameObject panelProfileMenu;
 
     public GameObject[] tutorialPanels;
 
     public GameObject[] levels;
     public GameObject tutorialLevel;
+
     public Button buttonContinue;
 
-    public enum State { MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
+    public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
 
     GameObject ball;
@@ -70,7 +72,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        ChangeState(State.MENU);
+        ChangeState(State.MAIN_MENU);
     }
 
     // Update is called once per frame
@@ -78,7 +80,9 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case State.MENU:
+            case State.MAIN_MENU:
+                break;
+            case State.PROFILE_MENU:
                 break;
             case State.INIT:
                 break;
@@ -107,7 +111,7 @@ public class GameManager : MonoBehaviour
                 //if (Input.anyKeyDown)
                 //{
                 Destroy(platform);
-                ChangeState(State.MENU, 3f);
+                ChangeState(State.MAIN_MENU, 3f);
                 //}
                 break;
             case State.INIT_TUTORIAL:
@@ -157,13 +161,17 @@ public class GameManager : MonoBehaviour
     {
         switch (newState)
         {
-            case State.MENU:
+            case State.MAIN_MENU:
                 textHighscore.text = "Highscore: " + PlayerPrefs.GetInt("highscore");
                 panelMenu.SetActive(true);
                 break;
+            case State.PROFILE_MENU:
+                panelProfileMenu.SetActive(true);
+                //ProfileMenuSelected();
+                break;
             case State.INIT:
                 panelPlay.SetActive(true);
-                currentUser = new User("Bob2", 2, 0, 0);
+                currentUser = new User("Bob1", 2, 0, 0);
                 updateTextScore();
                 updateTextLevel();
                 updateTextLives();
@@ -201,6 +209,7 @@ public class GameManager : MonoBehaviour
                 break;
             case State.GAMEOVER:
                 StopTimer();
+                currentUser.Time = textTimer.text;
                 SaveManager.SaveUser(currentUser);
 
                 if (currentUser.Score > PlayerPrefs.GetInt("highscore"))
@@ -237,8 +246,11 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case State.MENU:
+            case State.MAIN_MENU:
                 panelMenu.SetActive(false);
+                break;
+            case State.PROFILE_MENU:
+                panelProfileMenu.SetActive(false);
                 break;
             case State.INIT:
                 break;
@@ -331,12 +343,12 @@ public class GameManager : MonoBehaviour
         buttonContinue.gameObject.SetActive(false);
     }
 
-    public void HandleDropdownUsers(int userPosition)
+    public void ProfileSelectClicked()
     {
-
+        ChangeState(State.PROFILE_MENU);
     }
 
-    public void LoadDropdownUsers()
+    public void BackToMainMenuClicked()
     {
 
     }
