@@ -209,7 +209,7 @@ public class GameManager : MonoBehaviour
                 break;
             case State.GAMEOVER:
                 StopTimer();
-                currentUser.Time = textTimer.text;
+                currentUser.Time = textTimer.text.Substring(6);
                 SaveManager.SaveUser(currentUser);
 
                 if (currentUser.Score > PlayerPrefs.GetInt("highscore"))
@@ -350,6 +350,8 @@ public class GameManager : MonoBehaviour
 
     public void BackToMainMenuClicked()
     {
-
+        Debug.Log("ASD");
+        ChangeState(State.MAIN_MENU);
+        
     }
 }

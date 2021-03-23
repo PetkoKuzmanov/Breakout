@@ -8,7 +8,12 @@ public class ProfileDropdownManager : MonoBehaviour
 {
     private TMP_Dropdown dropdown;
     private ArrayList userList;
-    
+
+    public TextMeshProUGUI textScore;
+    public TextMeshProUGUI textTime;
+    public TextMeshProUGUI textLives;
+    public TextMeshProUGUI textLevel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +38,13 @@ public class ProfileDropdownManager : MonoBehaviour
     {
         //Show the info for the player
         int index = dropdown.value;
+        Debug.Log(index);
 
+        User currentUser = userList[index] as User;
 
+        textScore.text = currentUser.Score.ToString();
+        textTime.text = currentUser.Time.ToString();
+        textLives.text = currentUser.Lives.ToString();
+        textLevel.text = currentUser.Level.ToString();
     }
-
-   
 }
