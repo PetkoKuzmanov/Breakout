@@ -171,7 +171,8 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT:
                 panelPlay.SetActive(true);
-                currentUser = new User("Bob1", 2, 0, 0);
+                currentUser = ProfileDropdownManager.Instance.GetCurrentUser();
+                //currentUser = new User("Bob1", 2, 0, 0);
                 updateTextScore();
                 updateTextLevel();
                 updateTextLives();

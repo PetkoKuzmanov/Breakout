@@ -6,6 +6,8 @@ using TMPro;
 
 public class ProfileDropdownManager : MonoBehaviour
 {
+    public static ProfileDropdownManager Instance { get; private set; }
+
     private TMP_Dropdown dropdown;
     private ArrayList userList;
 
@@ -17,6 +19,7 @@ public class ProfileDropdownManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         dropdown = GetComponent<TMP_Dropdown>();
         dropdown.options.Clear();
 
@@ -36,15 +39,21 @@ public class ProfileDropdownManager : MonoBehaviour
 
     private void DropdownItemSelected(TMP_Dropdown dropdown)
     {
-        //Show the info for the player
+        //Show the info for the selected user
         int index = dropdown.value;
-        Debug.Log(index);
-
         User currentUser = userList[index] as User;
 
         textScore.text = currentUser.Score.ToString();
         textTime.text = currentUser.Time.ToString();
         textLives.text = currentUser.Lives.ToString();
         textLevel.text = currentUser.Level.ToString();
+    }
+
+    public User GetCurrentUser()
+    {
+        int index = dropdown.value;
+        User currentUser = userList[index] as User;
+
+        return currentUser;
     }
 }
