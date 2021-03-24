@@ -341,12 +341,19 @@ public class GameManager : MonoBehaviour
     public void ContinueClicked()
     {
         UnpauseGame();
-        foreach (GameObject panel in tutorialPanels)
-        {
-            panel.SetActive(false);
-        }
-
         buttonContinue.gameObject.SetActive(false);
+        if (tutorialPanels[0].activeSelf)
+        {
+            CallShowTutorialPanelWithDelay(1, 1);
+            tutorialPanels[0].SetActive(false);
+        }
+        else
+        {
+            foreach (GameObject panel in tutorialPanels)
+            {
+                panel.SetActive(false);
+            }
+        }
     }
 
     public void ProfileSelectClicked()
@@ -356,7 +363,6 @@ public class GameManager : MonoBehaviour
 
     public void BackToMainMenuClicked()
     {
-        //PlayMainMenuAnimation("Menu_End");
         ChangeState(State.MAIN_MENU);
     }
 
