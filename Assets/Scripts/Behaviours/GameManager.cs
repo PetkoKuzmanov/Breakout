@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     public Button buttonContinue;
 
+    public TMP_InputField inputFieldNewProfile;
+
     public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
 
@@ -171,8 +173,8 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT:
                 panelPlay.SetActive(true);
-                currentUser = ProfileDropdownManager.Instance.GetCurrentUser();
-                //currentUser = new User("Bob1", 2, 0, 0);
+                //currentUser = ProfileDropdownManager.Instance.GetCurrentUser();
+                currentUser = new User(inputFieldNewProfile.text, 2, 0, 0);
                 updateTextScore();
                 updateTextLevel();
                 updateTextLives();
@@ -353,6 +355,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("ASD");
         ChangeState(State.MAIN_MENU);
-        
+
     }
 }

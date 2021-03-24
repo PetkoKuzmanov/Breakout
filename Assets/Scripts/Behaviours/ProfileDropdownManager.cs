@@ -25,13 +25,13 @@ public class ProfileDropdownManager : MonoBehaviour
 
         userList = SaveManager.LoadUsers();
 
-        foreach(User user in userList)
+        foreach (User user in userList)
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData() { text = user.Name });
         }
 
-        //Call it initially
-        DropdownItemSelected(dropdown);
+        //Call the function initially
+        //DropdownItemSelected(dropdown);
 
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
     }
