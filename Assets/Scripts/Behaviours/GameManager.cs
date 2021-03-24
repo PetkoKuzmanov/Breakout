@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public TMP_InputField inputFieldNewProfile;
 
     private Animator panelMenuAnimator;
+    private Animator panelProfileSelectAnimator;
 
     public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         panelMenuAnimator = panelMenu.GetComponent<Animator>();
+        panelProfileSelectAnimator = panelProfileMenu.GetComponent<Animator>();
         Instance = this;
         ChangeState(State.MAIN_MENU);
     }
@@ -170,14 +172,11 @@ public class GameManager : MonoBehaviour
             case State.MAIN_MENU:
                 textHighscore.text = "Highscore: " + PlayerPrefs.GetInt("highscore");
                 panelMenu.SetActive(true);
-                if (panelMenuAnimator != null)
-                {
-                    bool isOpen = panelMenuAnimator.GetBool("open");
-                    panelMenuAnimator.SetBool("open", !isOpen);
-                }
+                PlayMainMenuAnimation("Menu_Start");
                 break;
             case State.PROFILE_MENU:
                 panelProfileMenu.SetActive(true);
+                PlayProfileSelectMenuAnimation("ProfileSelect_Start");
                 //ProfileMenuSelected();
                 break;
             case State.INIT:
@@ -259,15 +258,12 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.MAIN_MENU:
-                if (panelMenuAnimator != null)
-                {
-                    bool isOpen = panelMenuAnimator.GetBool("open");
-                    panelMenuAnimator.SetBool("open", !isOpen);
-                }
+                PlayMainMenuAnimation("Menu_End");
                 //panelMenu.SetActive(false);
                 break;
             case State.PROFILE_MENU:
-                panelProfileMenu.SetActive(false);
+                PlayProfileSelectMenuAnimation("ProfileSelect_End");
+                //panelProfileMenu.SetActive(false);
                 break;
             case State.INIT:
                 break;
@@ -367,6 +363,23 @@ public class GameManager : MonoBehaviour
 
     public void BackToMainMenuClicked()
     {
+        //PlayMainMenuAnimation("Menu_End");
         ChangeState(State.MAIN_MENU);
+    }
+
+    private void PlayMainMenuAnimation(string name)
+    {
+        if (panelMenuAnimator != null)
+        {
+            panelMenuAnimator.Play(name);
+        }
+    }
+
+    private void PlayProfileSelectMenuAnimation(string name)
+    {
+        if (panelMenuAnimator != null)
+        {
+            panelProfileSelectAnimator.Play(name);
+        }
     }
 }
