@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour
     public Button buttonContinue;
 
     public TMP_InputField inputFieldNewProfile;
+
+    private Animator panelMenuAnimator;
 
     public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
@@ -73,6 +76,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        panelMenuAnimator = panelMenu.GetComponent<Animator>();
         Instance = this;
         ChangeState(State.MAIN_MENU);
     }
@@ -166,6 +170,11 @@ public class GameManager : MonoBehaviour
             case State.MAIN_MENU:
                 textHighscore.text = "Highscore: " + PlayerPrefs.GetInt("highscore");
                 panelMenu.SetActive(true);
+                if (panelMenuAnimator != null)
+                {
+                    bool isOpen = panelMenuAnimator.GetBool("open");
+                    panelMenuAnimator.SetBool("open", !isOpen);
+                }
                 break;
             case State.PROFILE_MENU:
                 panelProfileMenu.SetActive(true);
@@ -250,7 +259,12 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.MAIN_MENU:
-                panelMenu.SetActive(false);
+                if (panelMenuAnimator != null)
+                {
+                    bool isOpen = panelMenuAnimator.GetBool("open");
+                    panelMenuAnimator.SetBool("open", !isOpen);
+                }
+                //panelMenu.SetActive(false);
                 break;
             case State.PROFILE_MENU:
                 panelProfileMenu.SetActive(false);
@@ -353,8 +367,6 @@ public class GameManager : MonoBehaviour
 
     public void BackToMainMenuClicked()
     {
-        Debug.Log("ASD");
         ChangeState(State.MAIN_MENU);
-
     }
 }
