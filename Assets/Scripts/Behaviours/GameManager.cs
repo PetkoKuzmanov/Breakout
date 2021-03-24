@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textScore;
     public TextMeshProUGUI textLives;
     public TextMeshProUGUI textLevel;
-    public TextMeshProUGUI textHighscore;
     public TextMeshProUGUI textTotalScore;
     public TextMeshProUGUI textTimer;
     public TextMeshProUGUI textLevelCompletedTime;
@@ -39,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     private Animator panelMenuAnimator;
     private Animator panelProfileSelectAnimator;
+
+
 
     public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
@@ -132,9 +133,7 @@ public class GameManager : MonoBehaviour
                         InstantiateBall();
                         if (currentUser.Lives == 1)
                         {
-                            tutorialPanels[5].SetActive(true);
-                            buttonContinue.gameObject.SetActive(true);
-                            PauseGame();
+                            CallShowTutorialPanelWithDelay(5);
                         }
                     }
                     else
@@ -170,7 +169,6 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case State.MAIN_MENU:
-                textHighscore.text = "Highscore: " + PlayerPrefs.GetInt("highscore");
                 panelMenu.SetActive(true);
                 PlayMainMenuAnimation("Menu_Start");
                 break;
@@ -222,11 +220,6 @@ public class GameManager : MonoBehaviour
                 StopTimer();
                 currentUser.Time = textTimer.text.Substring(6);
                 SaveManager.SaveUser(currentUser);
-
-                if (currentUser.Score > PlayerPrefs.GetInt("highscore"))
-                {
-                    PlayerPrefs.SetInt("highscore", currentUser.Score);
-                }
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
                 break;
@@ -241,7 +234,6 @@ public class GameManager : MonoBehaviour
                     Destroy(currentLevel);
                 }
                 platform = Instantiate(platformPrefab);
-
                 StopTimer();
                 BeginTimer();
                 currentLevel = Instantiate(tutorialLevel);
@@ -249,6 +241,7 @@ public class GameManager : MonoBehaviour
                 ChangeState(State.TUTORIAL);
                 break;
             case State.TUTORIAL:
+                CallShowTutorialPanelWithDelay(0, 1f);
                 break;
         }
     }
@@ -377,9 +370,22 @@ public class GameManager : MonoBehaviour
 
     private void PlayProfileSelectMenuAnimation(string name)
     {
-        if (panelMenuAnimator != null)
+        if (panelProfileSelectAnimator != null)
         {
             panelProfileSelectAnimator.Play(name);
         }
+    }
+
+    private void CallShowTutorialPanelWithDelay(int index, float delay = 0)
+    {
+        StartCoroutine(ShowTutorialPanelWithDelay(delay, index));
+    }
+
+    IEnumerator ShowTutorialPanelWithDelay(float delay, int index)
+    {
+        yield return new WaitForSeconds(delay);
+        tutorialPanels[index].SetActive(true);
+        buttonContinue.gameObject.SetActive(true);
+        PauseGame();
     }
 }
