@@ -39,8 +39,6 @@ public class GameManager : MonoBehaviour
     private Animator panelMenuAnimator;
     private Animator panelProfileSelectAnimator;
 
-
-
     public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
 

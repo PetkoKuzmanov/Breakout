@@ -15,6 +15,8 @@ public class BallMove : MonoBehaviour
     public GameObject brickOne;
     public GameObject brickTwo;
 
+    private int hitCounter;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,14 +64,17 @@ public class BallMove : MonoBehaviour
         }
         else if (collision.collider.gameObject.CompareTag(brickZero.tag))
         {
+            hitCounter++;
             SoundManager.PlaySound("Brick 0");
         }
         else if (collision.collider.gameObject.CompareTag(brickOne.tag))
         {
+            hitCounter++;
             SoundManager.PlaySound("Brick 1");
         }
         else if (collision.collider.gameObject.CompareTag(brickTwo.tag))
         {
+            hitCounter++;
             SoundManager.PlaySound("Brick 2");
         }
 
@@ -85,4 +90,11 @@ public class BallMove : MonoBehaviour
         speed = 7;
         Invoke(nameof(LaunchBall), 1f);
     }
+
+    public int GetHitCounter()
+    {
+        return hitCounter;
+    }
+
+
 }
