@@ -2508,7 +2508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4605af998ac163a4fa799ed4461107f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelMovePlatform: {fileID: 0}
 --- !u!4 &461392599
 Transform:
   m_ObjectHideFlags: 0
@@ -5861,8 +5860,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1439329128}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 461392598}
+        m_TargetAssemblyTypeName: TutorialObserver, Assembly-CSharp
         m_MethodName: ContinueClicked
         m_Mode: 1
         m_Arguments:
@@ -6687,7 +6686,6 @@ MonoBehaviour:
   - {fileID: 9024705467243106757, guid: b067529745db54949b608979c165ea6f, type: 3}
   - {fileID: 9024705467243106757, guid: 407a692563230c340b5bacb68c6cd315, type: 3}
   tutorialLevel: {fileID: 9024705467243106757, guid: 3c8eced1b69761040b3693bfa894d45e, type: 3}
-  buttonContinue: {fileID: 1334726935}
   buttonReplay: {fileID: 195663770}
   inputFieldNewProfile: {fileID: 1297674581}
 --- !u!4 &1439329129

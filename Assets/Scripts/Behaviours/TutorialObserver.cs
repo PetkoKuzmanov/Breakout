@@ -13,13 +13,21 @@ public class TutorialObserver : MonoBehaviour, IObserver
     public static TutorialObserver Instance { get; private set; }
 
     private GameObject buttonContinue;
-    private GameObject panelMovePlatform;
+
+    private List<GameObject> tutorialPanels = new List<GameObject>();
 
     public void Start()
     {
         Instance = this;
+
         buttonContinue = GameObject.Find("Canvas/CanvasTutorial/ButtonContinue");
-        panelMovePlatform = GameObject.Find("Canvas/CanvasTutorial/PanelMovePlatform");
+        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelMovePlatform"));
+        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBall"));
+        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick0"));
+        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick1"));
+        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick2"));
+        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBallDeath"));
+
     }
 
     public void Update()
@@ -31,9 +39,24 @@ public class TutorialObserver : MonoBehaviour, IObserver
         switch (notificationName)
         {
             case "PanelMovePlatform":
-                //panelMovePlatform.SetActive(true);
-                CallShowTutorialPanelWithDelay(panelMovePlatform, 1f);
+                CallShowTutorialPanelWithDelay(tutorialPanels[0], 1f);
                 break;
+            case "PanelBall":
+                CallShowTutorialPanelWithDelay(tutorialPanels[1], 1f);
+                break;
+            case "PanelBrick0":
+                CallShowTutorialPanelWithDelay(tutorialPanels[2]);
+                break;
+            case "PanelBrick1":
+                CallShowTutorialPanelWithDelay(tutorialPanels[3]);
+                break;
+            case "PanelBrick2":
+                CallShowTutorialPanelWithDelay(tutorialPanels[4]);
+                break;
+            case "PanelBallDeath":
+                CallShowTutorialPanelWithDelay(tutorialPanels[5]);
+                break;
+
         }
     }
 
@@ -46,8 +69,36 @@ public class TutorialObserver : MonoBehaviour, IObserver
     {
         yield return new WaitForSeconds(delay);
         panel.SetActive(true);
-        //tutorialPanels[index].SetActive(true);
         buttonContinue.gameObject.SetActive(true);
         GameManager.Instance.PauseGame();
+    }
+
+
+    public void ContinueClicked()
+    {
+        GameManager.Instance.UnpauseGame();
+        buttonContinue.gameObject.SetActive(false);
+        if (tutorialPanels[0].activeSelf)
+        {
+            CallShowTutorialPanelWithDelay(tutorialPanels[1], 1);
+            tutorialPanels[0].SetActive(false);
+        }
+        else if (tutorialPanels[2].activeSelf)
+        {
+            CallShowTutorialPanelWithDelay(tutorialPanels[3]);
+            tutorialPanels[2].SetActive(false);
+        }
+        else if (tutorialPanels[3].activeSelf)
+        {
+            CallShowTutorialPanelWithDelay(tutorialPanels[4]);
+            tutorialPanels[3].SetActive(false);
+        }
+        else
+        {
+            foreach (GameObject panel in tutorialPanels)
+            {
+                panel.SetActive(false);
+            }
+        }
     }
 }

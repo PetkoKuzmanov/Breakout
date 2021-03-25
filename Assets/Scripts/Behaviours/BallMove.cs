@@ -17,9 +17,12 @@ public class BallMove : MonoBehaviour
 
     private int hitCounter;
 
+    private List<IObserver> observers = new List<IObserver>();
+
     // Start is called before the first frame update
     void Start()
     {
+        observers.Add(TutorialObserver.Instance);
         rigidbody = GetComponent<Rigidbody2D>();
         renderer = GetComponent<Renderer>();
         Invoke(nameof(LaunchBall), 1f);
@@ -58,22 +61,29 @@ public class BallMove : MonoBehaviour
 
         rigidbody.velocity = Vector2.Reflect(velocity, collision.contacts[0].normal);
 
+        //Notify the tutorial observer that a brick has been hit for the first time
+        
+
+        //Check what the object being hit is
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
         }
         else if (collision.collider.gameObject.CompareTag(brickZero.tag))
         {
+            NotifyTutorialIfBrickHitForFirstTime();
             hitCounter++;
             SoundManager.PlaySound("Brick 0");
         }
         else if (collision.collider.gameObject.CompareTag(brickOne.tag))
         {
+            NotifyTutorialIfBrickHitForFirstTime();
             hitCounter++;
             SoundManager.PlaySound("Brick 1");
         }
         else if (collision.collider.gameObject.CompareTag(brickTwo.tag))
         {
+            NotifyTutorialIfBrickHitForFirstTime();
             hitCounter++;
             SoundManager.PlaySound("Brick 2");
         }
@@ -96,5 +106,19 @@ public class BallMove : MonoBehaviour
         return hitCounter;
     }
 
+    private void Notify(string notificationName)
+    {
+        foreach (IObserver observer in observers)
+        {
+            observer.OnNotify(notificationName);
+        }
+    }
 
+    private void NotifyTutorialIfBrickHitForFirstTime()
+    {
+        if (hitCounter == 0)
+        {
+            Notify("PanelBrick0");
+        }
+    }
 }

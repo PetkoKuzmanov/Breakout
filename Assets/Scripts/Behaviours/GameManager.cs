@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
     public GameObject[] levels;
     public GameObject tutorialLevel;
 
-    public Button buttonContinue;
     public Button buttonReplay;
 
     public TMP_InputField inputFieldNewProfile;
@@ -135,8 +134,7 @@ public class GameManager : MonoBehaviour
                         InstantiateBall();
                         if (currentUser.Lives == 1)
                         {
-                            CallShowTutorialPanelWithDelay(5);
-
+                            Notify("PanelBallDeath");
                         }
                     }
                     else
@@ -342,24 +340,6 @@ public class GameManager : MonoBehaviour
         StartTimer();
     }
 
-    public void ContinueClicked()
-    {
-        UnpauseGame();
-        buttonContinue.gameObject.SetActive(false);
-        if (tutorialPanels[0].activeSelf)
-        {
-            CallShowTutorialPanelWithDelay(1, 1);
-            tutorialPanels[0].SetActive(false);
-        }
-        else
-        {
-            foreach (GameObject panel in tutorialPanels)
-            {
-                panel.SetActive(false);
-            }
-        }
-    }
-
     public void ProfileSelectClicked()
     {
         ChangeState(State.PROFILE_MENU);
@@ -384,19 +364,6 @@ public class GameManager : MonoBehaviour
         {
             panelProfileSelectAnimator.Play(name);
         }
-    }
-
-    private void CallShowTutorialPanelWithDelay(int index, float delay = 0)
-    {
-        StartCoroutine(ShowTutorialPanelWithDelay(delay, index));
-    }
-
-    IEnumerator ShowTutorialPanelWithDelay(float delay, int index)
-    {
-        yield return new WaitForSeconds(delay);
-        tutorialPanels[index].SetActive(true);
-        buttonContinue.gameObject.SetActive(true);
-        PauseGame();
     }
 
     private void Notify(string notificationName)
