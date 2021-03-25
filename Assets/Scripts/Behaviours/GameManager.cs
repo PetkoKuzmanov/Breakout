@@ -33,11 +33,14 @@ public class GameManager : MonoBehaviour
     public GameObject tutorialLevel;
 
     public Button buttonContinue;
+    public Button buttonReplay;
 
     public TMP_InputField inputFieldNewProfile;
 
     private Animator panelMenuAnimator;
     private Animator panelProfileSelectAnimator;
+
+    private List<IObserver> observers = new List<IObserver>();
 
     public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
     State state;
@@ -76,6 +79,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        observers.Add(TutorialObserver.Instance);
         panelMenuAnimator = panelMenu.GetComponent<Animator>();
         panelProfileSelectAnimator = panelProfileMenu.GetComponent<Animator>();
         Instance = this;
@@ -132,6 +136,7 @@ public class GameManager : MonoBehaviour
                         if (currentUser.Lives == 1)
                         {
                             CallShowTutorialPanelWithDelay(5);
+
                         }
                     }
                     else
@@ -239,7 +244,8 @@ public class GameManager : MonoBehaviour
                 ChangeState(State.TUTORIAL);
                 break;
             case State.TUTORIAL:
-                CallShowTutorialPanelWithDelay(0, 1f);
+                //CallShowTutorialPanelWithDelay(0, 1f);
+                Notify("PanelMovePlatform");
                 break;
         }
     }
@@ -324,13 +330,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void PauseGame()
+    public void PauseGame()
     {
         ball.BroadcastMessage("PauseBall");
         StopTimer();
     }
 
-    private void UnpauseGame()
+    public void UnpauseGame()
     {
         ball.BroadcastMessage("UnpauseBall");
         StartTimer();
@@ -391,5 +397,13 @@ public class GameManager : MonoBehaviour
         tutorialPanels[index].SetActive(true);
         buttonContinue.gameObject.SetActive(true);
         PauseGame();
+    }
+
+    private void Notify(string notificationName)
+    {
+        foreach (IObserver observer in observers)
+        {
+            observer.OnNotify(notificationName);
+        }
     }
 }
