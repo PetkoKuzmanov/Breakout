@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
+    public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL, INIT_REPLAY, REPLAY }
     private State state;
 
     public GameObject ballPrefab;
@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     private User currentUser;
 
     private List<ReplayPosition> replay = new List<ReplayPosition>();
+    private bool isReplay = false;
 
     // Start is called before the first frame update
     void Start()
@@ -70,8 +71,15 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.PLAY:
-                replay.Add(new ReplayPosition(platform.transform.position));
-                Debug.Log(platform.transform.position);
+                if (isReplay)
+                {
+                    //Replay
+                }
+                else
+                {
+                    replay.Add(new ReplayPosition(platform.transform.position));
+                    Debug.Log(platform.transform.position);
+                }
                 break;
         }
     }
@@ -195,7 +203,7 @@ public class GameManager : MonoBehaviour
             case State.GAMEOVER:
                 StopTimer();
                 currentUser.Time = textTimer.text.Substring(6);
-                if (currentLevel.name != "Tutorial")
+                if (currentLevel.name != "Tutorial" && !isReplay)
                 {
                     SaveManager.SaveUser(currentUser, replay);
                 }
@@ -220,6 +228,19 @@ public class GameManager : MonoBehaviour
                 break;
             case State.TUTORIAL:
                 Notify("PanelMovePlatform");
+                break;
+            case State.INIT_REPLAY:
+                panelPlay.SetActive(true);
+                currentUser = new User("Replay", 2, 0, 0);
+                updateTextScore();
+                updateTextLevel();
+                updateTextLives();
+                if (currentLevel != null)
+                {
+                    Destroy(currentLevel);
+                }
+                platform = Instantiate(platformPrefab);
+                ChangeState(State.LOADLEVEL);
                 break;
         }
     }
@@ -388,5 +409,12 @@ public class GameManager : MonoBehaviour
     public State GetState()
     {
         return state;
+    }
+
+    public void StartReplay()
+    {
+        replay = SaveManager.LoadReplay(ProfileDropdownManager.Instance.GetCurrentUser().Name);
+        isReplay = true;
+        ChangeState(State.INIT_REPLAY);
     }
 }

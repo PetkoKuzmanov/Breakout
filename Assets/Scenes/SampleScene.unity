@@ -751,7 +751,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 195663771}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1439329128}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartReplay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &195663771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6674,13 +6686,6 @@ MonoBehaviour:
   panelLevelCompleted: {fileID: 1584780375}
   panelGameOver: {fileID: 1165642009}
   panelProfileMenu: {fileID: 378952574}
-  tutorialPanels:
-  - {fileID: 1406061853}
-  - {fileID: 638755010}
-  - {fileID: 49994335}
-  - {fileID: 514502216}
-  - {fileID: 865065001}
-  - {fileID: 262026190}
   levels:
   - {fileID: 9024705467243106757, guid: c5725f44842612b468ccca72db2279d0, type: 3}
   - {fileID: 9024705467243106757, guid: b067529745db54949b608979c165ea6f, type: 3}

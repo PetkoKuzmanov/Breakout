@@ -77,4 +77,26 @@ public static class SaveManager
         formatter.Serialize(stream, replay);
         stream.Close();
     }
+
+    public static List<ReplayPosition> LoadReplay(string username)
+    {
+        string folderPath = Path.Combine(Application.persistentDataPath, "replays");
+        string filePath = Path.Combine(folderPath, username + "_replay.dat");
+
+        if (File.Exists(filePath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(filePath, FileMode.Open);
+            stream.Position = 0;
+
+            List<ReplayPosition> replay = formatter.Deserialize(stream) as List<ReplayPosition>;
+            stream.Close();
+            return replay;
+        }
+        else
+        {
+            Debug.LogError("Replay file not found in " + filePath);
+            return null;
+        }
+    }
 }
