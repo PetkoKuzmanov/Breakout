@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
+    private State state;
+
     public GameObject ballPrefab;
     public GameObject platformPrefab;
 
@@ -27,8 +30,6 @@ public class GameManager : MonoBehaviour
     public GameObject panelGameOver;
     public GameObject panelProfileMenu;
 
-    public GameObject[] tutorialPanels;
-
     public GameObject[] levels;
     public GameObject tutorialLevel;
 
@@ -41,39 +42,18 @@ public class GameManager : MonoBehaviour
 
     private List<IObserver> observers = new List<IObserver>();
 
-    public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL }
-    State state;
-
-    GameObject ball;
-    GameObject currentLevel;
-    GameObject platform;
-    bool isSwithcingState;
+    private GameObject ball;
+    private GameObject currentLevel;
+    private GameObject platform;
+    private bool isSwithcingState;
 
     private TimeSpan timePlaying;
     private bool timerGoing;
-
     private float elapsedTime;
 
     private User currentUser;
-    public User getCurrentUser()
-    {
-        return currentUser;
-    }
 
-    public void updateTextScore()
-    {
-        textScore.text = "Score: " + currentUser.Score;
-    }
-
-    public void updateTextLives()
-    {
-        textLives.text = "Lives: " + currentUser.Lives;
-    }
-
-    public void updateTextLevel()
-    {
-        textLevel.text = "Level: " + (currentUser.Level + 1);
-    }
+    private List<ReplayPosition> replay = new List<ReplayPosition>();
 
     // Start is called before the first frame update
     void Start()
@@ -83,6 +63,17 @@ public class GameManager : MonoBehaviour
         panelProfileSelectAnimator = panelProfileMenu.GetComponent<Animator>();
         Instance = this;
         ChangeState(State.MAIN_MENU);
+    }
+
+    public void FixedUpdate()
+    {
+        switch (state)
+        {
+            case State.PLAY:
+                replay.Add(new ReplayPosition(platform.transform.position));
+                Debug.Log(platform.transform.position);
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -150,21 +141,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeState(State newState, float delay = 0)
-    {
-        StartCoroutine(ChangeDelay(newState, delay));
-    }
-
-    IEnumerator ChangeDelay(State newState, float delay)
-    {
-        isSwithcingState = true;
-        yield return new WaitForSeconds(delay);
-        EndState();
-        state = newState;
-        BeginState(newState);
-        isSwithcingState = false;
-    }
-
     void BeginState(State newState)
     {
         switch (newState)
@@ -180,7 +156,6 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT:
                 panelPlay.SetActive(true);
-                //currentUser = ProfileDropdownManager.Instance.GetCurrentUser();
                 currentUser = new User(inputFieldNewProfile.text, 2, 0, 0);
                 updateTextScore();
                 updateTextLevel();
@@ -220,7 +195,10 @@ public class GameManager : MonoBehaviour
             case State.GAMEOVER:
                 StopTimer();
                 currentUser.Time = textTimer.text.Substring(6);
-                SaveManager.SaveUser(currentUser);
+                if (currentLevel.name != "Tutorial")
+                {
+                    SaveManager.SaveUser(currentUser, replay);
+                }
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
                 break;
@@ -238,11 +216,9 @@ public class GameManager : MonoBehaviour
                 StopTimer();
                 BeginTimer();
                 currentLevel = Instantiate(tutorialLevel);
-
                 ChangeState(State.TUTORIAL);
                 break;
             case State.TUTORIAL:
-                //CallShowTutorialPanelWithDelay(0, 1f);
                 Notify("PanelMovePlatform");
                 break;
         }
@@ -278,6 +254,41 @@ public class GameManager : MonoBehaviour
             case State.TUTORIAL:
                 break;
         }
+    }
+
+    public void ChangeState(State newState, float delay = 0)
+    {
+        StartCoroutine(ChangeDelay(newState, delay));
+    }
+
+    IEnumerator ChangeDelay(State newState, float delay)
+    {
+        isSwithcingState = true;
+        yield return new WaitForSeconds(delay);
+        EndState();
+        state = newState;
+        BeginState(newState);
+        isSwithcingState = false;
+    }
+
+    public User getCurrentUser()
+    {
+        return currentUser;
+    }
+
+    public void updateTextScore()
+    {
+        textScore.text = "Score: " + currentUser.Score;
+    }
+
+    public void updateTextLives()
+    {
+        textLives.text = "Lives: " + currentUser.Lives;
+    }
+
+    public void updateTextLevel()
+    {
+        textLevel.text = "Level: " + (currentUser.Level + 1);
     }
 
     public void StartGameClicked()
@@ -372,5 +383,10 @@ public class GameManager : MonoBehaviour
         {
             observer.OnNotify(notificationName);
         }
+    }
+
+    public State GetState()
+    {
+        return state;
     }
 }

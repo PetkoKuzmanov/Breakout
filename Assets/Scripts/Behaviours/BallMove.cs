@@ -46,7 +46,6 @@ public class BallMove : MonoBehaviour
 
         if (!renderer.isVisible)
         {
-            //GameManager.Instance.Lives--;
             GameManager.Instance.getCurrentUser().Lives--;
             GameManager.Instance.updateTextLives();
             Destroy(gameObject);
@@ -62,30 +61,33 @@ public class BallMove : MonoBehaviour
         rigidbody.velocity = Vector2.Reflect(velocity, collision.contacts[0].normal);
 
         //Notify the tutorial observer that a brick has been hit for the first time
-        
+
 
         //Check what the object being hit is
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
         }
-        else if (collision.collider.gameObject.CompareTag(brickZero.tag))
+        else
         {
-            NotifyTutorialIfBrickHitForFirstTime();
+            if (GameManager.Instance.GetState() == GameManager.State.TUTORIAL)
+            {
+                NotifyTutorialIfBrickHitForFirstTime();
+            }
+
             hitCounter++;
-            SoundManager.PlaySound("Brick 0");
-        }
-        else if (collision.collider.gameObject.CompareTag(brickOne.tag))
-        {
-            NotifyTutorialIfBrickHitForFirstTime();
-            hitCounter++;
-            SoundManager.PlaySound("Brick 1");
-        }
-        else if (collision.collider.gameObject.CompareTag(brickTwo.tag))
-        {
-            NotifyTutorialIfBrickHitForFirstTime();
-            hitCounter++;
-            SoundManager.PlaySound("Brick 2");
+            if (collision.collider.gameObject.CompareTag(brickZero.tag))
+            {
+                SoundManager.PlaySound("Brick 0");
+            }
+            else if (collision.collider.gameObject.CompareTag(brickOne.tag))
+            {
+                SoundManager.PlaySound("Brick 1");
+            }
+            else if (collision.collider.gameObject.CompareTag(brickTwo.tag))
+            {
+                SoundManager.PlaySound("Brick 2");
+            }
         }
 
     }

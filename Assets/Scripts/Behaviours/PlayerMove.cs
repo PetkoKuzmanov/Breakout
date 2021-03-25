@@ -10,6 +10,8 @@ public class PlayerMove: MonoBehaviour
     private new Rigidbody2D rigidbody;
     public static Vector2 velocity;
 
+    
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -33,4 +35,6 @@ public class PlayerMove: MonoBehaviour
     {
         return velocity;
     }
+
+    
 }

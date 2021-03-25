@@ -27,7 +27,6 @@ public class TutorialObserver : MonoBehaviour, IObserver
         tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick1"));
         tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick2"));
         tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBallDeath"));
-
     }
 
     public void Update()

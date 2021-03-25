@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -8,7 +9,7 @@ public static class SaveManager
 {
     private static ArrayList users = new ArrayList();
 
-    public static void SaveUser(User user)
+    public static void SaveUser(User user, List<ReplayPosition> replay)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
@@ -18,6 +19,8 @@ public static class SaveManager
 
         formatter.Serialize(stream, user);
         stream.Close();
+
+        SaveReplay(replay, user.Name);
     }
 
     public static void LoadUser(string path)
@@ -54,5 +57,24 @@ public static class SaveManager
     public static ArrayList GetUsers()
     {
         return users;
+    }
+
+    public static void SaveReplay(List<ReplayPosition> replay, string name)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string fileName = name + "_replay.dat";
+
+        string folderPath = Path.Combine(Application.persistentDataPath, "replays");
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+        
+        string filePath = Path.Combine(folderPath, fileName);
+        FileStream stream = new FileStream(filePath, FileMode.Create);
+
+        formatter.Serialize(stream, replay);
+        stream.Close();
     }
 }
