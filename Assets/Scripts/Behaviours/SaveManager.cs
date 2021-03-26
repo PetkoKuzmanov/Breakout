@@ -70,7 +70,7 @@ public static class SaveManager
         {
             Directory.CreateDirectory(folderPath);
         }
-        
+
         string filePath = Path.Combine(folderPath, fileName);
         FileStream stream = new FileStream(filePath, FileMode.Create);
 
@@ -98,5 +98,18 @@ public static class SaveManager
             Debug.LogError("Replay file not found in " + filePath);
             return null;
         }
+    }
+
+    public static bool DoesUserExist(string username)
+    {
+        foreach (User user in users)
+        {
+            if (user.Name == username)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

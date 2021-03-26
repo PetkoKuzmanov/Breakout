@@ -34,8 +34,10 @@ public class GameManager : MonoBehaviour
     public GameObject tutorialLevel;
 
     public Button buttonReplay;
+    public Button buttonStartGame;
 
     public TMP_InputField inputFieldNewProfile;
+    public TextMeshProUGUI textUsernameTaken;
 
     private Animator panelMenuAnimator;
     private Animator panelProfileSelectAnimator;
@@ -162,6 +164,7 @@ public class GameManager : MonoBehaviour
                 break;
             case State.PROFILE_MENU:
                 panelProfileMenu.SetActive(true);
+                textUsernameTaken.enabled = false;
                 PlayProfileSelectMenuAnimation("ProfileSelect_Start");
                 //ProfileMenuSelected();
                 break;
@@ -421,11 +424,18 @@ public class GameManager : MonoBehaviour
         ChangeState(State.INIT_REPLAY);
     }
 
-    private void SetPlatformPosition(float replayPosition)
+    public void InputOnValueChanged(string name)
     {
-        PlayerMove.Instance.SetVelocityFromReplay(replayPosition);
-        //PlayerMove.velocity.Set(replayPosition.GetX(), replayPosition.GetY());
-        //platform.transform.position.Set(replayPosition.GetX(), replayPosition.GetY(), platform.transform.position.z);
-        //Debug.Log(replayPosition.GetX() + " " + replayPosition.GetY());
+        //If the username is taken show an error and dont allow the game to be started
+        if (SaveManager.DoesUserExist(inputFieldNewProfile.text))
+        {
+            textUsernameTaken.enabled = true;
+            buttonStartGame.interactable = false;
+        }
+        else
+        {
+            textUsernameTaken.enabled = false;
+            buttonStartGame.interactable = true;
+        }
     }
 }

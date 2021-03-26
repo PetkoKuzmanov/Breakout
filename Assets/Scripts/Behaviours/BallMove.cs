@@ -65,7 +65,8 @@ public class BallMove : MonoBehaviour
         {
             velocity.y = 5 * Math.Abs(velocity.x);
 
-        } else if(Math.Abs(velocity.x) > 5 * Math.Abs(velocity.y) && velocity.y != 0)
+        }
+        else if (Math.Abs(velocity.x) > 5 * Math.Abs(velocity.y) && velocity.y != 0)
         {
             velocity.x = 5 * Math.Abs(velocity.y);
         }
