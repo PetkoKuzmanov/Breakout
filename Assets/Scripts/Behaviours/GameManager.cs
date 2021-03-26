@@ -74,15 +74,14 @@ public class GameManager : MonoBehaviour
             case State.PLAY:
                 if (isReplay)
                 {
-                    //Replay
+                    //Replay the game
                     PlayerMove.Instance.SetVelocityFromReplay(replay[replayCount]);
-                    Debug.Log(replay[replayCount]);
                     replayCount++;
                 }
                 else
                 {
+                    //Write to the replay list
                     replay.Add(PlayerMove.Instance.GetDirection());
-                    Debug.Log(PlayerMove.Instance.GetDirection());
                 }
                 break;
         }

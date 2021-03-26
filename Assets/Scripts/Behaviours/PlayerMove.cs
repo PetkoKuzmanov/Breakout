@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,26 +41,11 @@ public class PlayerMove : MonoBehaviour
     public void SetVelocityFromReplay(float replayPosition)
     {
         Vector2 direction = new Vector2(replayPosition, velocity.y);
-
-        //Debug.Log(replayPosition);
-        //rigidbody.MovePosition(direction);
-        //rigidbody.transform.position.Set(replayPosition, rigidbody.transform.position.y, rigidbody.transform.position.z);
         Move(direction);
     }
 
     public float GetDirection()
     {
-        if (rigidbody.velocity.x == 0)
-        {
-            return 0;
-        }
-        else if (rigidbody.velocity.x < 0)
-        {
-            return -1;
-        }
-        else
-        {
-            return 1;
-        }
+        return Math.Sign(rigidbody.velocity.x);
     }
 }

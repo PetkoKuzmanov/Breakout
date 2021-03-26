@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,10 +59,18 @@ public class BallMove : MonoBehaviour
         Vector2 platformVelocity = PlayerMove.velocity;
         float x = platformVelocity.x;
 
+
+        //Fixes the ball moving too vertically or horizontally
+        if (Math.Abs(velocity.y) > 5 * Math.Abs(velocity.x) && velocity.x != 0)
+        {
+            velocity.y = 5 * Math.Abs(velocity.x);
+
+        } else if(Math.Abs(velocity.x) > 5 * Math.Abs(velocity.y) && velocity.y != 0)
+        {
+            velocity.x = 5 * Math.Abs(velocity.y);
+        }
+
         rigidbody.velocity = Vector2.Reflect(velocity, collision.contacts[0].normal);
-
-        //Notify the tutorial observer that a brick has been hit for the first time
-
 
         //Check what the object being hit is
         if (collision.collider.gameObject.CompareTag(platform.tag))
@@ -70,6 +79,7 @@ public class BallMove : MonoBehaviour
         }
         else
         {
+            //Notify the tutorial observer that a brick has been hit for the first time
             if (GameManager.Instance.GetState() == GameManager.State.TUTORIAL)
             {
                 NotifyTutorialIfBrickHitForFirstTime();
