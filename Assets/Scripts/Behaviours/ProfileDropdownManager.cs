@@ -31,7 +31,7 @@ public class ProfileDropdownManager : MonoBehaviour
         }
 
         //Call the function initially
-        //DropdownItemSelected(dropdown);
+        DropdownItemSelected(dropdown);
 
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
     }
