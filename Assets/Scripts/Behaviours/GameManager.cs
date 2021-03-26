@@ -159,27 +159,13 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case State.MAIN_MENU:
-                panelMenu.SetActive(true);
-                PlayMainMenuAnimation("Menu_Start");
+                StartCoroutine(MainMenuDelay(1f));
                 break;
             case State.PROFILE_MENU:
-                panelProfileMenu.SetActive(true);
-                textUsernameTaken.enabled = false;
-                PlayProfileSelectMenuAnimation("ProfileSelect_Start");
-                //ProfileMenuSelected();
+                StartCoroutine(ProfileMenuDelay(1f));
                 break;
             case State.INIT:
-                panelPlay.SetActive(true);
-                currentUser = new User(inputFieldNewProfile.text, 2, 0, 0);
-                updateTextScore();
-                updateTextLevel();
-                updateTextLives();
-                if (currentLevel != null)
-                {
-                    Destroy(currentLevel);
-                }
-                platform = Instantiate(platformPrefab);
-                ChangeState(State.LOADLEVEL);
+                StartCoroutine(InitDelay(1f));
                 break;
             case State.PLAY:
                 break;
@@ -217,20 +203,7 @@ public class GameManager : MonoBehaviour
                 panelGameOver.SetActive(true);
                 break;
             case State.INIT_TUTORIAL:
-                panelPlay.SetActive(true);
-                currentUser = new User("Tutorial", 2, 0, 0);
-                updateTextScore();
-                updateTextLevel();
-                updateTextLives();
-                if (currentLevel != null)
-                {
-                    Destroy(currentLevel);
-                }
-                platform = Instantiate(platformPrefab);
-                StopTimer();
-                BeginTimer();
-                currentLevel = Instantiate(tutorialLevel);
-                ChangeState(State.TUTORIAL);
+                StartCoroutine(InitTutorialDelay(1f));
                 break;
             case State.TUTORIAL:
                 Notify("PanelMovePlatform");
@@ -288,7 +261,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ChangeDelay(newState, delay));
     }
 
-    IEnumerator ChangeDelay(State newState, float delay)
+    private IEnumerator ChangeDelay(State newState, float delay)
     {
         isSwithcingState = true;
         yield return new WaitForSeconds(delay);
@@ -296,6 +269,60 @@ public class GameManager : MonoBehaviour
         state = newState;
         BeginState(newState);
         isSwithcingState = false;
+    }
+
+    private IEnumerator ProfileMenuDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        panelProfileMenu.SetActive(true);
+        textUsernameTaken.enabled = false;
+        PlayProfileSelectMenuAnimation("ProfileSelect_Start");
+    }
+
+    private IEnumerator MainMenuDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        panelMenu.SetActive(true);
+        PlayMainMenuAnimation("Menu_Start");
+    }
+
+    private IEnumerator InitDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        panelPlay.SetActive(true);
+        currentUser = new User(inputFieldNewProfile.text, 2, 0, 0);
+        updateTextScore();
+        updateTextLevel();
+        updateTextLives();
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel);
+        }
+        platform = Instantiate(platformPrefab);
+        ChangeState(State.LOADLEVEL);
+    }
+
+    private IEnumerator InitTutorialDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        panelPlay.SetActive(true);
+        currentUser = new User("Tutorial", 2, 0, 0);
+        updateTextScore();
+        updateTextLevel();
+        updateTextLives();
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel);
+        }
+        platform = Instantiate(platformPrefab);
+        StopTimer();
+        BeginTimer();
+        currentLevel = Instantiate(tutorialLevel);
+        ChangeState(State.TUTORIAL);
     }
 
     public User getCurrentUser()
