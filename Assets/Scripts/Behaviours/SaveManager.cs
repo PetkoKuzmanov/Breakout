@@ -9,7 +9,7 @@ public static class SaveManager
 {
     private static ArrayList users = new ArrayList();
 
-    public static void SaveUser(User user, List<ReplayPosition> replay)
+    public static void SaveUser(User user, List<float> replay)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
@@ -59,7 +59,7 @@ public static class SaveManager
         return users;
     }
 
-    public static void SaveReplay(List<ReplayPosition> replay, string name)
+    public static void SaveReplay(List<float> replay, string name)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
@@ -78,7 +78,7 @@ public static class SaveManager
         stream.Close();
     }
 
-    public static List<ReplayPosition> LoadReplay(string username)
+    public static List<float> LoadReplay(string username)
     {
         string folderPath = Path.Combine(Application.persistentDataPath, "replays");
         string filePath = Path.Combine(folderPath, username + "_replay.dat");
@@ -89,7 +89,7 @@ public static class SaveManager
             FileStream stream = new FileStream(filePath, FileMode.Open);
             stream.Position = 0;
 
-            List<ReplayPosition> replay = formatter.Deserialize(stream) as List<ReplayPosition>;
+            List<float> replay = formatter.Deserialize(stream) as List<float>;
             stream.Close();
             return replay;
         }

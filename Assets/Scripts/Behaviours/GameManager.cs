@@ -53,7 +53,8 @@ public class GameManager : MonoBehaviour
 
     private User currentUser;
 
-    private List<ReplayPosition> replay = new List<ReplayPosition>();
+    private List<float> replay = new List<float>();
+    private int replayCount;
     private bool isReplay = false;
 
     // Start is called before the first frame update
@@ -74,11 +75,14 @@ public class GameManager : MonoBehaviour
                 if (isReplay)
                 {
                     //Replay
+                    PlayerMove.Instance.SetVelocityFromReplay(replay[replayCount]);
+                    Debug.Log(replay[replayCount]);
+                    replayCount++;
                 }
                 else
                 {
-                    replay.Add(new ReplayPosition(platform.transform.position));
-                    Debug.Log(platform.transform.position);
+                    replay.Add(PlayerMove.Instance.GetDirection());
+                    Debug.Log(PlayerMove.Instance.GetDirection());
                 }
                 break;
         }
@@ -416,5 +420,13 @@ public class GameManager : MonoBehaviour
         replay = SaveManager.LoadReplay(ProfileDropdownManager.Instance.GetCurrentUser().Name);
         isReplay = true;
         ChangeState(State.INIT_REPLAY);
+    }
+
+    private void SetPlatformPosition(float replayPosition)
+    {
+        PlayerMove.Instance.SetVelocityFromReplay(replayPosition);
+        //PlayerMove.velocity.Set(replayPosition.GetX(), replayPosition.GetY());
+        //platform.transform.position.Set(replayPosition.GetX(), replayPosition.GetY(), platform.transform.position.z);
+        //Debug.Log(replayPosition.GetX() + " " + replayPosition.GetY());
     }
 }

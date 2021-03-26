@@ -55,8 +55,8 @@ public class BallMove : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Vector2 currentSpeed = PlayerMove.velocity;
-        float x = currentSpeed.x;
+        Vector2 platformVelocity = PlayerMove.velocity;
+        float x = platformVelocity.x;
 
         rigidbody.velocity = Vector2.Reflect(velocity, collision.contacts[0].normal);
 
