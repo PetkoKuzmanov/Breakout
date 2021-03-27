@@ -20,9 +20,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textScore;
     public TextMeshProUGUI textLives;
     public TextMeshProUGUI textLevel;
-    public TextMeshProUGUI textTotalScore;
     public TextMeshProUGUI textTimer;
     public TextMeshProUGUI textLevelCompletedTime;
+
+    public TextMeshProUGUI textTotalTime;
+    public TextMeshProUGUI textHighestLevel;
+    public TextMeshProUGUI textTotalScore;
 
     public GameObject panelMenu;
     public GameObject panelPlay;
@@ -51,7 +54,8 @@ public class GameManager : MonoBehaviour
 
     private TimeSpan timePlaying;
     private bool timerGoing;
-    private float elapsedTime;
+    private float levelTime;
+    private float totalTime;
 
     private User currentUser;
 
@@ -194,6 +198,8 @@ public class GameManager : MonoBehaviour
                 {
                     SaveManager.SaveUser(currentUser, replay);
                 }
+                textTotalTime.text = "Total time: " + TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
+                textHighestLevel.text = "Level: " + currentUser.Level;
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
                 ChangeState(State.MAIN_MENU, 3f);
@@ -368,7 +374,7 @@ public class GameManager : MonoBehaviour
     {
         textTimer.text = "Time: 00:00.00";
         timerGoing = true;
-        elapsedTime = 0f;
+        levelTime = 0f;
 
         StartCoroutine(UpdateTimer());
     }
@@ -388,8 +394,9 @@ public class GameManager : MonoBehaviour
     {
         while (timerGoing)
         {
-            elapsedTime += Time.deltaTime;
-            timePlaying = TimeSpan.FromSeconds(elapsedTime);
+            totalTime += Time.deltaTime;
+            levelTime += Time.deltaTime;
+            timePlaying = TimeSpan.FromSeconds(levelTime);
             string timeString = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
             textTimer.text = timeString;
 
