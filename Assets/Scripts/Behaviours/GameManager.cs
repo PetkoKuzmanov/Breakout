@@ -122,11 +122,6 @@ public class GameManager : MonoBehaviour
             case State.LOADLEVEL:
                 break;
             case State.GAMEOVER:
-                //if (Input.anyKeyDown)
-                //{
-                Destroy(platform);
-                ChangeState(State.MAIN_MENU, 3f);
-                //}
                 break;
             case State.INIT_TUTORIAL:
                 break;
@@ -201,6 +196,7 @@ public class GameManager : MonoBehaviour
                 }
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
+                ChangeState(State.MAIN_MENU, 3f);
                 break;
             case State.INIT_TUTORIAL:
                 StartCoroutine(InitTutorialDelay(1f));
@@ -229,12 +225,13 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.MAIN_MENU:
+                Debug.Log("End state main menu");
                 PlayMainMenuAnimation("Menu_End");
-                //panelMenu.SetActive(false);
+                //StartCoroutine(HidePanelDelay(panelMenu, 1f));
                 break;
             case State.PROFILE_MENU:
                 PlayProfileSelectMenuAnimation("ProfileSelect_End");
-                //panelProfileMenu.SetActive(false);
+                //StartCoroutine(HidePanelDelay(panelProfileMenu, 1f));
                 break;
             case State.INIT:
                 break;
@@ -248,6 +245,8 @@ public class GameManager : MonoBehaviour
             case State.GAMEOVER:
                 panelPlay.SetActive(false);
                 panelGameOver.SetActive(false);
+                Destroy(platform);
+                Destroy(currentLevel);
                 break;
             case State.INIT_TUTORIAL:
                 break;
@@ -256,6 +255,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator HidePanelDelay(GameObject panel, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        panel.SetActive(false);
+    }
     public void ChangeState(State newState, float delay = 0)
     {
         StartCoroutine(ChangeDelay(newState, delay));
