@@ -470,4 +470,9 @@ public class GameManager : MonoBehaviour
             buttonStartGame.interactable = true;
         }
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
