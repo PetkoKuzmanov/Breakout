@@ -225,7 +225,6 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.MAIN_MENU:
-                Debug.Log("End state main menu");
                 PlayMainMenuAnimation("Menu_End");
                 //StartCoroutine(HidePanelDelay(panelMenu, 1f));
                 break;
@@ -474,5 +473,10 @@ public class GameManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public bool GetIsReplay()
+    {
+        return isReplay;
     }
 }
