@@ -186,13 +186,14 @@ public class GameManager : MonoBehaviour
             case State.LOADLEVEL:
                 StopTimer();
                 BeginTimer();
+                updateTextLevel();
                 if (currentUser.Level > levels.Length)
                 {
                     ChangeState(State.GAMEOVER);
                 }
                 else
                 {
-                    currentLevel = Instantiate(levels[currentUser.Level]);
+                    currentLevel = Instantiate(levels[currentUser.Level - 1]);
                     ChangeState(State.PLAY);
                 }
                 break;
@@ -301,7 +302,7 @@ public class GameManager : MonoBehaviour
     private void InitDelay()
     {
         panelPlay.SetActive(true);
-        currentUser = new User(inputFieldNewProfile.text, 2, 0, 0);
+        currentUser = new User(inputFieldNewProfile.text, 2, 0, 1);
         updateTextScore();
         updateTextLevel();
         updateTextLives();
@@ -316,7 +317,7 @@ public class GameManager : MonoBehaviour
     private void InitTutorialDelay()
     {
         panelPlay.SetActive(true);
-        currentUser = new User("Tutorial", 2, 0, 0);
+        currentUser = new User("Tutorial", 2, 0, 1);
         updateTextScore();
         updateTextLevel();
         updateTextLives();
@@ -348,7 +349,7 @@ public class GameManager : MonoBehaviour
 
     public void updateTextLevel()
     {
-        textLevel.text = "Level: " + (currentUser.Level + 1);
+        textLevel.text = "Level: " + currentUser.Level;
     }
 
     public void StartGameClicked()
