@@ -158,13 +158,13 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case State.MAIN_MENU:
-                StartCoroutine(MainMenuDelay(1f));
+                Invoke("MainMenuDelay", 1f);
                 break;
             case State.PROFILE_MENU:
-                StartCoroutine(ProfileMenuDelay(1f));
+                Invoke("ProfileMenuDelay", 1f);
                 break;
             case State.INIT:
-                StartCoroutine(InitDelay(1f));
+                Invoke("InitDelay", 1f);
                 break;
             case State.PLAY:
                 break;
@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour
                 ChangeState(State.MAIN_MENU, 3f);
                 break;
             case State.INIT_TUTORIAL:
-                StartCoroutine(InitTutorialDelay(1f));
+                Invoke("InitTutorialDelay", 1f);
                 break;
             case State.TUTORIAL:
                 Notify("PanelMovePlatform");
@@ -232,11 +232,9 @@ public class GameManager : MonoBehaviour
         {
             case State.MAIN_MENU:
                 PlayMainMenuAnimation("Menu_End");
-                //StartCoroutine(HidePanelDelay(panelMenu, 1f));
                 break;
             case State.PROFILE_MENU:
                 PlayProfileSelectMenuAnimation("ProfileSelect_End");
-                //StartCoroutine(HidePanelDelay(panelProfileMenu, 1f));
                 break;
             case State.INIT:
                 break;
@@ -266,6 +264,7 @@ public class GameManager : MonoBehaviour
 
         panel.SetActive(false);
     }
+
     public void ChangeState(State newState, float delay = 0)
     {
         StartCoroutine(ChangeDelay(newState, delay));
@@ -281,27 +280,21 @@ public class GameManager : MonoBehaviour
         isSwithcingState = false;
     }
 
-    private IEnumerator ProfileMenuDelay(float delay)
+    private void ProfileMenuDelay()
     {
-        yield return new WaitForSeconds(delay);
-
         panelProfileMenu.SetActive(true);
         textUsernameTaken.enabled = false;
         PlayProfileSelectMenuAnimation("ProfileSelect_Start");
     }
 
-    private IEnumerator MainMenuDelay(float delay)
+    private void MainMenuDelay()
     {
-        yield return new WaitForSeconds(delay);
-
         panelMenu.SetActive(true);
         PlayMainMenuAnimation("Menu_Start");
     }
 
-    private IEnumerator InitDelay(float delay)
+    private void InitDelay()
     {
-        yield return new WaitForSeconds(delay);
-
         panelPlay.SetActive(true);
         currentUser = new User(inputFieldNewProfile.text, 2, 0, 0);
         updateTextScore();
@@ -315,10 +308,8 @@ public class GameManager : MonoBehaviour
         ChangeState(State.LOADLEVEL);
     }
 
-    private IEnumerator InitTutorialDelay(float delay)
+    private void InitTutorialDelay()
     {
-        yield return new WaitForSeconds(delay);
-
         panelPlay.SetActive(true);
         currentUser = new User("Tutorial", 2, 0, 0);
         updateTextScore();
