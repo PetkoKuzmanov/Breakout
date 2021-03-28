@@ -199,12 +199,13 @@ public class GameManager : MonoBehaviour
                 break;
             case State.GAMEOVER:
                 StopTimer();
-                currentUser.Time = textTimer.text.Substring(6);
+                string formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
+                currentUser.Time = formattedTime;
                 if (currentLevel.name != "Tutorial" && !isReplay)
                 {
                     SaveManager.SaveUser(currentUser, replay);
                 }
-                textTotalTime.text = "Total time: " + TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
+                textTotalTime.text = "Total time: " + formattedTime;
                 textHighestLevel.text = "Level: " + currentUser.Level;
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
