@@ -10,6 +10,7 @@ public class BallMove : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private Vector2 velocity;
     private new Renderer renderer;
+    private Vector2 velocityBeforePause;
 
     public GameObject platform;
     public GameObject brickZero;
@@ -105,10 +106,18 @@ public class BallMove : MonoBehaviour
 
     public void PauseBall()
     {
+        velocityBeforePause = rigidbody.velocity;
         speed = 0;
     }
 
     public void UnpauseBall()
+    {
+        rigidbody.velocity = velocityBeforePause;
+        velocity = velocityBeforePause;
+        speed = 7;
+    }
+
+    public void LaunchBallAfterOneSecond()
     {
         speed = 7;
         Invoke(nameof(LaunchBall), 1f);
@@ -133,5 +142,10 @@ public class BallMove : MonoBehaviour
         {
             Notify("PanelBrick0");
         }
+    }
+
+    public void DestroyBall()
+    {
+        Destroy(this);
     }
 }

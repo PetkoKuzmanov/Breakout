@@ -20,13 +20,13 @@ public class TutorialObserver : MonoBehaviour, IObserver
     {
         Instance = this;
 
-        buttonContinue = GameObject.Find("Canvas/CanvasTutorial/ButtonContinue");
-        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelMovePlatform"));
-        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBall"));
-        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick0"));
-        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick1"));
-        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBrick2"));
-        tutorialPanels.Add(GameObject.Find("Canvas/CanvasTutorial/PanelBallDeath"));
+        buttonContinue = GameObject.Find("Canvas/PanelTutorial/ButtonContinue");
+        tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelMovePlatform"));
+        tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBall"));
+        tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBrick0"));
+        tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBrick1"));
+        tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBrick2"));
+        tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBallDeath"));
     }
 
     public void Update()
@@ -75,7 +75,7 @@ public class TutorialObserver : MonoBehaviour, IObserver
 
     public void ContinueClicked()
     {
-        GameManager.Instance.UnpauseGame();
+        GameManager.Instance.UnpauseGameAndLaunchBallAfterOneSecond();
         buttonContinue.gameObject.SetActive(false);
         if (tutorialPanels[0].activeSelf)
         {

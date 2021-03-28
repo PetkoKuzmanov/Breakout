@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject panelLevelCompleted;
     public GameObject panelGameOver;
     public GameObject panelProfileMenu;
+    public GameObject panelPause;
 
     public GameObject[] levels;
     public GameObject tutorialLevel;
@@ -62,6 +63,8 @@ public class GameManager : MonoBehaviour
     private List<float> replay = new List<float>();
     private int replayCount;
     private bool isReplay = false;
+
+    private bool isPaused = false;
 
     // Start is called before the first frame update
     void Start()
@@ -120,6 +123,7 @@ public class GameManager : MonoBehaviour
                 {
                     ChangeState(State.LEVELCOMPLETED);
                 }
+                PauseGameIfEscapePressed();
                 break;
             case State.LEVELCOMPLETED:
                 break;
@@ -149,6 +153,7 @@ public class GameManager : MonoBehaviour
                 {
                     ChangeState(State.LEVELCOMPLETED);
                 }
+                PauseGameIfEscapePressed();
                 break;
         }
     }
@@ -401,9 +406,9 @@ public class GameManager : MonoBehaviour
         StopTimer();
     }
 
-    public void UnpauseGame()
+    public void UnpauseGameAndLaunchBallAfterOneSecond()
     {
-        ball.BroadcastMessage("UnpauseBall");
+        ball.BroadcastMessage("LaunchBallAfterOneSecond");
         StartTimer();
     }
 
@@ -468,7 +473,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ExitGame()
+    public void ExitApplication()
     {
         Application.Quit();
     }
@@ -476,5 +481,52 @@ public class GameManager : MonoBehaviour
     public bool GetIsReplay()
     {
         return isReplay;
+    }
+
+    public void PauseGameIfEscapePressed()
+    {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            //If the panel is open unpause the game otherwise pause it
+            if (panelPause.activeSelf)
+            {
+                isPaused = false;
+                ResumeGame();
+            }
+            else
+            {
+                isPaused = true;
+                PauseGame();
+                panelPause.SetActive(true);
+            }
+        }
+    }
+
+    public void GoToMainMenuAndCloseGame()
+    {
+        ChangeState(State.MAIN_MENU);
+        StopTimer();
+        panelPause.SetActive(false);
+        panelPlay.SetActive(false);
+        Invoke(nameof(DestroyLevelObjects), 0.01f);
+    }
+
+    private void DestroyLevelObjects()
+    {
+        Destroy(platform);
+        Destroy(currentLevel);
+        Destroy(ball);
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        panelPause.SetActive(false);
+        ball.BroadcastMessage("UnpauseBall");
+    }
+
+    public bool GetIsPaused()
+    {
+        return isPaused;
     }
 }
