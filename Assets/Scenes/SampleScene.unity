@@ -8841,7 +8841,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 115980860032206842, guid: d9bc5d14d3a931b43bfdff3c033efae5, type: 3}
-  numberToCreate: 10
+  listOfAchievements:
+  - {fileID: 11400000, guid: 166731ef5936a424cb39c56943474854, type: 2}
+  - {fileID: 11400000, guid: 166731ef5936a424cb39c56943474854, type: 2}
+  - {fileID: 11400000, guid: 166731ef5936a424cb39c56943474854, type: 2}
+  - {fileID: 11400000, guid: 166731ef5936a424cb39c56943474854, type: 2}
+  - {fileID: 11400000, guid: 166731ef5936a424cb39c56943474854, type: 2}
+  - {fileID: 11400000, guid: 166731ef5936a424cb39c56943474854, type: 2}
 --- !u!114 &1434682876
 MonoBehaviour:
   m_ObjectHideFlags: 0
