@@ -22,7 +22,7 @@ public class ProfileDropdownManager : MonoBehaviour
         Instance = this;
         dropdown = GetComponent<TMP_Dropdown>();
 
-        //FillDropdownWithUsers();
+        FillDropdownWithUsers();
 
         //Call the function initially
 
