@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public GameObject panelGameOver;
     public GameObject panelProfileMenu;
     public GameObject panelPause;
+    public GameObject canvasUserAchievements;
+    public GameObject panelUserStats;
 
     public GameObject[] levels;
     public GameObject tutorialLevel;
@@ -532,5 +534,11 @@ public class GameManager : MonoBehaviour
     public bool GetIsPaused()
     {
         return isPaused;
+    }
+
+    public void AchievementsCanvasChangeVisibility()
+    {
+        canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
+        panelUserStats.SetActive(!panelUserStats.activeSelf);
     }
 }
