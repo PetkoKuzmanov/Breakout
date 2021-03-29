@@ -16,6 +16,8 @@ public class ProfileDropdownManager : MonoBehaviour
     public TextMeshProUGUI textLives;
     public TextMeshProUGUI textLevel;
 
+    public GameObject achievementsScrollView;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +43,8 @@ public class ProfileDropdownManager : MonoBehaviour
         textTime.text = currentUser.Time.ToString();
         textLives.text = currentUser.Lives.ToString();
         textLevel.text = currentUser.Level.ToString();
+
+        SetUpAchievementsWindow(currentUser);
     }
 
     public User GetCurrentUser()
@@ -66,5 +70,27 @@ public class ProfileDropdownManager : MonoBehaviour
         }
 
         DropdownItemSelected(dropdown);
+    }
+
+    private void SetUpAchievementsWindow(User currentUser)
+    {
+        //GameObject achievementList = achievementsScrollView;
+
+        List<GameObject> achievementList = new List<GameObject>();
+        //for (int i = 0; i < User.NumberOfAchievements; i++)
+        //{
+        //    Debug.Log(i);
+        //    achievementList.Add(achievementsScrollView.transform.GetChild(i).gameObject);
+        //}
+
+        for (int i = 0; i < User.NumberOfAchievements; i++)
+        {
+            //If the achievement isnt unlocked set its alpha to 0.5f
+            if (!currentUser.AchievementsUnlocked[i])
+            {
+                achievementsScrollView.transform.GetChild(i).gameObject.GetComponent<CanvasGroup>().alpha = 0.5f;
+                //achievementList[i].GetComponent<CanvasGroup>().alpha = 0.5f;
+            }
+        }
     }
 }

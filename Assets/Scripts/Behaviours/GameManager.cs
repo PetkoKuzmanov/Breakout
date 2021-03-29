@@ -11,7 +11,21 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public enum State { MAIN_MENU, PROFILE_MENU, INIT, PLAY, LEVELCOMPLETED, LOADLEVEL, GAMEOVER, INIT_TUTORIAL, TUTORIAL, INIT_REPLAY, REPLAY }
+    public enum State
+    {
+        MAIN_MENU,
+        PROFILE_MENU,
+        INIT,
+        PLAY,
+        LEVELCOMPLETED,
+        LOADLEVEL,
+        GAMEOVER,
+        GAME_COMPLETED,
+        INIT_TUTORIAL,
+        TUTORIAL,
+        INIT_REPLAY,
+        REPLAY
+    }
     private State state;
 
     public GameObject ballPrefab;
@@ -133,6 +147,8 @@ public class GameManager : MonoBehaviour
                 break;
             case State.GAMEOVER:
                 break;
+            case State.GAME_COMPLETED:
+                break;
             case State.INIT_TUTORIAL:
                 break;
             case State.TUTORIAL:
@@ -207,12 +223,14 @@ public class GameManager : MonoBehaviour
                 {
                     SaveManager.SaveUser(currentUser, replay);
                 }
-                
+
                 textTotalTime.text = "Total time: " + formattedTime;
                 textHighestLevel.text = "Level: " + currentUser.Level;
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
                 ChangeState(State.MAIN_MENU, 3f);
+                break;
+            case State.GAME_COMPLETED:
                 break;
             case State.INIT_TUTORIAL:
                 Invoke("InitTutorialDelay", 1f);
@@ -260,6 +278,8 @@ public class GameManager : MonoBehaviour
                 panelGameOver.SetActive(false);
                 Destroy(platform);
                 Destroy(currentLevel);
+                break;
+            case State.GAME_COMPLETED:
                 break;
             case State.INIT_TUTORIAL:
                 break;
@@ -538,7 +558,15 @@ public class GameManager : MonoBehaviour
 
     public void AchievementsCanvasChangeVisibility()
     {
-        canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
+        if (canvasUserAchievements.GetComponent<CanvasGroup>().alpha == 0)
+        {
+            canvasUserAchievements.GetComponent<CanvasGroup>().alpha = 1;
+        }
+        else
+        {
+            canvasUserAchievements.GetComponent<CanvasGroup>().alpha = 0;
+        }
+        //canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
         panelUserStats.SetActive(!panelUserStats.activeSelf);
     }
 }

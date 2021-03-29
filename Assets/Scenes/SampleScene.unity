@@ -621,13 +621,14 @@ GameObject:
   - component: {fileID: 111814732}
   - component: {fileID: 111814731}
   - component: {fileID: 111814730}
+  - component: {fileID: 111814735}
   m_Layer: 5
   m_Name: CanvasUserAchievements
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &111814729
 RectTransform:
   m_ObjectHideFlags: 0
@@ -748,6 +749,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &111814735
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111814728}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &116443817
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,7 +2993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &378952575
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3916,6 +3929,7 @@ MonoBehaviour:
   textTime: {fileID: 2001459974}
   textLives: {fileID: 342601117}
   textLevel: {fileID: 1147586631}
+  achievementsScrollView: {fileID: 1434682873}
 --- !u!1 &541374472
 GameObject:
   m_ObjectHideFlags: 0

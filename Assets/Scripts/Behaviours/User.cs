@@ -6,11 +6,17 @@ using TMPro;
 [System.Serializable]
 public class User
 {
+    private static int NUMBER_OF_ACHIEVEMENTS = 12;
+
     public string name;
     public int score;
     public int level;
     public int lives;
     public string time;
+
+    //public List<bool> achievementsUnlocked = new List<bool>();
+    
+    public bool[] achievementsUnlocked = new bool[NUMBER_OF_ACHIEVEMENTS];
 
     public User(string name, int lives, int score, int level)
     {
@@ -56,5 +62,16 @@ public class User
     {
         get { return time; }
         set { time = value; }
+    }
+
+    public bool[] AchievementsUnlocked
+    {
+        get { return achievementsUnlocked; }
+        set { achievementsUnlocked = value; }
+    }
+
+    public static int NumberOfAchievements
+    {
+        get { return NUMBER_OF_ACHIEVEMENTS; }
     }
 }

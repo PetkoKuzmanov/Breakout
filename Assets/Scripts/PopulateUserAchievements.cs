@@ -14,9 +14,14 @@ public class PopulateUserAchievements : MonoBehaviour
 
     private Sprite sprite;
 
-    void Start()
+    private void Awake()
     {
         Populate();
+    }
+
+    void Start()
+    {
+        //Populate();
     }
 
     void Update()
@@ -24,7 +29,7 @@ public class PopulateUserAchievements : MonoBehaviour
 
     }
 
-    void Populate()
+    public void Populate()
     {
         GameObject newObj; // Create GameObject instance
 

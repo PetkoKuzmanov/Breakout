@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6130096048228300187}
   - component: {fileID: 3132567660185615978}
   - component: {fileID: 6532129810277498646}
+  - component: {fileID: 6723242744297934066}
   m_Layer: 5
   m_Name: CanvasAchievement
   m_TagString: Untagged
@@ -141,6 +142,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6723242744297934066
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115980860032206842}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6899975690693758171
 GameObject:
   m_ObjectHideFlags: 0
