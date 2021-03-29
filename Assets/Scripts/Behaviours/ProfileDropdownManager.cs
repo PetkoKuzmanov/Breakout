@@ -21,17 +21,11 @@ public class ProfileDropdownManager : MonoBehaviour
     {
         Instance = this;
         dropdown = GetComponent<TMP_Dropdown>();
-        dropdown.options.Clear();
 
-        userList = SaveManager.LoadUsers();
-
-        foreach (User user in userList)
-        {
-            dropdown.options.Add(new TMP_Dropdown.OptionData() { text = user.Name });
-        }
+        //FillDropdownWithUsers();
 
         //Call the function initially
-        DropdownItemSelected(dropdown);
+
 
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
     }
@@ -55,5 +49,22 @@ public class ProfileDropdownManager : MonoBehaviour
         User currentUser = userList[index] as User;
 
         return currentUser;
+    }
+
+    public void FillDropdownWithUsers()
+    {
+        dropdown.options.Clear();
+        //for (int i = 0; i < dropdown.options.Count; i++)
+        //{
+        //    dropdown.options.RemoveAt(i);
+        //}
+        userList = SaveManager.LoadUsers();
+
+        foreach (User user in userList)
+        {
+            dropdown.options.Add(new TMP_Dropdown.OptionData() { text = user.Name });
+        }
+
+        DropdownItemSelected(dropdown);
     }
 }

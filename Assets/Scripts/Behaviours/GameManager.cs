@@ -205,6 +205,7 @@ public class GameManager : MonoBehaviour
                 {
                     SaveManager.SaveUser(currentUser, replay);
                 }
+                
                 textTotalTime.text = "Total time: " + formattedTime;
                 textHighestLevel.text = "Level: " + currentUser.Level;
                 textTotalScore.text = "Score: " + currentUser.Score;
@@ -219,7 +220,7 @@ public class GameManager : MonoBehaviour
                 break;
             case State.INIT_REPLAY:
                 panelPlay.SetActive(true);
-                currentUser = new User("Replay", 2, 0, 0);
+                currentUser = new User("Replay", 2, 0, 1);
                 updateTextScore();
                 updateTextLevel();
                 updateTextLives();
@@ -304,6 +305,7 @@ public class GameManager : MonoBehaviour
     {
         panelPlay.SetActive(true);
         currentUser = new User(inputFieldNewProfile.text, 2, 0, 1);
+        inputFieldNewProfile.text = " ";
         updateTextScore();
         updateTextLevel();
         updateTextLives();
@@ -510,7 +512,7 @@ public class GameManager : MonoBehaviour
         StopTimer();
         panelPause.SetActive(false);
         panelPlay.SetActive(false);
-        Invoke(nameof(DestroyLevelObjects), 0.01f);
+        Invoke(nameof(DestroyLevelObjects), 0.05f);
     }
 
     private void DestroyLevelObjects()
