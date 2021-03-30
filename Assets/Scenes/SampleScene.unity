@@ -9005,6 +9005,10 @@ MonoBehaviour:
   buttonStartGame: {fileID: 1047187087}
   inputFieldNewProfile: {fileID: 1297674581}
   textUsernameTaken: {fileID: 1921927324}
+  bricks:
+  - {fileID: 7170389770064246013, guid: 620efb43be1defa438a0b08400408793, type: 3}
+  - {fileID: 7170389770064246013, guid: 351a1039e09b21f4aa288a03c7d7bf48, type: 3}
+  - {fileID: 7170389770064246013, guid: 70056f813b3b9e24a853c72071291fdc, type: 3}
 --- !u!4 &1439329129
 Transform:
   m_ObjectHideFlags: 0

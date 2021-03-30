@@ -8,14 +8,18 @@ public class User
 {
     private static int NUMBER_OF_ACHIEVEMENTS = 12;
 
-    public string name;
-    public int score;
-    public int level;
-    public int lives;
-    public string time;
+    private string name;
+    private int score;
+    private int level;
+    private int lives;
+    private string time;
 
-    //public List<bool> achievementsUnlocked = new List<bool>();
-    
+    private int platformHitCounter;
+    private int bricksDestroyed;
+    private int redBricksDestroyed;
+    private int yellowBricksDestroyed;
+    private int blueBricksDestroyed;
+
     public bool[] achievements = new bool[NUMBER_OF_ACHIEVEMENTS];
 
     public User(string name, int lives, int score, int level)
@@ -79,5 +83,55 @@ public class User
     {
         Debug.Log(ID);
         achievements[ID] = true;
+    }
+
+    public int GetBricksDestroyed()
+    {
+        return bricksDestroyed; 
+    }
+
+    public void IncrementBricksDestroyed()
+    {
+        bricksDestroyed++;
+    }
+
+    public int GetPlatformHitCounter()
+    {
+        return platformHitCounter;
+    }
+
+    public void IncrementPlatformHitCounter()
+    {
+        platformHitCounter++;
+    }
+
+    public int GetRedBricksDestroyed()
+    {
+        return redBricksDestroyed;
+    }
+
+    public void IncrementRedBricksDestroyed()
+    {
+        redBricksDestroyed++;
+    }
+
+    public int GetYellowBricksDestroyed()
+    {
+        return yellowBricksDestroyed;
+    }
+
+    public void IncrementYellowBricksDestroyed()
+    {
+        yellowBricksDestroyed++;
+    }
+
+    public int GetBlueBricksDestroyed()
+    {
+        return blueBricksDestroyed;
+    }
+
+    public void IncrementBlueBricksDestroyed()
+    {
+        blueBricksDestroyed++;
     }
 }

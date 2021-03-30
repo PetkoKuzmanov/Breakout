@@ -17,11 +17,7 @@ public class BallMove : MonoBehaviour
     public GameObject brickOne;
     public GameObject brickTwo;
 
-    private static int platformHitCounter;
     private static int brickHitCounter;
-    private static int redBrickHitCounter;
-    private static int yellowBrickHitCounter;
-    private static int blueBrickHitCounter;
 
     private List<IObserver> observers = new List<IObserver>();
 
@@ -64,12 +60,10 @@ public class BallMove : MonoBehaviour
         Vector2 platformVelocity = PlayerMove.velocity;
         float x = platformVelocity.x;
 
-
         //Fixes the ball moving too vertically or horizontally
         if (Math.Abs(velocity.y) > 5 * Math.Abs(velocity.x) && velocity.x != 0)
         {
             velocity.y = 5 * Math.Abs(velocity.x);
-
         }
         else if (Math.Abs(velocity.x) > 5 * Math.Abs(velocity.y) && velocity.y != 0)
         {
@@ -82,38 +76,39 @@ public class BallMove : MonoBehaviour
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
-            
-            platformHitCounter++;
-            Debug.Log(platformHitCounter);
-            if (platformHitCounter == 3)
+
+            GameManager.Instance.getCurrentUser().IncrementPlatformHitCounter();
+            if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 15)
             {
                 AchievementManager.Instance.NotifyAchievementComplete(10);
             }
-            else if (platformHitCounter == 50)
+            else if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 50)
             {
                 AchievementManager.Instance.NotifyAchievementComplete(11);
             }
         }
         else
-        {
-            //Notify the tutorial observer that a brick has been hit for the first time
-            if (GameManager.Instance.GetState() == GameManager.State.TUTORIAL)
-            {
-                NotifyTutorialIfBrickHitForFirstTime();
-            }
-
-            brickHitCounter++;
+        {            
             if (collision.collider.gameObject.CompareTag(brickZero.tag))
             {
+                brickHitCounter++;
                 SoundManager.PlaySound("Brick 0");
             }
             else if (collision.collider.gameObject.CompareTag(brickOne.tag))
             {
+                brickHitCounter++;
                 SoundManager.PlaySound("Brick 1");
             }
             else if (collision.collider.gameObject.CompareTag(brickTwo.tag))
             {
+                brickHitCounter++;
                 SoundManager.PlaySound("Brick 2");
+            }
+
+            //Notify the tutorial observer that a brick has been hit for the first time
+            if (GameManager.Instance.GetState() == GameManager.State.TUTORIAL)
+            {
+                NotifyTutorialIfBrickHitForFirstTime();
             }
         }
 

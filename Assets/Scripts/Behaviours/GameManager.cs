@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
 
     private bool isPaused = false;
 
+    public List<GameObject> bricks = new List<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -238,6 +240,14 @@ public class GameManager : MonoBehaviour
                 ChangeState(State.MAIN_MENU, 3f);
                 break;
             case State.GAME_COMPLETED:
+                if (currentUser.Lives == 2)
+                {
+                    AchievementManager.Instance.NotifyAchievementComplete(9);
+                }
+                else
+                {
+                    AchievementManager.Instance.NotifyAchievementComplete(8);
+                }
                 break;
             case State.INIT_TUTORIAL:
                 Invoke("InitTutorialDelay", 1f);
@@ -576,4 +586,5 @@ public class GameManager : MonoBehaviour
         //canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
         panelUserStats.SetActive(!panelUserStats.activeSelf);
     }
+
 }
