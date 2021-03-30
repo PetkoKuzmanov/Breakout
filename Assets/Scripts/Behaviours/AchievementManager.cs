@@ -19,10 +19,6 @@ public class AchievementManager : MonoBehaviour
 
     private Vector3 position = new Vector3(0, -200, 0);
 
-    private void Awake()
-    {
-        
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +59,4 @@ public class AchievementManager : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
     }
-
-
 }

@@ -17,7 +17,11 @@ public class BallMove : MonoBehaviour
     public GameObject brickOne;
     public GameObject brickTwo;
 
-    private int hitCounter;
+    private static int platformHitCounter;
+    private static int brickHitCounter;
+    private static int redBrickHitCounter;
+    private static int yellowBrickHitCounter;
+    private static int blueBrickHitCounter;
 
     private List<IObserver> observers = new List<IObserver>();
 
@@ -78,8 +82,17 @@ public class BallMove : MonoBehaviour
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
-            //GameManager.Instance.GetAchievementManager().NotifyAchievementComplete(1);
-            AchievementManager.Instance.NotifyAchievementComplete(8);
+            
+            platformHitCounter++;
+            Debug.Log(platformHitCounter);
+            if (platformHitCounter == 3)
+            {
+                AchievementManager.Instance.NotifyAchievementComplete(10);
+            }
+            else if (platformHitCounter == 50)
+            {
+                AchievementManager.Instance.NotifyAchievementComplete(11);
+            }
         }
         else
         {
@@ -89,7 +102,7 @@ public class BallMove : MonoBehaviour
                 NotifyTutorialIfBrickHitForFirstTime();
             }
 
-            hitCounter++;
+            brickHitCounter++;
             if (collision.collider.gameObject.CompareTag(brickZero.tag))
             {
                 SoundManager.PlaySound("Brick 0");
@@ -127,7 +140,7 @@ public class BallMove : MonoBehaviour
 
     public int GetHitCounter()
     {
-        return hitCounter;
+        return brickHitCounter;
     }
 
     private void Notify(string notificationName)
@@ -140,7 +153,7 @@ public class BallMove : MonoBehaviour
 
     private void NotifyTutorialIfBrickHitForFirstTime()
     {
-        if (hitCounter == 0)
+        if (brickHitCounter == 0)
         {
             Notify("PanelBrick0");
         }

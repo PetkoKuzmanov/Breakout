@@ -82,12 +82,9 @@ public class GameManager : MonoBehaviour
 
     private bool isPaused = false;
 
-    private AchievementManager achievementManager;
-
     // Start is called before the first frame update
     void Start()
     {
-        //achievementManager = gameObject.AddComponent(typeof(AchievementManager)) as AchievementManager;
         observers.Add(TutorialObserver.Instance);
         panelMenuAnimator = panelMenu.GetComponent<Animator>();
         panelProfileSelectAnimator = panelProfileMenu.GetComponent<Animator>();
@@ -578,10 +575,5 @@ public class GameManager : MonoBehaviour
         }
         //canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
         panelUserStats.SetActive(!panelUserStats.activeSelf);
-    }
-
-    public AchievementManager GetAchievementManager()
-    {
-        return achievementManager;
     }
 }

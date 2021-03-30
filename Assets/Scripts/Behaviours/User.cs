@@ -77,6 +77,7 @@ public class User
 
     public void UnlockAchievement(int ID)
     {
+        Debug.Log(ID);
         achievements[ID] = true;
     }
 }
