@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef26ec673c1dc94cb3bf86163f8f99f, type: 3}
   m_Name: Achievement9
   m_EditorClassIdentifier: 
+  ID: 9
   texture: {fileID: 2800000, guid: 7ddead12cedc6af4fa45bbf2d738bdfc, type: 3}
   text: Finish all levels without losing a life

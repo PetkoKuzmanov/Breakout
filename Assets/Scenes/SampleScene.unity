@@ -2040,6 +2040,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267106539}
   m_CullTransparentMesh: 1
+--- !u!1 &268896141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 268896143}
+  - component: {fileID: 268896142}
+  m_Layer: 0
+  m_Name: AchievementManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &268896142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268896141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3b6bfa49956434ea1d00933f66f471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  achievements:
+  - {fileID: 11400000, guid: 166731ef5936a424cb39c56943474854, type: 2}
+  - {fileID: 11400000, guid: 5c0f095912123a94d95364db0979f0bd, type: 2}
+  - {fileID: 11400000, guid: c2930d012b1feb445b8948a7d80470b9, type: 2}
+  - {fileID: 11400000, guid: 6fcc700ef2048244ca937262b292db74, type: 2}
+  - {fileID: 11400000, guid: 1962df22769bcc94ea28df1f141ed01c, type: 2}
+  - {fileID: 11400000, guid: f8afe6f4d0fb9c549ae28f8476456096, type: 2}
+  - {fileID: 11400000, guid: 480fd83b69b631d409f94a956bc94af1, type: 2}
+  - {fileID: 11400000, guid: a95eac81960d1134faef150dd3e4a779, type: 2}
+  - {fileID: 11400000, guid: 6cb46bd6d2762e9499d572397e6a7ff0, type: 2}
+  - {fileID: 11400000, guid: de635150590eeab41a0ee25eb8fe641b, type: 2}
+  - {fileID: 11400000, guid: c8523a6c2e15fa04f96035d8cecfac0e, type: 2}
+  - {fileID: 11400000, guid: ef69d5371deb1e94bad919485ef724bd, type: 2}
+--- !u!4 &268896143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268896141}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1236.4232, y: 338.29587, z: -109.51557}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &271292678
 GameObject:
   m_ObjectHideFlags: 0

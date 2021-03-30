@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef26ec673c1dc94cb3bf86163f8f99f, type: 3}
   m_Name: Achievement4
   m_EditorClassIdentifier: 
+  ID: 4
   texture: {fileID: 2800000, guid: c6588151ea79b78458da4a6f73aa1d33, type: 3}
   text: Destroy 15 red bricks

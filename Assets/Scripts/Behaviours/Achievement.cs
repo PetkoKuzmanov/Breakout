@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Achievement : ScriptableObject
 {
     // Start is called before the first frame update
-
+    public int ID;
     public Texture2D texture;
     public string text;
 }

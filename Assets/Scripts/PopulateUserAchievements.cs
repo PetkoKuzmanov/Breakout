@@ -10,18 +10,18 @@ public class PopulateUserAchievements : MonoBehaviour
 
     //public int numberToCreate; // number of objects to create. Exposed in inspector
 
-    public List<Achievement> listOfAchievements = new List<Achievement>();
+    private List<Achievement> listOfAchievements = new List<Achievement>();
 
     private Sprite sprite;
 
     private void Awake()
     {
-        Populate();
+        listOfAchievements = AchievementManager.Instance.achievements;
     }
 
     void Start()
     {
-        //Populate();
+        Populate();
     }
 
     void Update()

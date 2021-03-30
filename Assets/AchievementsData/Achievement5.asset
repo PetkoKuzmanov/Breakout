@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef26ec673c1dc94cb3bf86163f8f99f, type: 3}
   m_Name: Achievement5
   m_EditorClassIdentifier: 
+  ID: 5
   texture: {fileID: 2800000, guid: 684d3e4aaad9dee4ab985415d34f6666, type: 3}
   text: Destroy 15 yellow bricks

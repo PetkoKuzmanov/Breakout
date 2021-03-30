@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef26ec673c1dc94cb3bf86163f8f99f, type: 3}
   m_Name: Achievement3
   m_EditorClassIdentifier: 
+  ID: 3
   texture: {fileID: 2800000, guid: 131f1b74b7633ce40bcf9d95a7f36163, type: 3}
   text: Destroy 20 bricks

@@ -78,6 +78,8 @@ public class BallMove : MonoBehaviour
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
+            //GameManager.Instance.GetAchievementManager().NotifyAchievementComplete(1);
+            AchievementManager.Instance.NotifyAchievementComplete(1);
         }
         else
         {

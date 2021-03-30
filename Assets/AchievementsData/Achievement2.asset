@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef26ec673c1dc94cb3bf86163f8f99f, type: 3}
   m_Name: Achievement2
   m_EditorClassIdentifier: 
+  ID: 2
   texture: {fileID: 2800000, guid: 130a98ff821c6b34db28b1a5d737c808, type: 3}
   text: Destroy 5 blue bricks
