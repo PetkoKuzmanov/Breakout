@@ -16,7 +16,7 @@ public class PopulateUserAchievements : MonoBehaviour
 
     private void Awake()
     {
-        listOfAchievements = AchievementManager.Instance.achievements;
+        listOfAchievements = AchievementManager.Instance.achievementList;
     }
 
     void Start()
