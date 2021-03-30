@@ -86,7 +86,7 @@ public class ProfileDropdownManager : MonoBehaviour
         for (int i = 0; i < User.NumberOfAchievements; i++)
         {
             //If the achievement isnt unlocked set its alpha to 0.5f
-            if (!currentUser.AchievementsUnlocked[i])
+            if (!currentUser.Achievements[i])
             {
                 achievementsScrollView.transform.GetChild(i).gameObject.GetComponent<CanvasGroup>().alpha = 0.5f;
                 //achievementList[i].GetComponent<CanvasGroup>().alpha = 0.5f;

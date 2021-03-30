@@ -16,7 +16,7 @@ public class User
 
     //public List<bool> achievementsUnlocked = new List<bool>();
     
-    public bool[] achievementsUnlocked = new bool[NUMBER_OF_ACHIEVEMENTS];
+    public bool[] achievements = new bool[NUMBER_OF_ACHIEVEMENTS];
 
     public User(string name, int lives, int score, int level)
     {
@@ -64,14 +64,19 @@ public class User
         set { time = value; }
     }
 
-    public bool[] AchievementsUnlocked
+    public bool[] Achievements
     {
-        get { return achievementsUnlocked; }
-        set { achievementsUnlocked = value; }
+        get { return achievements; }
+        set { achievements = value; }
     }
 
     public static int NumberOfAchievements
     {
         get { return NUMBER_OF_ACHIEVEMENTS; }
+    }
+
+    public void UnlockAchievement(int ID)
+    {
+        achievements[ID] = true;
     }
 }

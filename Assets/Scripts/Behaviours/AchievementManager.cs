@@ -15,7 +15,7 @@ public class AchievementManager : MonoBehaviour
 
     public GameObject prefab;
     private Sprite sprite;
-    private GameObject newObj;
+    private GameObject achievementObject;
 
     private Vector3 position = new Vector3(0, -200, 0);
 
@@ -37,23 +37,22 @@ public class AchievementManager : MonoBehaviour
 
     private void UnlockAchievement(Achievement achievement)
     {
-        
         //Instantiate the achievement on the screen and set the achievement true for the user
-        Debug.Log(achievement.ID); 
+        GameManager.Instance.getCurrentUser().UnlockAchievement(achievement.ID);
 
-        newObj = (GameObject)Instantiate(prefab, transform);
+        achievementObject = (GameObject)Instantiate(prefab, transform);
 
         sprite = Sprite.Create(achievement.texture, new Rect(0.0f, 0.0f, achievement.texture.width, achievement.texture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
-        newObj.GetComponent<RectTransform>().GetChild(0).GetComponent<Image>().sprite = sprite;
-        newObj.GetComponent<RectTransform>().GetChild(1).GetComponent<TextMeshProUGUI>().text = achievement.text;
+        achievementObject.GetComponent<RectTransform>().GetChild(0).GetComponent<Image>().sprite = sprite;
+        achievementObject.GetComponent<RectTransform>().GetChild(1).GetComponent<TextMeshProUGUI>().text = achievement.text;
 
         Invoke(nameof(DestroyAchievement), 2f);
     }
 
     private void DestroyAchievement()
     {
-        Destroy(newObj);
+        Destroy(achievementObject);
     }
 
     private IEnumerator AchievementQueueCheck()
