@@ -53,8 +53,9 @@ public class GameManager : MonoBehaviour
     public GameObject[] levels;
     public GameObject tutorialLevel;
 
-    public Button buttonReplay;
     public Button buttonStartGame;
+    public Button buttonAchievements;
+    public Button buttonReplay;
 
     public TMP_InputField inputFieldNewProfile;
     public TextMeshProUGUI textUsernameTaken;
@@ -591,5 +592,11 @@ public class GameManager : MonoBehaviour
             //canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
             panelUserStats.SetActive(!panelUserStats.activeSelf);
         }
+    }
+
+    public void SetAchievementsAndReplayButtonsActive()
+    {
+        buttonReplay.GetComponent<CanvasGroup>().alpha = 1;
+        buttonAchievements.GetComponent<CanvasGroup>().alpha = 1;
     }
 }

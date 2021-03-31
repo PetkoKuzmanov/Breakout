@@ -1034,6 +1034,7 @@ GameObject:
   - component: {fileID: 195663772}
   - component: {fileID: 195663771}
   - component: {fileID: 195663770}
+  - component: {fileID: 195663773}
   m_Layer: 5
   m_Name: ButtonReplay
   m_TagString: Untagged
@@ -1155,6 +1156,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195663768}
   m_CullTransparentMesh: 1
+--- !u!225 &195663773
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195663768}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &199820765
 GameObject:
   m_ObjectHideFlags: 0
@@ -9002,8 +9015,9 @@ MonoBehaviour:
   - {fileID: 9024705467243106757, guid: b067529745db54949b608979c165ea6f, type: 3}
   - {fileID: 9024705467243106757, guid: 407a692563230c340b5bacb68c6cd315, type: 3}
   tutorialLevel: {fileID: 9024705467243106757, guid: 3c8eced1b69761040b3693bfa894d45e, type: 3}
-  buttonReplay: {fileID: 195663770}
   buttonStartGame: {fileID: 1047187087}
+  buttonAchievements: {fileID: 1864853138}
+  buttonReplay: {fileID: 195663770}
   inputFieldNewProfile: {fileID: 1297674581}
   textUsernameTaken: {fileID: 1921927324}
   bricks:
@@ -11365,6 +11379,7 @@ GameObject:
   - component: {fileID: 1864853140}
   - component: {fileID: 1864853139}
   - component: {fileID: 1864853138}
+  - component: {fileID: 1864853141}
   m_Layer: 5
   m_Name: ButtonAchievements
   m_TagString: Untagged
@@ -11486,6 +11501,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1864853136}
   m_CullTransparentMesh: 1
+--- !u!225 &1864853141
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864853136}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1868956509
 GameObject:
   m_ObjectHideFlags: 0

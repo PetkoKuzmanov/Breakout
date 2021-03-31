@@ -38,7 +38,7 @@ public class ProfileDropdownManager : MonoBehaviour
         //Show the info for the selected user
         if (userList.Count > 0)
         {
-            Debug.Log(dropdown.value);
+            GameManager.Instance.SetAchievementsAndReplayButtonsActive();
             int index = dropdown.value;
             User currentUser = userList[index] as User;
 
