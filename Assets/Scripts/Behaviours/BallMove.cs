@@ -35,12 +35,6 @@ public class BallMove : MonoBehaviour
         rigidbody.velocity = Vector2.down * speed;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void FixedUpdate()
     {
         rigidbody.velocity = rigidbody.velocity.normalized * speed;
@@ -78,7 +72,7 @@ public class BallMove : MonoBehaviour
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
 
             GameManager.Instance.getCurrentUser().IncrementPlatformHitCounter();
-            if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 3)
+            if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 15)
             {
                 AchievementManager.Instance.NotifyAchievementComplete(10);
             }

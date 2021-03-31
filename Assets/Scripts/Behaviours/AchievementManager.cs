@@ -25,7 +25,6 @@ public class AchievementManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        //achievementAnimator = prefab.GetComponent<Animator>();
         StartCoroutine(AchievementQueueCheck());
     }
 

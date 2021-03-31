@@ -11,6 +11,7 @@ public class ProfileDropdownManager : MonoBehaviour
     private TMP_Dropdown dropdown;
     private ArrayList userList;
 
+    public GameObject panelUserStats;
     public TextMeshProUGUI textScore;
     public TextMeshProUGUI textTime;
     public TextMeshProUGUI textLives;
@@ -28,7 +29,6 @@ public class ProfileDropdownManager : MonoBehaviour
 
         //Call the function initially
 
-
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
     }
 
@@ -36,15 +36,20 @@ public class ProfileDropdownManager : MonoBehaviour
     private void DropdownItemSelected(TMP_Dropdown dropdown)
     {
         //Show the info for the selected user
-        int index = dropdown.value;
-        User currentUser = userList[index] as User;
+        if (userList.Count > 0)
+        {
+            Debug.Log(dropdown.value);
+            int index = dropdown.value;
+            User currentUser = userList[index] as User;
 
-        textScore.text = currentUser.Score.ToString();
-        textTime.text = currentUser.Time.ToString();
-        textLives.text = currentUser.Lives.ToString();
-        textLevel.text = currentUser.Level.ToString();
+            textScore.text = currentUser.Score.ToString();
+            textTime.text = currentUser.Time.ToString();
+            textLives.text = currentUser.Lives.ToString();
+            textLevel.text = currentUser.Level.ToString();
 
-        SetUpAchievementsWindow(currentUser);
+            SetUpAchievementsWindow(currentUser);
+            panelUserStats.SetActive(true);
+        }
     }
 
     public User GetCurrentUser()
@@ -74,21 +79,11 @@ public class ProfileDropdownManager : MonoBehaviour
 
     private void SetUpAchievementsWindow(User currentUser)
     {
-        //GameObject achievementList = achievementsScrollView;
-
-        List<GameObject> achievementList = new List<GameObject>();
-        //for (int i = 0; i < User.NumberOfAchievements; i++)
-        //{
-        //    Debug.Log(i);
-        //    achievementList.Add(achievementsScrollView.transform.GetChild(i).gameObject);
-        //}
-
         for (int i = 0; i < User.NumberOfAchievements; i++)
         {
-            //If the achievement isnt unlocked set its alpha to 0.5f
+            //If the achievement is unlocked set its alpha to 1 otherwise to 0.5
             if (currentUser.Achievements[i])
             {
-                Debug.Log(i);
                 achievementsScrollView.transform.GetChild(i).gameObject.GetComponent<CanvasGroup>().alpha = 1f;
             }
             else

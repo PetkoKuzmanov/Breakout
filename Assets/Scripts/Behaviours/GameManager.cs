@@ -496,9 +496,12 @@ public class GameManager : MonoBehaviour
 
     public void StartReplay()
     {
-        replay = SaveManager.LoadReplay(ProfileDropdownManager.Instance.GetCurrentUser().Name);
-        isReplay = true;
-        ChangeState(State.INIT_REPLAY);
+        if (SaveManager.GetUsers().Count > 0)
+        {
+            replay = SaveManager.LoadReplay(ProfileDropdownManager.Instance.GetCurrentUser().Name);
+            isReplay = true;
+            ChangeState(State.INIT_REPLAY);
+        }
     }
 
     public void InputOnValueChanged(string name)
@@ -575,15 +578,18 @@ public class GameManager : MonoBehaviour
 
     public void AchievementsCanvasChangeVisibility()
     {
-        if (canvasUserAchievements.GetComponent<CanvasGroup>().alpha == 0)
+        if (SaveManager.GetUsers().Count > 0)
         {
-            canvasUserAchievements.GetComponent<CanvasGroup>().alpha = 1;
+            if (canvasUserAchievements.GetComponent<CanvasGroup>().alpha == 0)
+            {
+                canvasUserAchievements.GetComponent<CanvasGroup>().alpha = 1;
+            }
+            else
+            {
+                canvasUserAchievements.GetComponent<CanvasGroup>().alpha = 0;
+            }
+            //canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
+            panelUserStats.SetActive(!panelUserStats.activeSelf);
         }
-        else
-        {
-            canvasUserAchievements.GetComponent<CanvasGroup>().alpha = 0;
-        }
-        //canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
-        panelUserStats.SetActive(!panelUserStats.activeSelf);
     }
 }
