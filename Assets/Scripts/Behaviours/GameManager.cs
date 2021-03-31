@@ -586,5 +586,4 @@ public class GameManager : MonoBehaviour
         //canvasUserAchievements.SetActive(!canvasUserAchievements.activeSelf);
         panelUserStats.SetActive(!panelUserStats.activeSelf);
     }
-
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3132567660185615978}
   - component: {fileID: 6532129810277498646}
   - component: {fileID: 6723242744297934066}
+  - component: {fileID: 8284913804181879758}
   m_Layer: 5
   m_Name: CanvasAchievementInGame
   m_TagString: Untagged
@@ -155,6 +156,25 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!95 &8284913804181879758
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115980860032206842}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 493d82a054b2be546adc397462edb8cc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5376199660736427082
 GameObject:
   m_ObjectHideFlags: 0

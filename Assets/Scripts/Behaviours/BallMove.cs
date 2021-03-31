@@ -78,7 +78,7 @@ public class BallMove : MonoBehaviour
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
 
             GameManager.Instance.getCurrentUser().IncrementPlatformHitCounter();
-            if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 15)
+            if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 3)
             {
                 AchievementManager.Instance.NotifyAchievementComplete(10);
             }
