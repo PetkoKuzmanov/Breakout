@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     public Button buttonReplay;
 
     public TMP_InputField inputFieldNewProfile;
-    public TextMeshProUGUI textUsernameTaken;
+    public TextMeshProUGUI TextUsernameError;
 
     private Animator panelMenuAnimator;
     private Animator panelProfileSelectAnimator;
@@ -331,7 +331,7 @@ public class GameManager : MonoBehaviour
     private void ProfileMenuDelay()
     {
         panelProfileMenu.SetActive(true);
-        textUsernameTaken.enabled = false;
+        TextUsernameError.enabled = false;
         PlayProfileSelectMenuAnimation("ProfileSelect_Start");
     }
 
@@ -507,16 +507,26 @@ public class GameManager : MonoBehaviour
 
     public void InputOnValueChanged(string name)
     {
-        //If the username is taken show an error and dont allow the game to be started
-        if (SaveManager.DoesUserExist(inputFieldNewProfile.text))
+        if (inputFieldNewProfile.text.Equals(""))
         {
-            textUsernameTaken.enabled = true;
+            TextUsernameError.text = "Please input a name in the field";
+            TextUsernameError.enabled = true;
             buttonStartGame.interactable = false;
         }
         else
         {
-            textUsernameTaken.enabled = false;
-            buttonStartGame.interactable = true;
+            //If the username is taken show an error and dont allow the game to be started
+            if (SaveManager.DoesUserExist(inputFieldNewProfile.text))
+            {
+                TextUsernameError.text = "Username is taken";
+                TextUsernameError.enabled = true;
+                buttonStartGame.interactable = false;
+            }
+            else
+            {
+                TextUsernameError.enabled = false;
+                buttonStartGame.interactable = true;
+            }
         }
     }
 
