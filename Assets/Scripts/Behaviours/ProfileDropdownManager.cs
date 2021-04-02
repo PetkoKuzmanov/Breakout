@@ -63,17 +63,14 @@ public class ProfileDropdownManager : MonoBehaviour
     public void FillDropdownWithUsers()
     {
         dropdown.options.Clear();
-        //for (int i = 0; i < dropdown.options.Count; i++)
-        //{
-        //    dropdown.options.RemoveAt(i);
-        //}
+
         userList = SaveManager.LoadUsers();
 
         foreach (User user in userList)
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData() { text = user.Name });
         }
-
+        
         DropdownItemSelected(dropdown);
     }
 
@@ -90,6 +87,16 @@ public class ProfileDropdownManager : MonoBehaviour
             {
                 achievementsScrollView.transform.GetChild(i).gameObject.GetComponent<CanvasGroup>().alpha = 0.5f;
             }
+        }
+    }
+
+    public void ClearDropdown()
+    {
+        dropdown.options.Clear();
+        for (int i = 0; i < dropdown.options.Count; i++)
+        {
+            Debug.Log(dropdown.options[i]);
+            dropdown.options.RemoveAt(i);
         }
     }
 }

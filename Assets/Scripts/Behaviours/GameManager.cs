@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textTimer;
     public TextMeshProUGUI textLevelCompletedTime;
 
+    public TextMeshProUGUI textAllLevelsCompleted;
+    public TextMeshProUGUI textGameOverTitle;
     public TextMeshProUGUI textTotalTime;
     public TextMeshProUGUI textHighestLevel;
     public TextMeshProUGUI textTotalScore;
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
     public Button buttonReplay;
 
     public TMP_InputField inputFieldNewProfile;
-    public TextMeshProUGUI TextUsernameError;
+    public TextMeshProUGUI textUsernameError;
 
     private Animator panelMenuAnimator;
     private Animator panelProfileSelectAnimator;
@@ -74,6 +76,7 @@ public class GameManager : MonoBehaviour
     private bool timerGoing;
     private float levelTime;
     private float totalTime;
+    private string formattedTime;
 
     private User currentUser;
 
@@ -199,14 +202,14 @@ public class GameManager : MonoBehaviour
                 textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
                 SoundManager.PlaySound("Level Completed");
                 Destroy(ball);
-                Destroy(currentLevel);
                 panelLevelCompleted.SetActive(true);
-                if (currentUser.Level == 5)
+                if (currentUser.Level == 1)
                 {
                     ChangeState(State.GAME_COMPLETED);
                 }
                 else
                 {
+                    Destroy(currentLevel);
                     currentUser.Level++;
                     ChangeState(State.LOADLEVEL, 2f);
                 }
@@ -227,20 +230,35 @@ public class GameManager : MonoBehaviour
                 break;
             case State.GAMEOVER:
                 StopTimer();
-                string formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
+                formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
                 currentUser.Time = formattedTime;
                 if (currentLevel.name != "Tutorial" && !isReplay)
                 {
                     SaveManager.SaveUser(currentUser, replay);
                 }
-
                 textTotalTime.text = "Total time: " + formattedTime;
                 textHighestLevel.text = "Level: " + currentUser.Level;
                 textTotalScore.text = "Score: " + currentUser.Score;
                 panelGameOver.SetActive(true);
+                textAllLevelsCompleted.enabled = false;
+                textGameOverTitle.enabled = true;
                 ChangeState(State.MAIN_MENU, 3f);
                 break;
             case State.GAME_COMPLETED:
+                StopTimer();
+                formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
+                currentUser.Time = formattedTime;
+                if (currentLevel.name != "Tutorial" && !isReplay)
+                {
+                    SaveManager.SaveUser(currentUser, replay);
+                }
+                textTotalTime.text = "Total time: " + formattedTime;
+                textHighestLevel.text = "Level: " + currentUser.Level;
+                textTotalScore.text = "Score: " + currentUser.Score;
+                panelGameOver.SetActive(true);
+                textGameOverTitle.enabled = false;
+                textAllLevelsCompleted.enabled = true;
+                ChangeState(State.MAIN_MENU, 3f);
                 if (currentUser.Lives == 2)
                 {
                     AchievementManager.Instance.NotifyAchievementComplete(9);
@@ -296,8 +314,13 @@ public class GameManager : MonoBehaviour
                 panelGameOver.SetActive(false);
                 Destroy(platform);
                 Destroy(currentLevel);
+                ProfileDropdownManager.Instance.FillDropdownWithUsers();
                 break;
             case State.GAME_COMPLETED:
+                panelPlay.SetActive(false);
+                panelGameOver.SetActive(false);
+                Destroy(platform);
+                Destroy(currentLevel);
                 break;
             case State.INIT_TUTORIAL:
                 break;
@@ -331,7 +354,7 @@ public class GameManager : MonoBehaviour
     private void ProfileMenuDelay()
     {
         panelProfileMenu.SetActive(true);
-        TextUsernameError.enabled = false;
+        textUsernameError.enabled = false;
         PlayProfileSelectMenuAnimation("ProfileSelect_Start");
     }
 
@@ -509,8 +532,8 @@ public class GameManager : MonoBehaviour
     {
         if (inputFieldNewProfile.text.Equals(""))
         {
-            TextUsernameError.text = "Please input a name in the field";
-            TextUsernameError.enabled = true;
+            textUsernameError.text = "Please input a name in the field";
+            textUsernameError.enabled = true;
             buttonStartGame.interactable = false;
         }
         else
@@ -518,13 +541,13 @@ public class GameManager : MonoBehaviour
             //If the username is taken show an error and dont allow the game to be started
             if (SaveManager.DoesUserExist(inputFieldNewProfile.text))
             {
-                TextUsernameError.text = "Username is taken";
-                TextUsernameError.enabled = true;
+                textUsernameError.text = "Username is taken";
+                textUsernameError.enabled = true;
                 buttonStartGame.interactable = false;
             }
             else
             {
-                TextUsernameError.enabled = false;
+                textUsernameError.enabled = false;
                 buttonStartGame.interactable = true;
             }
         }
