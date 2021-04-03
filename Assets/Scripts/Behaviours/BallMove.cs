@@ -105,7 +105,6 @@ public class BallMove : MonoBehaviour
                 NotifyTutorialIfBrickHitForFirstTime();
             }
         }
-
     }
 
     public void PauseBall()
@@ -142,8 +141,9 @@ public class BallMove : MonoBehaviour
 
     private void NotifyTutorialIfBrickHitForFirstTime()
     {
-        if (brickHitCounter == 0)
+        if (brickHitCounter == 1)
         {
+            brickHitCounter++;
             Notify("PanelBrick0");
         }
     }
