@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
             case State.LEVELCOMPLETED:
                 StopTimer();
                 textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
-                SoundManager.PlaySound("Level Completed");
+                
                 Destroy(ball);
                 panelLevelCompleted.SetActive(true);
                 if (currentUser.Level == 5)
@@ -209,6 +209,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    SoundManager.PlaySound("Level Completed");
                     Destroy(currentLevel);
                     currentUser.Level++;
                     ChangeState(State.LOADLEVEL, 2f);
@@ -245,6 +246,7 @@ public class GameManager : MonoBehaviour
                 ChangeState(State.MAIN_MENU, 3f);
                 break;
             case State.GAME_COMPLETED:
+                SoundManager.PlaySound("Game Completed");
                 StopTimer();
                 formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
                 currentUser.Time = formattedTime;

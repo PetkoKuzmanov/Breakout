@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance { get; set; }
     static AudioSource audioSource;
 
-    public static AudioClip brickZeroSound, brickOneSound, brickTwoSound, ballDeathSound, levelCompletedSound, buttonClickedSound;
+    public static AudioClip brickZeroSound, brickOneSound, brickTwoSound, ballDeathSound, levelCompletedSound, buttonClickedSound, gameCompletedSound;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
         ballDeathSound = Resources.Load<AudioClip>("Ball Death Sound");
         levelCompletedSound = Resources.Load<AudioClip>("Level Completed Sound");
         buttonClickedSound = Resources.Load<AudioClip>("Button Clicked Sound");
+        gameCompletedSound = Resources.Load<AudioClip>("Game Completed Sound");
     }
 
     private void Awake()
@@ -56,6 +57,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case "Button Clicked":
                 audioSource.PlayOneShot(buttonClickedSound, 0.1f);
+                break;
+            case "Game Completed":
+                audioSource.PlayOneShot(gameCompletedSound, 0.8f);
                 break;
         }
     }
