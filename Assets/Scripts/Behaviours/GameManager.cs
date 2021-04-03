@@ -586,19 +586,6 @@ public class GameManager : MonoBehaviour
                 PauseGame();
                 panelPause.SetActive(true);
             }
-
-            //if (panelPause.activeSelf)
-            //{
-            //    Cursor.visible = false;
-            //    isPaused = false;
-            //    ResumeGame();
-            //}
-            //else
-            //{
-            //    isPaused = true;
-            //    PauseGame();
-            //    panelPause.SetActive(true);
-            //}
         }
     }
 

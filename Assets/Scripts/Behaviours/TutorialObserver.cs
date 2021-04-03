@@ -72,11 +72,16 @@ public class TutorialObserver : MonoBehaviour, IObserver
         GameManager.Instance.PauseGame();
     }
 
-
+    private void ContinueBrickTutorial(GameObject panel)
+    {
+        buttonContinue.gameObject.SetActive(true);
+        panel.SetActive(true);
+    }
     public void ContinueClicked()
     {
-        GameManager.Instance.UnpauseGameAndLaunchBallAfterOneSecond();
+        SoundManager.PlaySound("Button Clicked");
         buttonContinue.gameObject.SetActive(false);
+
         if (tutorialPanels[0].activeSelf)
         {
             CallShowTutorialPanelWithDelay(tutorialPanels[1], 1);
@@ -84,16 +89,22 @@ public class TutorialObserver : MonoBehaviour, IObserver
         }
         else if (tutorialPanels[2].activeSelf)
         {
-            CallShowTutorialPanelWithDelay(tutorialPanels[3]);
+            ContinueBrickTutorial(tutorialPanels[3]);
             tutorialPanels[2].SetActive(false);
         }
         else if (tutorialPanels[3].activeSelf)
         {
-            CallShowTutorialPanelWithDelay(tutorialPanels[4]);
+            ContinueBrickTutorial(tutorialPanels[4]);
             tutorialPanels[3].SetActive(false);
+        }
+        else if (tutorialPanels[4].activeSelf)
+        {
+            GameManager.Instance.ResumeGame();
+            tutorialPanels[4].SetActive(false);
         }
         else
         {
+            GameManager.Instance.UnpauseGameAndLaunchBallAfterOneSecond();
             foreach (GameObject panel in tutorialPanels)
             {
                 panel.SetActive(false);
