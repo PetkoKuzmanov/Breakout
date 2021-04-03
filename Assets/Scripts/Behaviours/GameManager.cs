@@ -610,6 +610,7 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         SoundManager.PlaySound("Button Clicked");
+        StartTimer();
         isPaused = false;
         panelPause.SetActive(false);
         ball.BroadcastMessage("UnpauseBall");
