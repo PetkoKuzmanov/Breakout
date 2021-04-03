@@ -358,6 +358,7 @@ public class GameManager : MonoBehaviour
     {
         panelProfileMenu.SetActive(true);
         textUsernameError.enabled = false;
+        inputFieldNewProfile.text = "Enter name...";
         PlayProfileSelectMenuAnimation("ProfileSelect_Start");
     }
 
