@@ -3995,6 +3995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc299d6fc711f964dab004353bc75d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelUserAchievements: {fileID: 111814728}
   panelUserStats: {fileID: 2108586640}
   textScore: {fileID: 1461738688}
   textTime: {fileID: 2001459974}

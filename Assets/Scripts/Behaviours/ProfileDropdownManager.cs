@@ -11,6 +11,7 @@ public class ProfileDropdownManager : MonoBehaviour
     private TMP_Dropdown dropdown;
     private ArrayList userList;
 
+    public GameObject panelUserAchievements;
     public GameObject panelUserStats;
     public TextMeshProUGUI textScore;
     public TextMeshProUGUI textTime;
@@ -48,6 +49,7 @@ public class ProfileDropdownManager : MonoBehaviour
             textLevel.text = currentUser.Level.ToString();
 
             SetUpAchievementsWindow(currentUser);
+            panelUserAchievements.GetComponent<CanvasGroup>().alpha = 0;
             panelUserStats.SetActive(true);
         }
     }
