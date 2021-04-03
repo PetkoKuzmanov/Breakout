@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
                 SoundManager.PlaySound("Level Completed");
                 Destroy(ball);
                 panelLevelCompleted.SetActive(true);
-                if (currentUser.Level == 1)
+                if (currentUser.Level == 5)
                 {
                     ChangeState(State.GAME_COMPLETED);
                 }
@@ -425,6 +425,7 @@ public class GameManager : MonoBehaviour
 
     public void TutorialClicked()
     {
+        SoundManager.PlaySound("Button Clicked");
         ChangeState(State.INIT_TUTORIAL);
     }
 
@@ -469,6 +470,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        SoundManager.PlaySound("Button Clicked");
         ball.BroadcastMessage("PauseBall");
         StopTimer();
     }
@@ -481,11 +483,13 @@ public class GameManager : MonoBehaviour
 
     public void ProfileSelectClicked()
     {
+        SoundManager.PlaySound("Button Clicked");
         ChangeState(State.PROFILE_MENU);
     }
 
     public void BackToMainMenuClicked()
     {
+        SoundManager.PlaySound("Button Clicked");
         ChangeState(State.MAIN_MENU);
     }
 
@@ -520,6 +524,7 @@ public class GameManager : MonoBehaviour
 
     public void StartReplay()
     {
+        SoundManager.PlaySound("Button Clicked");
         if (SaveManager.GetUsers().Count > 0)
         {
             replay = SaveManager.LoadReplay(ProfileDropdownManager.Instance.GetCurrentUser().Name);
@@ -555,6 +560,7 @@ public class GameManager : MonoBehaviour
 
     public void ExitApplication()
     {
+        SoundManager.PlaySound("Button Clicked");
         Application.Quit();
     }
 
@@ -584,6 +590,7 @@ public class GameManager : MonoBehaviour
 
     public void GoToMainMenuAndCloseGame()
     {
+        SoundManager.PlaySound("Button Clicked");
         ChangeState(State.MAIN_MENU);
         StopTimer();
         panelPause.SetActive(false);
@@ -600,6 +607,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        SoundManager.PlaySound("Button Clicked");
         isPaused = false;
         panelPause.SetActive(false);
         ball.BroadcastMessage("UnpauseBall");
@@ -612,6 +620,7 @@ public class GameManager : MonoBehaviour
 
     public void AchievementsCanvasChangeVisibility()
     {
+        SoundManager.PlaySound("Button Clicked");
         if (SaveManager.GetUsers().Count > 0)
         {
             if (canvasUserAchievements.GetComponent<CanvasGroup>().alpha == 0)
