@@ -362,12 +362,14 @@ public class GameManager : MonoBehaviour
 
     private void MainMenuDelay()
     {
+        Cursor.visible = true;
         panelMenu.SetActive(true);
         PlayMainMenuAnimation("Menu_Start");
     }
 
     private void InitDelay()
     {
+        Cursor.visible = false;
         panelPlay.SetActive(true);
         currentUser = new User(inputFieldNewProfile.text, 2, 0, 1);
         inputFieldNewProfile.text = " ";
@@ -472,6 +474,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        Cursor.visible = true;
         SoundManager.PlaySound("Button Clicked");
         ball.BroadcastMessage("PauseBall");
         StopTimer();
@@ -479,6 +482,7 @@ public class GameManager : MonoBehaviour
 
     public void UnpauseGameAndLaunchBallAfterOneSecond()
     {
+        Cursor.visible = false;
         ball.BroadcastMessage("LaunchBallAfterOneSecond");
         StartTimer();
     }
@@ -576,17 +580,25 @@ public class GameManager : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             //If the panel is open unpause the game otherwise pause it
-            if (panelPause.activeSelf)
-            {
-                isPaused = false;
-                ResumeGame();
-            }
-            else
+            if (!panelPause.activeSelf)
             {
                 isPaused = true;
                 PauseGame();
                 panelPause.SetActive(true);
             }
+
+            //if (panelPause.activeSelf)
+            //{
+            //    Cursor.visible = false;
+            //    isPaused = false;
+            //    ResumeGame();
+            //}
+            //else
+            //{
+            //    isPaused = true;
+            //    PauseGame();
+            //    panelPause.SetActive(true);
+            //}
         }
     }
 
@@ -609,6 +621,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        Cursor.visible = false;
         SoundManager.PlaySound("Button Clicked");
         StartTimer();
         isPaused = false;
