@@ -21,6 +21,8 @@ public class BallMove : MonoBehaviour
 
     private List<IObserver> observers = new List<IObserver>();
 
+    private Vector2 emptyVector = new Vector2(0,0);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,7 +117,7 @@ public class BallMove : MonoBehaviour
 
     public void UnpauseBall()
     {
-        if (velocityBeforePause == new Vector2(0,0))
+        if (velocityBeforePause == emptyVector)
         {
             LaunchBallAfterOneSecond();
         }
