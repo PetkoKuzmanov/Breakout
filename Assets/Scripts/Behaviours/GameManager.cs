@@ -323,6 +323,7 @@ public class GameManager : MonoBehaviour
                 panelGameOver.SetActive(false);
                 Destroy(platform);
                 Destroy(currentLevel);
+                ProfileDropdownManager.Instance.FillDropdownWithUsers();
                 break;
             case State.INIT_TUTORIAL:
                 break;
@@ -593,6 +594,7 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.PlaySound("Button Clicked");
         ChangeState(State.MAIN_MENU);
+        isPaused = false;
         StopTimer();
         panelPause.SetActive(false);
         panelPlay.SetActive(false);
