@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public class BallMove : MonoBehaviour
 
     private List<IObserver> observers = new List<IObserver>();
 
-    private Vector2 emptyVector = new Vector2(0,0);
+    private Vector2 emptyVector = new Vector2(0, 0);
 
     // Start is called before the first frame update
     void Start()
@@ -68,7 +67,7 @@ public class BallMove : MonoBehaviour
 
         rigidbody.velocity = Vector2.Reflect(velocity, collision.contacts[0].normal);
 
-        //Check what the object being hit is
+        //Check if the object hit is the platform
         if (collision.collider.gameObject.CompareTag(platform.tag))
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
@@ -85,6 +84,7 @@ public class BallMove : MonoBehaviour
         }
         else
         {
+            //Check what type the brick is
             if (collision.collider.gameObject.CompareTag(brickZero.tag))
             {
                 brickHitCounter++;
@@ -133,11 +133,6 @@ public class BallMove : MonoBehaviour
     {
         speed = 7;
         Invoke(nameof(LaunchBall), 1f);
-    }
-
-    public int GetHitCounter()
-    {
-        return brickHitCounter;
     }
 
     private void Notify(string notificationName)

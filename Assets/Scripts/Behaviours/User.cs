@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
 
 [System.Serializable]
 public class User
 {
-    private static int NUMBER_OF_ACHIEVEMENTS = 12;
+    private static int numberOfAchievements = 12;
 
     private string name;
     private int score;
@@ -20,7 +16,7 @@ public class User
     private int yellowBricksDestroyed;
     private int blueBricksDestroyed;
 
-    public bool[] achievements = new bool[NUMBER_OF_ACHIEVEMENTS];
+    public bool[] achievements = new bool[numberOfAchievements];
 
     public User(string name, int lives, int score, int level)
     {
@@ -28,15 +24,6 @@ public class User
         this.lives = lives;
         this.score = score;
         this.level = level;
-    }
-
-    public User(string name, int lives, int score, int level, string time)
-    {
-        this.name = name;
-        this.lives = lives;
-        this.score = score;
-        this.level = level;
-        this.time = time;
     }
 
     public int Score
@@ -76,7 +63,7 @@ public class User
 
     public static int NumberOfAchievements
     {
-        get { return NUMBER_OF_ACHIEVEMENTS; }
+        get { return numberOfAchievements; }
     }
 
     public void UnlockAchievement(int ID)
@@ -86,7 +73,7 @@ public class User
 
     public int GetBricksDestroyed()
     {
-        return bricksDestroyed; 
+        return bricksDestroyed;
     }
 
     public void IncrementBricksDestroyed()

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +14,10 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -34,11 +35,6 @@ public class PlayerMove : MonoBehaviour
         {
             Move(context.ReadValue<Vector2>());
         }
-    }
-
-    public Vector2 getVelocity()
-    {
-        return velocity;
     }
 
     public void SetVelocityFromReplay(float replayPosition)

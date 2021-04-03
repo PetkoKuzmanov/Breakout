@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ProfileDropdownManager : MonoBehaviour
@@ -23,7 +21,10 @@ public class ProfileDropdownManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
         dropdown = GetComponent<TMP_Dropdown>();
 
         userList = new ArrayList();

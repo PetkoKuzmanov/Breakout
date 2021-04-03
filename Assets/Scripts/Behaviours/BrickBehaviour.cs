@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BrickBehaviour : MonoBehaviour
@@ -7,9 +5,9 @@ public class BrickBehaviour : MonoBehaviour
     public int hits;
     public int points;
 
-    SpriteRenderer spriteRenderer;
-    Color white = new Color(255, 255, 255);
-    Color originalColor;
+    private SpriteRenderer spriteRenderer;
+    private Color white = new Color(255, 255, 255);
+    private Color originalColor;
 
     private User currentUser;
 
@@ -40,6 +38,7 @@ public class BrickBehaviour : MonoBehaviour
                 AchievementManager.Instance.NotifyAchievementComplete(7);
             }
 
+            //If the brick is red
             if (gameObject.CompareTag(GameManager.Instance.bricks[0].tag))
             {
                 currentUser.IncrementRedBricksDestroyed();
@@ -52,6 +51,7 @@ public class BrickBehaviour : MonoBehaviour
                     AchievementManager.Instance.NotifyAchievementComplete(4);
                 }
             }
+            //If the brick is yellow
             else if (gameObject.CompareTag(GameManager.Instance.bricks[1].tag))
             {
                 currentUser.IncrementYellowBricksDestroyed();
@@ -64,6 +64,7 @@ public class BrickBehaviour : MonoBehaviour
                     AchievementManager.Instance.NotifyAchievementComplete(5);
                 }
             }
+            //If the brick is blue
             else if (gameObject.CompareTag(GameManager.Instance.bricks[2].tag))
             {
                 currentUser.IncrementBlueBricksDestroyed();

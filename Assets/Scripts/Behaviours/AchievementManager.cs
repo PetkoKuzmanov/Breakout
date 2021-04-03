@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +23,11 @@ public class AchievementManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
+
         StartCoroutine(AchievementQueueCheck());
     }
 
@@ -39,7 +42,7 @@ public class AchievementManager : MonoBehaviour
         GameManager.Instance.getCurrentUser().UnlockAchievement(achievement.ID);
 
         achievementObject = Instantiate(prefab, transform);
-        
+
         sprite = Sprite.Create(achievement.texture, new Rect(0.0f, 0.0f, achievement.texture.width, achievement.texture.height), new Vector2(0.5f, 0.5f), 100.0f);
         achievementObject.GetComponent<RectTransform>().GetChild(0).GetComponent<Image>().sprite = sprite;
         achievementObject.GetComponent<RectTransform>().GetChild(1).GetComponent<TextMeshProUGUI>().text = achievement.text;

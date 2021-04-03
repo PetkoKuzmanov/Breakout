@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance { get; set; }
+    public static SoundManager Instance { get; set; }
     static AudioSource audioSource;
 
     public static AudioClip brickZeroSound, brickOneSound, brickTwoSound, ballDeathSound, levelCompletedSound, buttonClickedSound, gameCompletedSound;
@@ -25,13 +23,13 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance)
+        if (Instance)
         {
             Destroy(gameObject);
         }
         else
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
     }

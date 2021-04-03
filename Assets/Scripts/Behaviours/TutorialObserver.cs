@@ -1,8 +1,6 @@
 using System.Collections;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public interface IObserver
 {
@@ -18,7 +16,15 @@ public class TutorialObserver : MonoBehaviour, IObserver
 
     public void Start()
     {
-        Instance = this;
+        if (Instance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
         buttonContinue = GameObject.Find("Canvas/PanelTutorial/ButtonContinue");
         tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelMovePlatform"));
@@ -29,10 +35,6 @@ public class TutorialObserver : MonoBehaviour, IObserver
         tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBallDeath"));
     }
 
-    public void Update()
-    {
-
-    }
     public void OnNotify(string notificationName)
     {
         switch (notificationName)
@@ -77,6 +79,7 @@ public class TutorialObserver : MonoBehaviour, IObserver
         buttonContinue.gameObject.SetActive(true);
         panel.SetActive(true);
     }
+
     public void ContinueClicked()
     {
         SoundManager.PlaySound("Button Clicked");

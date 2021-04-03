@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -70,7 +69,7 @@ public class GameManager : MonoBehaviour
     private GameObject ball;
     private GameObject currentLevel;
     private GameObject platform;
-    private bool isSwithcingState;
+    private bool isSwitchingState;
 
     private TimeSpan timePlaying;
     private bool timerGoing;
@@ -138,10 +137,11 @@ public class GameManager : MonoBehaviour
                     }
                     else
                     {
+                        ProfileDropdownManager.Instance.FillDropdownWithUsers();
                         ChangeState(State.GAMEOVER);
                     }
                 }
-                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwithcingState)
+                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwitchingState)
                 {
                     ChangeState(State.LEVELCOMPLETED);
                 }
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
                         ChangeState(State.GAMEOVER);
                     }
                 }
-                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwithcingState)
+                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwitchingState)
                 {
                     ChangeState(State.GAMEOVER);
                 }
@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
             case State.LEVELCOMPLETED:
                 StopTimer();
                 textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
-                
+
                 Destroy(ball);
                 panelLevelCompleted.SetActive(true);
                 if (currentUser.Level == 5)
@@ -335,7 +335,6 @@ public class GameManager : MonoBehaviour
     private IEnumerator HidePanelDelay(GameObject panel, float delay)
     {
         yield return new WaitForSeconds(delay);
-
         panel.SetActive(false);
     }
 
@@ -346,12 +345,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ChangeDelay(State newState, float delay)
     {
-        isSwithcingState = true;
+        isSwitchingState = true;
         yield return new WaitForSeconds(delay);
         EndState();
         state = newState;
         BeginState(newState);
-        isSwithcingState = false;
+        isSwitchingState = false;
     }
 
     private void ProfileMenuDelay()
