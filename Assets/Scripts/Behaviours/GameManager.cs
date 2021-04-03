@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
                     if (currentUser.Lives > 0)
                     {
                         InstantiateBall();
-                        if (currentUser.Lives == 1)
+                        if (currentUser.Lives == 998)
                         {
                             Notify("PanelBallDeath");
                         }
@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
                 }
                 if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwithcingState)
                 {
-                    ChangeState(State.LEVELCOMPLETED);
+                    ChangeState(State.GAMEOVER);
                 }
                 PauseGameIfEscapePressed();
                 break;
@@ -387,7 +387,7 @@ public class GameManager : MonoBehaviour
     private void InitTutorialDelay()
     {
         panelPlay.SetActive(true);
-        currentUser = new User("Tutorial", 2, 0, 1);
+        currentUser = new User("Tutorial", 999, 0, 1);
         updateTextScore();
         updateTextLevel();
         updateTextLives();

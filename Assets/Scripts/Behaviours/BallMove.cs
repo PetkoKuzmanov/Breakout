@@ -82,7 +82,7 @@ public class BallMove : MonoBehaviour
             }
         }
         else
-        {            
+        {
             if (collision.collider.gameObject.CompareTag(brickZero.tag))
             {
                 brickHitCounter++;
@@ -115,9 +115,16 @@ public class BallMove : MonoBehaviour
 
     public void UnpauseBall()
     {
-        rigidbody.velocity = velocityBeforePause;
-        velocity = velocityBeforePause;
-        speed = 7;
+        if (velocityBeforePause == new Vector2(0,0))
+        {
+            LaunchBallAfterOneSecond();
+        }
+        else
+        {
+            rigidbody.velocity = velocityBeforePause;
+            velocity = velocityBeforePause;
+            speed = 7;
+        }
     }
 
     public void LaunchBallAfterOneSecond()
