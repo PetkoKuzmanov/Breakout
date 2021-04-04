@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.PLAY:
+            case State.TUTORIAL:
                 PauseGameIfEscapePressed();
                 break;
         }

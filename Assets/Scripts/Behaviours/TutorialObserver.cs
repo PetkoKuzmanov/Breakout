@@ -33,6 +33,7 @@ public class TutorialObserver : MonoBehaviour, IObserver
         tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBrick1"));
         tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBrick2"));
         tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelBallDeath"));
+        tutorialPanels.Add(GameObject.Find("Canvas/PanelTutorial/PanelPauseGame"));
     }
 
     public void OnNotify(string notificationName)
@@ -56,6 +57,9 @@ public class TutorialObserver : MonoBehaviour, IObserver
                 break;
             case "PanelBallDeath":
                 CallShowTutorialPanelWithDelay(tutorialPanels[5]);
+                break;
+            case "PanelPauseGame":
+                CallShowTutorialPanelWithDelay(tutorialPanels[6], 1f);
                 break;
 
         }
@@ -89,6 +93,11 @@ public class TutorialObserver : MonoBehaviour, IObserver
         {
             CallShowTutorialPanelWithDelay(tutorialPanels[1], 1);
             tutorialPanels[0].SetActive(false);
+        }
+        else if(tutorialPanels[1].activeSelf)
+        {
+            CallShowTutorialPanelWithDelay(tutorialPanels[6], 1);
+            tutorialPanels[1].SetActive(false);
         }
         else if (tutorialPanels[2].activeSelf)
         {
