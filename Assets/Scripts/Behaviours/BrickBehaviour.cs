@@ -14,7 +14,7 @@ public class BrickBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentUser = GameManager.Instance.getCurrentUser();
+        currentUser = GameManager.Instance.GetCurrentUser();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
     }
@@ -26,7 +26,7 @@ public class BrickBehaviour : MonoBehaviour
         if (hits <= 0)
         {
             currentUser.Score += points;
-            GameManager.Instance.updateTextScore();
+            GameManager.Instance.UpdateTextScore();
 
             currentUser.IncrementBricksDestroyed();
             if (currentUser.GetBricksDestroyed() == 20)

@@ -39,7 +39,7 @@ public class AchievementManager : MonoBehaviour
     private void UnlockAchievement(Achievement achievement)
     {
         //Instantiate the achievement on the screen and set the achievement true for the user
-        GameManager.Instance.getCurrentUser().UnlockAchievement(achievement.ID);
+        GameManager.Instance.GetCurrentUser().UnlockAchievement(achievement.ID);
 
         achievementObject = Instantiate(prefab, transform);
 

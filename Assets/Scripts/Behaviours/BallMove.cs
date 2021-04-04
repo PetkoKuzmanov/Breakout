@@ -43,8 +43,8 @@ public class BallMove : MonoBehaviour
 
         if (!renderer.isVisible)
         {
-            GameManager.Instance.getCurrentUser().Lives--;
-            GameManager.Instance.updateTextLives();
+            GameManager.Instance.GetCurrentUser().Lives--;
+            GameManager.Instance.UpdateTextLives();
             Destroy(gameObject);
             SoundManager.PlaySound("Ball Death");
         }
@@ -72,12 +72,12 @@ public class BallMove : MonoBehaviour
         {
             rigidbody.velocity = new Vector2(x + rigidbody.velocity.x, rigidbody.velocity.y);
 
-            GameManager.Instance.getCurrentUser().IncrementPlatformHitCounter();
-            if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 15)
+            GameManager.Instance.GetCurrentUser().IncrementPlatformHitCounter();
+            if (GameManager.Instance.GetCurrentUser().GetPlatformHitCounter() == 15)
             {
                 AchievementManager.Instance.NotifyAchievementComplete(10);
             }
-            else if (GameManager.Instance.getCurrentUser().GetPlatformHitCounter() == 50)
+            else if (GameManager.Instance.GetCurrentUser().GetPlatformHitCounter() == 50)
             {
                 AchievementManager.Instance.NotifyAchievementComplete(11);
             }

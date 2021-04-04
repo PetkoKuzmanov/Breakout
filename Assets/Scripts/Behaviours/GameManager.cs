@@ -97,28 +97,8 @@ public class GameManager : MonoBehaviour
         ChangeState(State.MAIN_MENU);
     }
 
-    public void FixedUpdate()
-    {
-        switch (state)
-        {
-            case State.PLAY:
-                if (isReplay)
-                {
-                    //Replay the game
-                    PlayerMove.Instance.SetVelocityFromReplay(replay[replayCount]);
-                    replayCount++;
-                }
-                else
-                {
-                    //Write to the replay list
-                    replay.Add(PlayerMove.Instance.GetDirection());
-                }
-                break;
-        }
-    }
-
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         switch (state)
         {
@@ -129,23 +109,7 @@ public class GameManager : MonoBehaviour
             case State.INIT:
                 break;
             case State.PLAY:
-                if (ball == null)
-                {
-                    if (currentUser.Lives > 0)
-                    {
-                        InstantiateBall();
-                    }
-                    else
-                    {
-                        ProfileDropdownManager.Instance.FillDropdownWithUsers();
-                        ChangeState(State.GAMEOVER);
-                    }
-                }
-                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwitchingState)
-                {
-                    ChangeState(State.LEVELCOMPLETED);
-                }
-                PauseGameIfEscapePressed();
+                FixedUpdatePlay();
                 break;
             case State.LEVELCOMPLETED:
                 break;
@@ -158,26 +122,7 @@ public class GameManager : MonoBehaviour
             case State.INIT_TUTORIAL:
                 break;
             case State.TUTORIAL:
-                if (ball == null)
-                {
-                    if (currentUser.Lives > 0)
-                    {
-                        InstantiateBall();
-                        if (currentUser.Lives == 998)
-                        {
-                            Notify("PanelBallDeath");
-                        }
-                    }
-                    else
-                    {
-                        ChangeState(State.GAMEOVER);
-                    }
-                }
-                if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwitchingState)
-                {
-                    ChangeState(State.GAMEOVER);
-                }
-                PauseGameIfEscapePressed();
+                FixedUpdateTutorial();
                 break;
         }
     }
@@ -187,20 +132,19 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case State.MAIN_MENU:
-                Invoke("MainMenuDelay", 1f);
+                Invoke("MainMenuBegin", 1f);
                 break;
             case State.PROFILE_MENU:
-                Invoke("ProfileMenuDelay", 1f);
+                Invoke("ProfileMenuBegin", 1f);
                 break;
             case State.INIT:
-                Invoke("InitDelay", 1f);
+                Invoke("InitBegin", 1f);
                 break;
             case State.PLAY:
                 break;
             case State.LEVELCOMPLETED:
                 StopTimer();
                 textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
-
                 Destroy(ball);
                 panelLevelCompleted.SetActive(true);
                 if (currentUser.Level == 5)
@@ -218,7 +162,7 @@ public class GameManager : MonoBehaviour
             case State.LOADLEVEL:
                 StopTimer();
                 BeginTimer();
-                updateTextLevel();
+                UpdateTextLevel();
                 if (currentUser.Level > levels.Length)
                 {
                     ChangeState(State.GAMEOVER);
@@ -230,37 +174,16 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case State.GAMEOVER:
-                StopTimer();
-                formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
-                currentUser.Time = formattedTime;
-                if (currentLevel.name != "Tutorial" && !isReplay)
-                {
-                    SaveManager.SaveUser(currentUser, replay);
-                }
-                textTotalTime.text = "Total time: " + formattedTime;
-                textHighestLevel.text = "Level: " + currentUser.Level;
-                textTotalScore.text = "Score: " + currentUser.Score;
-                panelGameOver.SetActive(true);
+                EndOfGameSetup();
                 textAllLevelsCompleted.enabled = false;
                 textGameOverTitle.enabled = true;
                 ChangeState(State.MAIN_MENU, 3f);
                 break;
             case State.GAME_COMPLETED:
+                EndOfGameSetup();
                 SoundManager.PlaySound("Game Completed");
-                StopTimer();
-                formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
-                currentUser.Time = formattedTime;
-                if (currentLevel.name != "Tutorial" && !isReplay)
-                {
-                    SaveManager.SaveUser(currentUser, replay);
-                }
-                textTotalTime.text = "Total time: " + formattedTime;
-                textHighestLevel.text = "Level: " + currentUser.Level;
-                textTotalScore.text = "Score: " + currentUser.Score;
-                panelGameOver.SetActive(true);
                 textGameOverTitle.enabled = false;
                 textAllLevelsCompleted.enabled = true;
-                ChangeState(State.MAIN_MENU, 3f);
                 if (currentUser.Lives == 2)
                 {
                     AchievementManager.Instance.NotifyAchievementComplete(9);
@@ -269,25 +192,16 @@ public class GameManager : MonoBehaviour
                 {
                     AchievementManager.Instance.NotifyAchievementComplete(8);
                 }
+                ChangeState(State.MAIN_MENU, 3f);
                 break;
             case State.INIT_TUTORIAL:
-                Invoke("InitTutorialDelay", 1f);
+                Invoke("InitTutorialBegin", 1f);
                 break;
             case State.TUTORIAL:
                 Notify("PanelMovePlatform");
                 break;
             case State.INIT_REPLAY:
-                panelPlay.SetActive(true);
-                currentUser = new User("Replay", 2, 0, 1);
-                updateTextScore();
-                updateTextLevel();
-                updateTextLives();
-                if (currentLevel != null)
-                {
-                    Destroy(currentLevel);
-                }
-                platform = Instantiate(platformPrefab);
-                ChangeState(State.LOADLEVEL);
+                Invoke(nameof(InitReplay), 1f);
                 break;
         }
     }
@@ -332,12 +246,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator HidePanelDelay(GameObject panel, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        panel.SetActive(false);
-    }
-
     public void ChangeState(State newState, float delay = 0)
     {
         StartCoroutine(ChangeDelay(newState, delay));
@@ -353,7 +261,7 @@ public class GameManager : MonoBehaviour
         isSwitchingState = false;
     }
 
-    private void ProfileMenuDelay()
+    private void ProfileMenuBegin()
     {
         panelProfileMenu.SetActive(true);
         textUsernameError.enabled = false;
@@ -361,22 +269,20 @@ public class GameManager : MonoBehaviour
         PlayProfileSelectMenuAnimation("ProfileSelect_Start");
     }
 
-    private void MainMenuDelay()
+    private void MainMenuBegin()
     {
         Cursor.visible = true;
         panelMenu.SetActive(true);
         PlayMainMenuAnimation("Menu_Start");
     }
 
-    private void InitDelay()
+    private void InitBegin()
     {
         Cursor.visible = false;
         panelPlay.SetActive(true);
         currentUser = new User(inputFieldNewProfile.text, 2, 0, 1);
         inputFieldNewProfile.text = " ";
-        updateTextScore();
-        updateTextLevel();
-        updateTextLives();
+        UpdateAllStats();
         if (currentLevel != null)
         {
             Destroy(currentLevel);
@@ -385,13 +291,11 @@ public class GameManager : MonoBehaviour
         ChangeState(State.LOADLEVEL);
     }
 
-    private void InitTutorialDelay()
+    private void InitTutorialBegin()
     {
         panelPlay.SetActive(true);
         currentUser = new User("Tutorial", 999, 0, 1);
-        updateTextScore();
-        updateTextLevel();
-        updateTextLives();
+        UpdateAllStats();
         if (currentLevel != null)
         {
             Destroy(currentLevel);
@@ -403,24 +307,107 @@ public class GameManager : MonoBehaviour
         ChangeState(State.TUTORIAL);
     }
 
-    public User getCurrentUser()
+    private void InitReplay()
+    {
+        panelPlay.SetActive(true);
+        currentUser = new User("Replay", 2, 0, 1);
+        UpdateAllStats();
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel);
+        }
+        platform = Instantiate(platformPrefab);
+        ChangeState(State.LOADLEVEL);
+    }
+
+    private void FixedUpdatePlay()
+    {
+        if (isReplay)
+        {
+            //Replay the game
+            PlayerMove.Instance.SetVelocityFromReplay(replay[replayCount]);
+            replayCount++;
+        }
+        else
+        {
+            //Write to the replay list
+            replay.Add(PlayerMove.Instance.GetDirection());
+        }
+
+        //Check if the ball has fallen out of the map
+        if (ball == null)
+        {
+            if (currentUser.Lives > 0)
+            {
+                InstantiateBall();
+            }
+            else
+            {
+                ProfileDropdownManager.Instance.FillDropdownWithUsers();
+                ChangeState(State.GAMEOVER);
+            }
+        }
+
+        //If the current level is null then it is completed
+        if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwitchingState)
+        {
+            ChangeState(State.LEVELCOMPLETED);
+        }
+        PauseGameIfEscapePressed();
+    }
+
+    private void FixedUpdateTutorial()
+    {
+        //Check if the ball has fallen out of the map
+        if (ball == null)
+        {
+            if (currentUser.Lives > 0)
+            {
+                InstantiateBall();
+                if (currentUser.Lives == 998)
+                {
+                    Notify("PanelBallDeath");
+                }
+            }
+            else
+            {
+                ChangeState(State.GAMEOVER);
+            }
+        }
+
+        //If the current level is null then end the tutorial
+        if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwitchingState)
+        {
+            ChangeState(State.GAMEOVER);
+        }
+        PauseGameIfEscapePressed();
+    }
+
+    public User GetCurrentUser()
     {
         return currentUser;
     }
 
-    public void updateTextScore()
+    public void UpdateTextScore()
     {
         textScore.text = "Score: " + currentUser.Score;
     }
 
-    public void updateTextLives()
+    public void UpdateTextLives()
     {
         textLives.text = "Lives: " + currentUser.Lives;
     }
 
-    public void updateTextLevel()
+    public void UpdateTextLevel()
     {
         textLevel.text = "Level: " + currentUser.Level;
+    }
+
+    public void UpdateAllStats()
+    {
+        UpdateTextScore();
+        UpdateTextLives();
+        UpdateTextLevel();
     }
 
     public void StartGameClicked()
@@ -645,5 +632,31 @@ public class GameManager : MonoBehaviour
     {
         buttonReplay.GetComponent<CanvasGroup>().alpha = 1;
         buttonAchievements.GetComponent<CanvasGroup>().alpha = 1;
+    }
+
+
+    public void EndOfGameSetup()
+    {
+        //Stop the timer and save it
+        StopTimer();
+        formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
+        currentUser.Time = formattedTime;
+
+        //Save the current user
+        if (currentLevel.name != "Tutorial" && !isReplay)
+        {
+            SaveManager.SaveUser(currentUser, replay);
+        }
+
+        //Stop the replay saving
+        isReplay = false;
+        replayCount = 0;
+        replay.Clear();
+
+        //Setup the panel
+        textTotalTime.text = "Total time: " + formattedTime;
+        textHighestLevel.text = "Level: " + currentUser.Level;
+        textTotalScore.text = "Score: " + currentUser.Score;
+        panelGameOver.SetActive(true);
     }
 }
