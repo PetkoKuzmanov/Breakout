@@ -90,10 +90,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!Instance)
+        {
+            Instance = this;
+        }
         observers.Add(TutorialObserver.Instance);
         panelMenuAnimator = panelMenu.GetComponent<Animator>();
         panelProfileSelectAnimator = panelProfileMenu.GetComponent<Animator>();
-        Instance = this;
         ChangeState(State.MAIN_MENU);
     }
 
@@ -132,70 +135,30 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case State.MAIN_MENU:
-                Invoke("MainMenuBegin", 1f);
+                Invoke(nameof(MainMenuBegin), 1f);
                 break;
             case State.PROFILE_MENU:
-                Invoke("ProfileMenuBegin", 1f);
+                Invoke(nameof(ProfileMenuBegin), 1f);
                 break;
             case State.INIT:
-                Invoke("InitBegin", 1f);
+                Invoke(nameof(InitBegin), 1f);
                 break;
             case State.PLAY:
                 break;
             case State.LEVELCOMPLETED:
-                StopTimer();
-                textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
-                Destroy(ball);
-                panelLevelCompleted.SetActive(true);
-                if (currentUser.Level == 5)
-                {
-                    ChangeState(State.GAME_COMPLETED);
-                }
-                else
-                {
-                    SoundManager.PlaySound("Level Completed");
-                    Destroy(currentLevel);
-                    currentUser.Level++;
-                    ChangeState(State.LOADLEVEL, 2f);
-                }
+                BeginStateLevelCompleted();
                 break;
             case State.LOADLEVEL:
-                StopTimer();
-                BeginTimer();
-                UpdateTextLevel();
-                if (currentUser.Level > levels.Length)
-                {
-                    ChangeState(State.GAMEOVER);
-                }
-                else
-                {
-                    currentLevel = Instantiate(levels[currentUser.Level - 1]);
-                    ChangeState(State.PLAY);
-                }
+                BeginStateLoadLevel();
                 break;
             case State.GAMEOVER:
-                EndOfGameSetup();
-                textAllLevelsCompleted.enabled = false;
-                textGameOverTitle.enabled = true;
-                ChangeState(State.MAIN_MENU, 3f);
+                BeginStateGameover();
                 break;
             case State.GAME_COMPLETED:
-                EndOfGameSetup();
-                SoundManager.PlaySound("Game Completed");
-                textGameOverTitle.enabled = false;
-                textAllLevelsCompleted.enabled = true;
-                if (currentUser.Lives == 2)
-                {
-                    AchievementManager.Instance.NotifyAchievementComplete(9);
-                }
-                else
-                {
-                    AchievementManager.Instance.NotifyAchievementComplete(8);
-                }
-                ChangeState(State.MAIN_MENU, 3f);
+                BeginStateGameCompleted();
                 break;
             case State.INIT_TUTORIAL:
-                Invoke("InitTutorialBegin", 1f);
+                Invoke(nameof(InitTutorialBegin), 1f);
                 break;
             case State.TUTORIAL:
                 Notify("PanelMovePlatform");
@@ -226,18 +189,10 @@ public class GameManager : MonoBehaviour
             case State.LOADLEVEL:
                 break;
             case State.GAMEOVER:
-                panelPlay.SetActive(false);
-                panelGameOver.SetActive(false);
-                Destroy(platform);
-                Destroy(currentLevel);
-                ProfileDropdownManager.Instance.FillDropdownWithUsers();
+                EndStateEndOfGameSetup();
                 break;
             case State.GAME_COMPLETED:
-                panelPlay.SetActive(false);
-                panelGameOver.SetActive(false);
-                Destroy(platform);
-                Destroy(currentLevel);
-                ProfileDropdownManager.Instance.FillDropdownWithUsers();
+                EndStateEndOfGameSetup();
                 break;
             case State.INIT_TUTORIAL:
                 break;
@@ -381,6 +336,66 @@ public class GameManager : MonoBehaviour
             ChangeState(State.GAMEOVER);
         }
         PauseGameIfEscapePressed();
+    }
+
+    private void BeginStateLevelCompleted()
+    {
+        StopTimer();
+        textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
+        Destroy(ball);
+        panelLevelCompleted.SetActive(true);
+        if (currentUser.Level == 5)
+        {
+            ChangeState(State.GAME_COMPLETED);
+        }
+        else
+        {
+            SoundManager.PlaySound("Level Completed");
+            Destroy(currentLevel);
+            currentUser.Level++;
+            ChangeState(State.LOADLEVEL, 2f);
+        }
+    }
+
+    private void BeginStateLoadLevel()
+    {
+        StopTimer();
+        BeginTimer();
+        UpdateTextLevel();
+        if (currentUser.Level > levels.Length)
+        {
+            ChangeState(State.GAMEOVER);
+        }
+        else
+        {
+            currentLevel = Instantiate(levels[currentUser.Level - 1]);
+            ChangeState(State.PLAY);
+        }
+    }
+
+    private void BeginStateGameover()
+    {
+        BeginStateEndOfGameSetup();
+        textAllLevelsCompleted.enabled = false;
+        textGameOverTitle.enabled = true;
+        ChangeState(State.MAIN_MENU, 3f);
+    }
+
+    private void BeginStateGameCompleted()
+    {
+        BeginStateEndOfGameSetup();
+        SoundManager.PlaySound("Game Completed");
+        textGameOverTitle.enabled = false;
+        textAllLevelsCompleted.enabled = true;
+        if (currentUser.Lives == 2)
+        {
+            AchievementManager.Instance.NotifyAchievementComplete(9);
+        }
+        else
+        {
+            AchievementManager.Instance.NotifyAchievementComplete(8);
+        }
+        ChangeState(State.MAIN_MENU, 3f);
     }
 
     public User GetCurrentUser()
@@ -635,7 +650,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void EndOfGameSetup()
+    private void BeginStateEndOfGameSetup()
     {
         //Stop the timer and save it
         StopTimer();
@@ -658,5 +673,14 @@ public class GameManager : MonoBehaviour
         textHighestLevel.text = "Level: " + currentUser.Level;
         textTotalScore.text = "Score: " + currentUser.Score;
         panelGameOver.SetActive(true);
+    }
+
+    private void EndStateEndOfGameSetup()
+    {
+        panelPlay.SetActive(false);
+        panelGameOver.SetActive(false);
+        Destroy(platform);
+        Destroy(currentLevel);
+        ProfileDropdownManager.Instance.FillDropdownWithUsers();
     }
 }
