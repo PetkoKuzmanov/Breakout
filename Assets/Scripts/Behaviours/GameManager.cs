@@ -100,7 +100,16 @@ public class GameManager : MonoBehaviour
         ChangeState(State.MAIN_MENU);
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        switch (state)
+        {
+            case State.PLAY:
+                PauseGameIfEscapePressed();
+                break;
+        }
+    }
+
     void FixedUpdate()
     {
         switch (state)
@@ -308,7 +317,6 @@ public class GameManager : MonoBehaviour
         {
             ChangeState(State.LEVELCOMPLETED);
         }
-        PauseGameIfEscapePressed();
     }
 
     private void FixedUpdateTutorial()
@@ -398,6 +406,40 @@ public class GameManager : MonoBehaviour
         ChangeState(State.MAIN_MENU, 3f);
     }
 
+    private void BeginStateEndOfGameSetup()
+    {
+        //Stop the timer and save it
+        StopTimer();
+        formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
+        currentUser.Time = formattedTime;
+
+        //Save the current user
+        if (currentLevel.name != "Tutorial" && !isReplay)
+        {
+            SaveManager.SaveUser(currentUser, replay);
+        }
+
+        //Stop the replay saving
+        isReplay = false;
+        replayCount = 0;
+        replay.Clear();
+
+        //Setup the panel
+        textTotalTime.text = "Total time: " + formattedTime;
+        textHighestLevel.text = "Level: " + currentUser.Level;
+        textTotalScore.text = "Score: " + currentUser.Score;
+        panelGameOver.SetActive(true);
+    }
+
+    private void EndStateEndOfGameSetup()
+    {
+        panelPlay.SetActive(false);
+        panelGameOver.SetActive(false);
+        Destroy(platform);
+        Destroy(currentLevel);
+        ProfileDropdownManager.Instance.FillDropdownWithUsers();
+    }
+
     public User GetCurrentUser()
     {
         return currentUser;
@@ -481,6 +523,21 @@ public class GameManager : MonoBehaviour
         SoundManager.PlaySound("Button Clicked");
         ball.BroadcastMessage("PauseBall");
         StopTimer();
+    }
+
+    public void ResumeGame()
+    {
+        Cursor.visible = false;
+        SoundManager.PlaySound("Button Clicked");
+        StartTimer();
+        isPaused = false;
+        panelPause.SetActive(false);
+        ball.BroadcastMessage("UnpauseBall");
+    }
+
+    public bool GetIsPaused()
+    {
+        return isPaused;
     }
 
     public void UnpauseGameAndLaunchBallAfterOneSecond()
@@ -610,21 +667,6 @@ public class GameManager : MonoBehaviour
         Destroy(ball);
     }
 
-    public void ResumeGame()
-    {
-        Cursor.visible = false;
-        SoundManager.PlaySound("Button Clicked");
-        StartTimer();
-        isPaused = false;
-        panelPause.SetActive(false);
-        ball.BroadcastMessage("UnpauseBall");
-    }
-
-    public bool GetIsPaused()
-    {
-        return isPaused;
-    }
-
     public void AchievementsCanvasChangeVisibility()
     {
         SoundManager.PlaySound("Button Clicked");
@@ -647,40 +689,5 @@ public class GameManager : MonoBehaviour
     {
         buttonReplay.GetComponent<CanvasGroup>().alpha = 1;
         buttonAchievements.GetComponent<CanvasGroup>().alpha = 1;
-    }
-
-
-    private void BeginStateEndOfGameSetup()
-    {
-        //Stop the timer and save it
-        StopTimer();
-        formattedTime = TimeSpan.FromSeconds(totalTime).ToString("mm':'ss'.'ff");
-        currentUser.Time = formattedTime;
-
-        //Save the current user
-        if (currentLevel.name != "Tutorial" && !isReplay)
-        {
-            SaveManager.SaveUser(currentUser, replay);
-        }
-
-        //Stop the replay saving
-        isReplay = false;
-        replayCount = 0;
-        replay.Clear();
-
-        //Setup the panel
-        textTotalTime.text = "Total time: " + formattedTime;
-        textHighestLevel.text = "Level: " + currentUser.Level;
-        textTotalScore.text = "Score: " + currentUser.Score;
-        panelGameOver.SetActive(true);
-    }
-
-    private void EndStateEndOfGameSetup()
-    {
-        panelPlay.SetActive(false);
-        panelGameOver.SetActive(false);
-        Destroy(platform);
-        Destroy(currentLevel);
-        ProfileDropdownManager.Instance.FillDropdownWithUsers();
     }
 }
