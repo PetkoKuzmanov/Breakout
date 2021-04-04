@@ -294,8 +294,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //Write to the replay list
-            replay.Add(PlayerMove.Instance.GetDirection());
+            if (!isPaused)
+            {
+                //Write to the replay list
+                replay.Add(PlayerMove.Instance.GetDirection());
+            }
         }
 
         //Check if the ball has fallen out of the map
