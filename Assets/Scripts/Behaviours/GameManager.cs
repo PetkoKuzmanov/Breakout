@@ -417,7 +417,7 @@ public class GameManager : MonoBehaviour
         currentUser.Time = formattedTime;
 
         //Save the current user
-        if (currentLevel.name != "Tutorial" && !isReplay)
+        if (currentUser.Name != "Tutorial" && !isReplay)
         {
             SaveManager.SaveUser(currentUser, replay);
         }

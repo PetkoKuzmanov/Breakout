@@ -31,7 +31,9 @@ public class PlayerMove : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (!GameManager.Instance.GetIsReplay() && !GameManager.Instance.GetIsPaused() && GameManager.Instance.GetState() == GameManager.State.PLAY)
+        if (!GameManager.Instance.GetIsReplay() 
+            && !GameManager.Instance.GetIsPaused() 
+            && (GameManager.Instance.GetState() == GameManager.State.PLAY || GameManager.Instance.GetState() == GameManager.State.TUTORIAL))
         {
             Move(context.ReadValue<Vector2>());
         }
