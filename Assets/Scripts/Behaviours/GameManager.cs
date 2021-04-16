@@ -356,7 +356,7 @@ public class GameManager : MonoBehaviour
         textLevelCompletedTime.text = "Level time: " + timePlaying.ToString("mm':'ss'.'ff");
         Destroy(ball);
         panelLevelCompleted.SetActive(true);
-        if (currentUser.Level == 5)
+        if (currentUser.Level == levels.Length)
         {
             ChangeState(State.GAME_COMPLETED);
         }
@@ -401,6 +401,7 @@ public class GameManager : MonoBehaviour
         textAllLevelsCompleted.enabled = true;
         if (currentUser.Lives == 2)
         {
+            AchievementManager.Instance.NotifyAchievementComplete(8);
             AchievementManager.Instance.NotifyAchievementComplete(9);
         }
         else

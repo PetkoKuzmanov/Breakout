@@ -9362,6 +9362,8 @@ MonoBehaviour:
   levels:
   - {fileID: 9024705467243106757, guid: c5725f44842612b468ccca72db2279d0, type: 3}
   - {fileID: 9024705467243106757, guid: b067529745db54949b608979c165ea6f, type: 3}
+  - {fileID: 9024705467243106757, guid: abcc625e50b3ae84d9118fc93a740ba4, type: 3}
+  - {fileID: 9024705467243106757, guid: ddd8da1734a21c94fb8bb71bae338a56, type: 3}
   - {fileID: 9024705467243106757, guid: 407a692563230c340b5bacb68c6cd315, type: 3}
   tutorialLevel: {fileID: 9024705467243106757, guid: 3c8eced1b69761040b3693bfa894d45e, type: 3}
   buttonStartGame: {fileID: 1047187087}
