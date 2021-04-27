@@ -33,7 +33,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (!GameManager.Instance.GetIsReplay()
             && !GameManager.Instance.GetIsPaused()
-            && (GameManager.Instance.GetState() == GameManager.State.PLAY || GameManager.Instance.GetState() == GameManager.State.TUTORIAL || GameManager.Instance.GetState() == GameManager.State.LEVELCOMPLETED))
+            && (GameManager.Instance.GetState() == GameManager.State.PLAY || GameManager.Instance.GetState() == GameManager.State.TUTORIAL || GameManager.Instance.GetState() == GameManager.State.LEVEL_COMPLETED))
         {
             Move(context.ReadValue<Vector2>());
         }

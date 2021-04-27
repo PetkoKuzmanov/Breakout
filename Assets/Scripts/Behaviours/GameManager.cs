@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
         PROFILE_MENU,
         INIT,
         PLAY,
-        LEVELCOMPLETED,
-        LOADLEVEL,
+        LEVEL_COMPLETED,
+        LOAD_LEVEL,
         GAMEOVER,
         GAME_COMPLETED,
         INIT_TUTORIAL,
@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
         REPLAY
     }
     private State state;
+
+    private List<IObserver> observers = new List<IObserver>();
 
     public GameObject ballPrefab;
     public GameObject platformPrefab;
@@ -63,8 +65,6 @@ public class GameManager : MonoBehaviour
 
     private Animator panelMenuAnimator;
     private Animator panelProfileSelectAnimator;
-
-    private List<IObserver> observers = new List<IObserver>();
 
     private GameObject ball;
     private GameObject currentLevel;
@@ -115,24 +115,8 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case State.MAIN_MENU:
-                break;
-            case State.PROFILE_MENU:
-                break;
-            case State.INIT:
-                break;
             case State.PLAY:
                 FixedUpdatePlay();
-                break;
-            case State.LEVELCOMPLETED:
-                break;
-            case State.LOADLEVEL:
-                break;
-            case State.GAMEOVER:
-                break;
-            case State.GAME_COMPLETED:
-                break;
-            case State.INIT_TUTORIAL:
                 break;
             case State.TUTORIAL:
                 FixedUpdateTutorial();
@@ -155,10 +139,10 @@ public class GameManager : MonoBehaviour
                 break;
             case State.PLAY:
                 break;
-            case State.LEVELCOMPLETED:
+            case State.LEVEL_COMPLETED:
                 BeginStateLevelCompleted();
                 break;
-            case State.LOADLEVEL:
+            case State.LOAD_LEVEL:
                 BeginStateLoadLevel();
                 break;
             case State.GAMEOVER:
@@ -171,7 +155,7 @@ public class GameManager : MonoBehaviour
                 Invoke(nameof(InitTutorialBegin), 1f);
                 break;
             case State.TUTORIAL:
-                Notify("PanelMovePlatform");
+                TutorialBegin();
                 break;
             case State.INIT_REPLAY:
                 Invoke(nameof(InitReplay), 1f);
@@ -193,10 +177,10 @@ public class GameManager : MonoBehaviour
                 break;
             case State.PLAY:
                 break;
-            case State.LEVELCOMPLETED:
+            case State.LEVEL_COMPLETED:
                 panelLevelCompleted.SetActive(false);
                 break;
-            case State.LOADLEVEL:
+            case State.LOAD_LEVEL:
                 break;
             case State.GAMEOVER:
                 EndStateEndOfGameSetup();
@@ -207,6 +191,8 @@ public class GameManager : MonoBehaviour
             case State.INIT_TUTORIAL:
                 break;
             case State.TUTORIAL:
+                break;
+            case State.INIT_REPLAY:
                 break;
         }
     }
@@ -243,6 +229,8 @@ public class GameManager : MonoBehaviour
 
     private void InitBegin()
     {
+        Debug.Log(formattedTime);
+
         Cursor.visible = false;
         panelPlay.SetActive(true);
         currentUser = new User(inputFieldNewProfile.text, 2, 0, 1);
@@ -253,7 +241,7 @@ public class GameManager : MonoBehaviour
             Destroy(currentLevel);
         }
         platform = Instantiate(platformPrefab);
-        ChangeState(State.LOADLEVEL);
+        ChangeState(State.LOAD_LEVEL);
     }
 
     private void InitTutorialBegin()
@@ -272,6 +260,11 @@ public class GameManager : MonoBehaviour
         ChangeState(State.TUTORIAL);
     }
 
+    private void TutorialBegin()
+    {
+        Notify("PanelMovePlatform");
+    }
+
     private void InitReplay()
     {
         panelPlay.SetActive(true);
@@ -282,7 +275,7 @@ public class GameManager : MonoBehaviour
             Destroy(currentLevel);
         }
         platform = Instantiate(platformPrefab);
-        ChangeState(State.LOADLEVEL);
+        ChangeState(State.LOAD_LEVEL);
     }
 
     private void FixedUpdatePlay()
@@ -316,10 +309,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //If the current level is null then it is completed
+        //If there are no bricks then the level is completed
         if (currentLevel != null && currentLevel.transform.childCount == 0 && !isSwitchingState)
         {
-            ChangeState(State.LEVELCOMPLETED);
+            ChangeState(State.LEVEL_COMPLETED);
         }
     }
 
@@ -365,7 +358,7 @@ public class GameManager : MonoBehaviour
             SoundManager.PlaySound("Level Completed");
             Destroy(currentLevel);
             currentUser.Level++;
-            ChangeState(State.LOADLEVEL, 2f);
+            ChangeState(State.LOAD_LEVEL, 2f);
         }
     }
 
@@ -493,6 +486,7 @@ public class GameManager : MonoBehaviour
         textTimer.text = "Time: 00:00.00";
         timerGoing = true;
         levelTime = 0f;
+        totalTime = 0f;
 
         StartCoroutine(UpdateTimer());
     }
@@ -644,7 +638,6 @@ public class GameManager : MonoBehaviour
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            //If the panel is open unpause the game otherwise pause it
             if (!panelPause.activeSelf)
             {
                 isPaused = true;

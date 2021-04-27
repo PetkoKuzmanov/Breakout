@@ -102,9 +102,10 @@ public class BallMove : MonoBehaviour
             }
 
             //Notify the tutorial observer that a brick has been hit for the first time
-            if (GameManager.Instance.GetState() == GameManager.State.TUTORIAL)
+            if (GameManager.Instance.GetState() == GameManager.State.TUTORIAL && brickHitCounter == 1)
             {
-                NotifyTutorialIfBrickHitForFirstTime();
+                brickHitCounter++;
+                Notify("PanelBrick0");
             }
         }
     }
@@ -145,11 +146,8 @@ public class BallMove : MonoBehaviour
 
     private void NotifyTutorialIfBrickHitForFirstTime()
     {
-        if (brickHitCounter == 1)
-        {
-            brickHitCounter++;
-            Notify("PanelBrick0");
-        }
+        brickHitCounter++;
+        Notify("PanelBrick0");
     }
 
     public void DestroyBall()

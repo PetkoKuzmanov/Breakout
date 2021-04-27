@@ -27,13 +27,20 @@ public static class SaveManager
     {
         if (File.Exists(path))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-            stream.Position = 0;
+            if (path.Contains(".dat"))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
+                stream.Position = 0;
 
-            User user = formatter.Deserialize(stream) as User;
-            stream.Close();
-            users.Add(user);
+                User user = formatter.Deserialize(stream) as User;
+                stream.Close();
+                users.Add(user);
+            }
+            else
+            {
+                Debug.LogError(path + " is not a user file");
+            }
         }
         else
         {

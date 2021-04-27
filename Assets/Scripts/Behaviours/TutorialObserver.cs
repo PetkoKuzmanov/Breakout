@@ -70,7 +70,7 @@ public class TutorialObserver : MonoBehaviour, IObserver
         StartCoroutine(ShowTutorialPanelWithDelay(panel, delay));
     }
 
-    IEnumerator ShowTutorialPanelWithDelay(GameObject panel, float delay)
+    private IEnumerator ShowTutorialPanelWithDelay(GameObject panel, float delay)
     {
         yield return new WaitForSeconds(delay);
         panel.SetActive(true);
