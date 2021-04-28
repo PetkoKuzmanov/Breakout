@@ -229,8 +229,7 @@ public class GameManager : MonoBehaviour
 
     private void InitBegin()
     {
-        Debug.Log(formattedTime);
-
+        totalTime = 0f;
         Cursor.visible = false;
         panelPlay.SetActive(true);
         currentUser = new User(inputFieldNewProfile.text, 2, 0, 1);
@@ -246,6 +245,7 @@ public class GameManager : MonoBehaviour
 
     private void InitTutorialBegin()
     {
+        totalTime = 0f;
         panelPlay.SetActive(true);
         currentUser = new User("Tutorial", 999, 0, 1);
         UpdateAllStats();
@@ -267,6 +267,7 @@ public class GameManager : MonoBehaviour
 
     private void InitReplay()
     {
+        totalTime = 0f;
         panelPlay.SetActive(true);
         currentUser = new User("Replay", 2, 0, 1);
         UpdateAllStats();
@@ -486,7 +487,6 @@ public class GameManager : MonoBehaviour
         textTimer.text = "Time: 00:00.00";
         timerGoing = true;
         levelTime = 0f;
-        totalTime = 0f;
 
         StartCoroutine(UpdateTimer());
     }
